@@ -11,9 +11,9 @@ class Field:
     id_meta: Optional['IdMeta']
     relation: Optional['Relation']
 
-    def __init__(self, name: str, class_type: str):
+    def __init__(self, name: str, class_type: str, is_generated: bool = False):
         self.name = name
-        self.type = ClassType(class_type)
+        self.type = ClassType(class_type, is_generated)
         self.column = None
         self.id_meta = None
         self.relation = None
@@ -62,11 +62,13 @@ class IdMeta:
 class ClassType:
     package: Optional[str]
     class_type: str
+    is_generated: bool
 
-    def __init__(self, class_name: str):
+    def __init__(self, class_name: str, is_generated: bool = False):
         class_data = parse_class_name(class_name)
         self.package = class_data[0]
         self.class_type = class_data[1]
+        self.is_generated = is_generated
 
     def get_qualifyed_class_type(self):
         return full_class_name(self.package, self.class_type)
