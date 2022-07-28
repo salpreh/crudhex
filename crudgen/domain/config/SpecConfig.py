@@ -1,6 +1,6 @@
 class SpecConfig:
     META = '.meta'
-    TABLE = 'table_name'
+    TABLE = 'table-name'
 
     TYPE = 'type'
     COLUMN = 'column'

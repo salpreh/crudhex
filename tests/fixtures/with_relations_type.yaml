@@ -1,0 +1,23 @@
+Person:
+  .meta:
+    table-name: persons
+  id:
+    type: long
+    id: sequence
+  birthPlanet:
+    type: Planet
+    column: birth_planet
+    relation:
+      type: many-to-one
+      join-column: birth_planet_id
+  affiliations:
+    type: Faction
+    relation:
+      type: many-to-many
+      join-table: person_affiliation
+      join-column: person_id
+      inverse-join-column: faction_id
+  backup:
+    type: Person
+    relation:
+      type: one-to-one
