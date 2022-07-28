@@ -26,6 +26,6 @@ def parse_class_name(class_name: str) -> Tuple[str, str]:
 
 
 def full_class_name(pkg: Optional[str], class_type: str):
-    if pkg is None: pkg = ''
+    if not pkg: return class_type
 
     return '.'.join((pkg, class_type))
