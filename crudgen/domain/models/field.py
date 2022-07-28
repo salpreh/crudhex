@@ -37,12 +37,6 @@ class Relation:
         self.join_column = None
         self.inverse_join_column = None
 
-    class RelationType(Enum):
-        ONE_TO_ONE = 'one-to-one'
-        ONE_TO_MANY = 'one-to-many'
-        MANY_TO_ONE = 'many-to-one'
-        MANY_TO_MANY = 'many-to-many'
-
 
 class IdMeta:
     type: 'GenerationType'
@@ -51,12 +45,6 @@ class IdMeta:
     def __init__(self, type: 'GenerationType'):
         self.type = type
         self.sequence = None
-
-    class GenerationType(Enum):
-        NONE = 'none'
-        SEQUENCE = 'sequence'
-        IDENTITY = 'identity'
-        AUTO = 'auto'
 
 
 class ClassType:
@@ -72,3 +60,17 @@ class ClassType:
 
     def get_qualifyed_class_type(self):
         return full_class_name(self.package, self.class_type)
+
+
+class GenerationType(Enum):
+    NONE = 'none'
+    SEQUENCE = 'sequence'
+    IDENTITY = 'identity'
+    AUTO = 'auto'
+
+
+class RelationType(Enum):
+    ONE_TO_ONE = 'one-to-one'
+    ONE_TO_MANY = 'one-to-many'
+    MANY_TO_ONE = 'many-to-one'
+    MANY_TO_MANY = 'many-to-many'

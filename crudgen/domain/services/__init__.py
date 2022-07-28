@@ -1,1 +1,1 @@
-from type_resolver import TypeResolver
+from .type_resolver import TypeResolver

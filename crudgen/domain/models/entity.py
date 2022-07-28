@@ -4,13 +4,12 @@ from typing import List, Optional
 
 class Entity:
     name: str
-    meta: Optional['Meta']
+    meta: Optional['Entity.Meta'] = None
     fields: List[Field]
 
     def __init__(self, name: str):
         self.name = name
         self.fields = []
-        self.meta = None
 
     def has_meta(self):
         return self.meta is not None
