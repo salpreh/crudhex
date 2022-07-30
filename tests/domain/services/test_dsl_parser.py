@@ -56,6 +56,9 @@ def test_with_relation_type_parse():
     _assert_field(fields[3], 'backup', 'Person')
     _assert_field_relation_121(fields[3])
 
+    _assert_field(fields[4], 'backing', 'Person')
+    _assert_field_relation_121(fields[4], None, 'backup')
+
 
 def test_multi_types_parse():
     # given
@@ -118,7 +121,7 @@ def _assert_field_relation_m2m(field: Field, join_column: Optional[str] = None,
     assert field.relation.join_table == join_table
 
 
-def _assert_field_relation_121(field: Field, join_column: Optional[str] = None):
+def _assert_field_relation_121(field: Field, join_column: Optional[str] = None, mapped_by: Optional[str] = None):
     assert field.relation
     assert field.relation.type == RelationType.ONE_TO_ONE
     assert field.relation.join_column == join_column

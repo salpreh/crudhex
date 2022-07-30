@@ -21,3 +21,8 @@ Person:
     type: Person
     relation:
       type: one-to-one
+  backing:
+    type: Person
+    relation:
+      type: one-to-one
+      mapped_by: backup

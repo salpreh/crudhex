@@ -12,3 +12,4 @@ class SpecConfig:
     JOIN_TABLE = 'join-table'
     JOIN_COLUMN = 'join-column'
     INVERSE_JOIN_COLUMN = 'inverse-join-column'
+    MAPPED_BY = 'mapped_by'
