@@ -8,6 +8,7 @@ authors = ["salpreh <salpreh.7@gmail.com>"]
 python = "^3.10"
 typer = {extras = ["all"], version = "^0.6.1"}
 PyYAML = "^6.0"
+Jinja2 = "^3.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
