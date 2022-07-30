@@ -76,5 +76,6 @@ def parse_field_relation(data: dict) -> Optional[Relation]:
     relation.join_table = relation_data.get(SpecConfig.JOIN_TABLE)
     relation.join_column = relation_data.get(SpecConfig.JOIN_COLUMN)
     relation.inverse_join_column = relation_data.get(SpecConfig.INVERSE_JOIN_COLUMN)
+    relation.mapped_by = relation_data.get(SpecConfig.MAPPED_BY)
 
     return relation

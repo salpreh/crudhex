@@ -30,6 +30,7 @@ class Relation:
     join_table: Optional[str]
     join_column: Optional[str]
     inverse_join_column: Optional[str]
+    mapped_by: Optional[str]
 
     def __init__(self, type: 'RelationType'):
         self.type = type
