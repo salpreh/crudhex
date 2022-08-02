@@ -6,11 +6,12 @@
 {% endif %}
 {# ID section #}
 {% if id %}
-    {% if strategy == 'sequence' -%}
-        @SequenceGenerator(name = "{{ id.sequence }}", sequenceName = "{{ id.sequence }}", allocationSize = 1)
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "{{ id.sequence }}")
-    {% elif strategy != 'none' -%}
-        @GeneratedValue(strategy = GenerationType.{{ id.generation|upper }})
+    {% set generation_type = generation.value %}
+    {% if generation_type == 'sequence' %}
+@SequenceGenerator(name = "{{ sequence }}", sequenceName = "{{ sequence }}")
+@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "{{ sequence }}")
+    {% elif generation_type != 'none' %}
+@GeneratedValue(strategy = GenerationType.{{ generation_type|upper }})
     {% endif %}
 {% endif %}
 private {{ class_type }} {{ name }};

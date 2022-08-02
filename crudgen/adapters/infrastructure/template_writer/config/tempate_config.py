@@ -21,6 +21,8 @@ M2M_INVERSE_FIELD = 'm2m_inverse_field.jinja2'
 M2M_MAIN_FIELD = 'm2m_main_field.jinja2'
 M2ONE_FIELD = 'm2one_field.jinja2'
 ONE2M_FIELD = 'one2m_field.jinja2'
+ONE2ONE_MAIN_FIELD = 'one2one_main_field.jinja2'
+ONE2ONE_INVERSE_FIELD = 'one2one_inverse_field.jinja2'
 
 _FRAGMENTS = [
     COLLECTION_INVERSE_METHODS,
@@ -30,7 +32,9 @@ _FRAGMENTS = [
     M2M_INVERSE_FIELD,
     M2M_MAIN_FIELD,
     M2ONE_FIELD,
-    ONE2M_FIELD
+    ONE2M_FIELD,
+    ONE2ONE_MAIN_FIELD,
+    ONE2ONE_INVERSE_FIELD
 ]
 
 

@@ -23,21 +23,20 @@ public class {{ class_type }} {
 {{ collection_methods }}
 {% endfilter %}
 
-  @Override
-  public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
     if (this == o)
-      return true;
+        return true;
 
     if (!(o instanceof {{ class_type }}))
-      return false;
+        return false;
 
-    return
-      {{ id_field }} != null &&
+    return {{ id_field }} != null &&
         {{ id_field }}.equals((({{ class_type }}) o).get{{ id_field|capitalize }}());
-  }
+    }
 
-  @Override
-  public int hashCode() {
-    return getClass().hashCode();
-  }
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
