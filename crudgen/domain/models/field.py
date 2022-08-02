@@ -38,8 +38,8 @@ class Relation:
     inverse_join_column: Optional[str]
     mapped_by: Optional[str]
 
-    def __init__(self, type: 'RelationType'):
-        self.type = type
+    def __init__(self, relation_type: 'RelationType'):
+        self.type = relation_type
         self.join_table = None
         self.join_column = None
         self.inverse_join_column = None
@@ -74,12 +74,14 @@ class IdMeta:
 class ClassType:
     package: Optional[str]
     class_type: str
+    collection_type: Optional[str]
     is_generated: bool
 
     def __init__(self, class_name: str, is_generated: bool = False):
         class_data = parse_class_name(class_name)
         self.package = class_data[0]
         self.class_type = class_data[1]
+        self.collection_type = None
         self.is_generated = is_generated
 
     def get_qualified_class_type(self) -> str:
@@ -87,6 +89,9 @@ class ClassType:
 
     def is_native(self) -> bool:
         return self.class_type[0].islower()
+
+    def is_collection(self) -> bool:
+        return self.collection_type is not None
 
 
 class GenerationType(Enum):

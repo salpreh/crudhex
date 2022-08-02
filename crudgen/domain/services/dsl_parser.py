@@ -65,6 +65,10 @@ def parse_field(name: str, data: Union[str, dict], generated_types: Set[str],
     field.id_meta = parse_field_id_meta(data)
     field.relation = parse_field_relation(data)
 
+    # TODO: Configurable in dsl file
+    if field.has_relation() and field.relation.type.has_multiple():
+        field.type.collection_type = TypeResolver.DEFAULT_COLLECTION
+
     return field
 
 

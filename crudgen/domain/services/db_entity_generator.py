@@ -52,7 +52,9 @@ def _get_entity_imports(entity: Entity) -> List[str]:
 
 def _get_entity_field_imports(field: Field) -> List[str]:
     type_resolver = get_type_resolver()
-    class_types = type_resolver.get_field_types_full_class(field, filter_native=True)
+    if field.type.is_native() or field.type.is_generated: return []
+
+    class_types = type_resolver.get_field_types_full_class(field)
 
     return [generate_import(ct) for ct in class_types]
 
@@ -73,6 +75,12 @@ def _get_field_data(field: Field) -> Dict[str, str]:
         'relationship': False,
         'id': False
     }
+
+    if field.type.is_collection():
+        type_resolver = get_type_resolver()
+        field_data['collection_type'] = field.type.collection_type
+        field_data['collection_type_impl'] = type_resolver.get_collection_type_impl(field.type.collection_type)
+
     if field.is_id():
         field_data['id'] = True
         field_data.update(**field.id_meta.to_dict())

@@ -1,6 +1,9 @@
+from collections import namedtuple
 from pathlib import Path
 
 # Pkg
+from crudgen.domain.models import RelationType
+
 TEMPLATES_PACKAGE = 'crudgen.adapters.infrastructure.template_writer'
 
 # Base folders
@@ -37,6 +40,14 @@ _FRAGMENTS = [
     ONE2ONE_INVERSE_FIELD
 ]
 
+RelationTemplate = namedtuple('RelationTemplate', 'main inverse')
+_RELATION_TEMPLATE_MAP = {
+    RelationType.ONE_TO_ONE: RelationTemplate(ONE2ONE_MAIN_FIELD, ONE2ONE_INVERSE_FIELD),
+    RelationType.MANY_TO_ONE: RelationTemplate(M2ONE_FIELD, ONE2M_FIELD),
+    RelationType.ONE_TO_MANY: RelationTemplate(M2ONE_FIELD, ONE2M_FIELD),  # ONE_TO_MANY always will be inverse side of relation. We keep it inverse side of template definition
+    RelationType.MANY_TO_MANY: RelationTemplate(M2M_MAIN_FIELD, M2M_INVERSE_FIELD)
+}
+
 
 def get_db_file_path(file_name: str) -> str:
     file_path = Path(DB_FOLDER)
@@ -47,3 +58,9 @@ def get_db_file_path(file_name: str) -> str:
 
 def _is_fragment(file_name: str) -> bool:
     return file_name in _FRAGMENTS
+
+
+def get_relation_template(relation_type: RelationType, main: bool = True):
+    relation_templates = _RELATION_TEMPLATE_MAP[relation_type]
+
+    return relation_templates.main if main else relation_templates.inverse

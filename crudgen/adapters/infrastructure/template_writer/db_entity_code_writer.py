@@ -1,8 +1,9 @@
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 from jinja2 import Environment, PackageLoader
 
+from crudgen.domain.models import RelationType
 from .config import tempate_config
 from .config.tempate_config import get_db_file_path
 
@@ -36,15 +37,22 @@ def create_entity(dest: Path, class_type: str, package: str,
         f.write(entity_code)
 
 
-def _generate_fields_fragment(fields: List[Dict[str, str]]) -> str:
+def _generate_fields_fragment(fields: List[Dict[str, Union[str, RelationType]]]) -> str:
     template_env = _get_template_environment()
 
     templates = {}
     field_fragments = []
     for field in fields:
-        if field['relationship']: pass  # TODO: Relations processing
+        if field['relationship']:
+            template_name = tempate_config.get_relation_template(field['relationship'], field['mapped_by'] is None)
+            template = templates.setdefault(
+                template_name,
+                template_env.get_template(get_db_file_path(template_name))
+            )
+
+            field_fragments.append(template.render(field))
         else:
-            template = templates.get(
+            template = templates.setdefault(
                 tempate_config.FIELD,
                 template_env.get_template(get_db_file_path(tempate_config.FIELD))
             )
