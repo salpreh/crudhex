@@ -1,9 +1,20 @@
+from pathlib import Path
 from typing import Optional, Set, Union, List
 
 from crudgen.domain.config.SpecConfig import SpecConfig
 from crudgen.domain.models import IdMeta, Relation, GenerationType, RelationType
 from crudgen.domain.models import Entity, Field
 from crudgen.domain.services import TypeResolver
+from crudgen.domain.services.type_resolver import get_type_resolver
+
+from crudgen.adapters.infrastructure.loader.fs_spec_loader import load_spec_config
+
+
+def parse_spec_file(spec_path: Path) -> List[Entity]:
+    spec_data = load_spec_config(spec_path)
+    type_resolver = get_type_resolver()
+
+    return parse_spec_data(spec_data, type_resolver)
 
 
 def parse_spec_data(spec_data: dict, type_resolver: Optional[TypeResolver] = None) -> List[Entity]:
