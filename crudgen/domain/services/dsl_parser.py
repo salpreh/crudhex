@@ -82,6 +82,8 @@ def parse_field_id_meta(data: dict) -> Optional[IdMeta]:
     id_meta = IdMeta(GenerationType(id_data[SpecConfig.TYPE]))
     id_meta.sequence = id_data.get(SpecConfig.SEQUENCE)
 
+    return id_meta
+
 
 def parse_field_relation(data: dict) -> Optional[Relation]:
     relation_data = data.get(SpecConfig.RELATION)

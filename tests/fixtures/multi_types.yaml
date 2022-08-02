@@ -2,7 +2,7 @@ Person:
   .meta:
     table-name: persons
   id:
-    type: long
+    type: Long
     id: sequence
   name: String
   age: int

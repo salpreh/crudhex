@@ -2,7 +2,7 @@ Person:
   .meta:
     table-name: persons
   id:
-    type: long
+    type: Long
     id: sequence
   birthPlanet:
     type: Planet
@@ -25,4 +25,4 @@ Person:
     type: Person
     relation:
       type: one-to-one
-      mapped_by: backup
+      mapped-by: backup

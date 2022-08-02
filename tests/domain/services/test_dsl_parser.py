@@ -6,6 +6,7 @@ from crudgen.domain.services.dsl_parser import parse_spec_data
 
 
 SINGLE_TYPE = 'single_type.yaml'
+ID_SPEC_TYPE = 'id_full_spec.yaml'
 WITH_RELATIONS_TYPE = 'with_relations_type.yaml'
 MULTIPLE_TYPES = 'multi_types.yaml'
 
@@ -31,6 +32,24 @@ def test_single_type_parse():
     _assert_field(entity.fields[1], 'name', 'String')
     _assert_field(entity.fields[2], 'age', 'int')
     _assert_field(entity.fields[3], 'race', 'com.salpreh.baseapi.domain.models.RaceType')
+
+
+def test_single_type_parse():
+    # given
+    spec_data = load_fixture_file(ID_SPEC_TYPE)
+
+    # when
+    entities = parse_spec_data(spec_data)
+
+    # then
+    assert len(entities) == 1
+
+    entity = entities[0]
+    assert entity.name == 'Person'
+    assert len(entity.fields) == 4
+
+    _assert_field(entity.fields[0], 'id', 'Long')
+    _assert_id_field(entity.fields[0], GenerationType.SEQUENCE, 'person_pk_seq')
 
 
 def test_with_relation_type_parse():
