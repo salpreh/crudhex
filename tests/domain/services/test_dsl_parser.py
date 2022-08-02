@@ -91,13 +91,13 @@ def test_multi_types_parse():
 
 def _assert_id_field(field: Field, generation: GenerationType, sequence: Optional[str] = None):
     assert field.id_meta
-    assert field.id_meta.type == generation
+    assert field.id_meta.generation == generation
     assert field.id_meta.sequence == sequence
 
 
 def _assert_field(field: Field, name: str, class_type: str):
     assert field.name == name
-    assert field.type.get_qualifyed_class_type() == class_type
+    assert field.type.get_qualified_class_type() == class_type
 
 
 def _assert_field_relation_12m(field: Field, join_column: Optional[str] = None):

@@ -19,3 +19,10 @@ class Entity:
 
         def __init__(self, table_name: str):
             self.table_name = table_name
+
+        def to_dict(self):
+            return self.__dict__
+
+        @classmethod
+        def default(cls, entity_name: str) -> 'Entity.Meta':
+            return cls(entity_name.lower())
