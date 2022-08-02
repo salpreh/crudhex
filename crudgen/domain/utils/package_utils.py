@@ -2,6 +2,9 @@ from pathlib import Path
 from typing import Tuple, Optional
 
 
+IMPORT_TEMPLATE = 'import {};'
+
+
 def pkg_to_path(pkg: str, base_path: str = '.') -> Path:
     pkg_path = pkg.replace('.', '/')
 
@@ -29,3 +32,7 @@ def full_class_name(pkg: Optional[str], class_type: str):
     if not pkg: return class_type
 
     return '.'.join((pkg, class_type))
+
+
+def generate_import(full_class_name: str) -> str:
+    return IMPORT_TEMPLATE.format(full_class_name)

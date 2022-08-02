@@ -1,27 +1,27 @@
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 from crudgen.domain.utils.package_utils import pkg_to_path
 
 
 class ProjectConfig:
     src: str
-    _domain_src: str
-    _db_adapter_src: str
-    _rest_adapter_src: str
+    _domain_src: Optional[str]
+    _db_adapter_src: Optional[str]
+    _rest_adapter_src: Optional[str]
 
     domain_models_pkg: str
     db_models_pkg: str
     rest_models_pkg: str
 
-    def __init__(self, domain_pkg: str, db_pkg: str, rest_pkg):
-        self.domain_models_pkg = domain_pkg
-        self.db_models_pkg = db_pkg
-        self.rest_models_pkg = rest_pkg
+    def __init__(self):
+        super().__init__()
 
     @classmethod
     def from_dict(cls, data: Dict[str, str]) -> 'ProjectConfig':
         project_config = ProjectConfig()
+
+        data = ProjectConfig._process_config(data)
         project_config.__dict__.update(**data)
 
         return project_config
@@ -67,6 +67,14 @@ class ProjectConfig:
     @rest_adapter_src.setter
     def rest_adapter_src(self, src: str):
         self._rest_adapter_src = src
+
+    @classmethod
+    def _process_config(cls, config_data: Dict[str, str]) -> Dict[str, str]:
+        p_config = {}
+        for key, val in config_data.items():
+            p_config[key.replace('-', '_')] = val
+
+        return p_config
 
 
 class ConfigKeys:
