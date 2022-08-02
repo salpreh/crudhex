@@ -1,0 +1,3 @@
+@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+@JoinColumn(name = "{{ join_column }}")
+private {{ class_type }} {{ name }};

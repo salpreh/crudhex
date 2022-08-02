@@ -1,0 +1,16 @@
+{# COLUMN meta #}
+{% if column_name -%}
+    @Column(name = "{{ column_name }}")
+{% else -%}
+    @Column
+{% endif %}
+{# ID section #}
+{% if id %}
+    {% if strategy == 'sequence' -%}
+        @SequenceGenerator(name = "{{ id.sequence }}", sequenceName = "{{ id.sequence }}", allocationSize = 1)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "{{ id.sequence }}")
+    {% elif strategy != 'none' -%}
+        @GeneratedValue(strategy = GenerationType.{{ id.generation|upper }})
+    {% endif %}
+{% endif %}
+private {{ class_type }} {{ name }};

@@ -1,0 +1,8 @@
+@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+@JoinTable(
+    name = "{{ join_table }}",
+    joinColumns = @JoinColumn(name = "{{ join_column }}"),
+    inverseJoinColumns = @JoinColumn(name = "{{ inverse_join_column }}")
+)
+@Builder.Default
+private {{ collection_type }}<{{ class_type }}> {{ name }} = new {{ collection_type_impl }}<>();

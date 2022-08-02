@@ -1,0 +1,3 @@
+@ManyToMany(mappedBy = "{{ mapped_by }}")
+@Builder.Default
+private {{ collection_type }}<{{ class_type }}> {{ name }} = new {{ collection_type_impl }}<>();

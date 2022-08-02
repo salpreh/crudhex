@@ -1,0 +1,43 @@
+package {{ package }};
+
+{# Fixed imports in the temlate #}
+import lombok.*;
+import javax.persistence.*;
+
+{{ imports }}
+
+
+@Entity
+@Table(name = "{{ table_name }}")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class {{ class_type }} {
+
+{% filter indent(width=4) %}
+    {{ fields }}
+{% endfilter %}
+
+{% filter indent(width=4) %}
+{{ collection_methods }}
+{% endfilter %}
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+
+    if (!(o instanceof {{ class_type }}))
+      return false;
+
+    return
+      {{ id_field }} != null &&
+        {{ id_field }}.equals((({{ class_type }}) o).get{{ id_field|capitalize }}());
+  }
+
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
+  }
+}
