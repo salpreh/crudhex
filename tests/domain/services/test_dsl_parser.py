@@ -34,7 +34,7 @@ def test_single_type_parse():
     _assert_field(entity.fields[3], 'race', 'com.salpreh.baseapi.domain.models.RaceType')
 
 
-def test_single_type_parse():
+def test_id_full_spec_type_parse():
     # given
     spec_data = load_fixture_file(ID_SPEC_TYPE)
 
