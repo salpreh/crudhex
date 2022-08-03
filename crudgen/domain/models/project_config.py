@@ -5,7 +5,7 @@ from crudgen.domain.utils.package_utils import pkg_to_path
 
 
 class ProjectConfig:
-    src: str
+    src: Optional[str]
     _domain_src: Optional[str]
     _db_adapter_src: Optional[str]
     _rest_adapter_src: Optional[str]
@@ -15,7 +15,14 @@ class ProjectConfig:
     rest_models_pkg: str
 
     def __init__(self):
-        super().__init__()
+        self.src = None
+        self._domain_src = None
+        self._db_adapter_src = None
+        self._rest_adapter_src = None
+
+        self.domain_models_pkg = ''
+        self.db_models_pkg = ''
+        self.rest_models_pkg = ''
 
     @classmethod
     def from_dict(cls, data: Dict[str, str]) -> 'ProjectConfig':

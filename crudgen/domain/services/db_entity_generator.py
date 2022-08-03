@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from crudgen.domain.models import Entity, Field
 from crudgen.domain.utils.package_utils import generate_import
@@ -11,7 +11,10 @@ from crudgen.adapters.infrastructure.template_writer import db_entity_code_write
 DB_ENTITY_SUFFIX = 'Entity'
 
 
-def create_entity_class(folder: Path, entity: Entity) -> Path:
+def create_entity_class(entity: Entity, folder: Optional[Path] = None) -> Path:
+    if not folder:
+        folder = Path(get_config().get_db_models_path())
+
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
     class_type = _get_entity_type_name(entity)

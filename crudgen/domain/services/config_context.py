@@ -4,10 +4,13 @@ from typing import Optional
 from crudgen.domain.models import ProjectConfig
 from crudgen.adapters.infrastructure.loader.fs_spec_loader import load_project_config
 
+DEFAULT_CONFIG = './crudhex-conf.yaml'
 _CONFIG: Optional[ProjectConfig] = None
 
 
-def load_config(path: Path):
+def load_config(path: Optional[Path] = None):
+    if not path: path = Path(DEFAULT_CONFIG)
+
     config = load_project_config(path)
     set_config(config)
 
