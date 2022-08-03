@@ -1,3 +1,3 @@
-@OneToOne(cascade = {CascadeType.All})
+@OneToOne(cascade = {CascadeType.All}{% if remove_orphan -%} , orphanRemoval = true {% endif %})
 @JoinColumn(name = "{{ join_column }}")
 private {{ class_type }} {{ name }};
