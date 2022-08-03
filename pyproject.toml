@@ -13,6 +13,9 @@ Jinja2 = "^3.1.2"
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
 
+[tool.poetry.scripts]
+crudgen = "crudgen.adapters.application.cli.main:main"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
