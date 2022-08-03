@@ -4,7 +4,7 @@ from typing import Optional
 from crudhex.domain.models import ProjectConfig
 from crudhex.adapters.infrastructure.loader.fs_spec_loader import load_project_config
 
-DEFAULT_CONFIG = './crudhex-conf.yaml'
+DEFAULT_CONFIG = './.crudhex-conf.yaml'
 _CONFIG: Optional[ProjectConfig] = None
 
 
