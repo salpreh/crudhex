@@ -6,7 +6,7 @@ from rich.console import Console
 from rich.theme import Theme
 from rich.progress import Progress
 
-from crudgen.domain.services import dsl_parser, db_entity_generator, config_context
+from crudhex.domain.services import dsl_parser, db_entity_generator, config_context
 
 
 _CONF_HELP = f'Project config file to know packages and code paths. defaults to {config_context.DEFAULT_CONFIG}'

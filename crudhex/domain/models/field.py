@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Optional
 import uuid
 
-from crudgen.domain.utils.package_utils import parse_class_name, full_class_name
+from crudhex.domain.utils.package_utils import parse_class_name, full_class_name
 
 
 class Field:

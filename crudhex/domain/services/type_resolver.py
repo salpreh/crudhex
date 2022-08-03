@@ -1,7 +1,7 @@
 from typing import Dict, Optional, List
 
-from crudgen.domain.models import Field
-from crudgen.domain.utils import package_utils
+from crudhex.domain.models import Field
+from crudhex.domain.utils import package_utils
 
 _TYPE_RESOLVER: Optional['TypeResolver'] = None
 

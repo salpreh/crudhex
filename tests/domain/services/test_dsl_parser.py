@@ -1,8 +1,8 @@
 from typing import Optional
 
-from crudgen.domain.models import Field, GenerationType, RelationType
+from crudhex.domain.models import Field, GenerationType, RelationType
 from tests.utils.file_utils import load_fixture_file
-from crudgen.domain.services.dsl_parser import parse_spec_data
+from crudhex.domain.services.dsl_parser import parse_spec_data
 
 
 SINGLE_TYPE = 'single_type.yaml'

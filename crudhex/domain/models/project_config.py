@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Dict, Optional
 
-from crudgen.domain.utils.package_utils import pkg_to_path
+from crudhex.domain.utils.package_utils import pkg_to_path
 
 
 class ProjectConfig:

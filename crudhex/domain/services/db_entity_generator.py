@@ -1,12 +1,12 @@
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from crudgen.domain.models import Entity, Field
-from crudgen.domain.utils.package_utils import generate_import
+from crudhex.domain.models import Entity, Field
+from crudhex.domain.utils.package_utils import generate_import
 from .config_context import get_config
 from .type_resolver import get_type_resolver
 
-from crudgen.adapters.infrastructure.template_writer import db_entity_code_writer
+from crudhex.adapters.infrastructure.template_writer import db_entity_code_writer
 
 DB_ENTITY_SUFFIX = 'Entity'
 

@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Optional
 
-from crudgen.domain.models import ProjectConfig
-from crudgen.adapters.infrastructure.loader.fs_spec_loader import load_project_config
+from crudhex.domain.models import ProjectConfig
+from crudhex.adapters.infrastructure.loader.fs_spec_loader import load_project_config
 
 DEFAULT_CONFIG = './crudhex-conf.yaml'
 _CONFIG: Optional[ProjectConfig] = None

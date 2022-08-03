@@ -3,7 +3,7 @@ from typing import Dict, List, Optional, Union
 
 from jinja2 import Environment, PackageLoader
 
-from crudgen.domain.models import RelationType
+from crudhex.domain.models import RelationType
 from .config import tempate_config
 from .config.tempate_config import get_db_file_path
 
@@ -76,7 +76,7 @@ def _get_template_environment():
     global _TEMPLATE_ENV
     if _TEMPLATE_ENV: return _TEMPLATE_ENV
 
-    _TEMPLATE_ENV = Environment(loader=PackageLoader('crudgen.adapters.infrastructure.template_writer', 'templates'),
+    _TEMPLATE_ENV = Environment(loader=PackageLoader('crudhex.adapters.infrastructure.template_writer', 'templates'),
                                 trim_blocks=True, lstrip_blocks=True)
 
     return _TEMPLATE_ENV

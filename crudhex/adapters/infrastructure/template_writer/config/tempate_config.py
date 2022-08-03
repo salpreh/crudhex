@@ -2,9 +2,9 @@ from collections import namedtuple
 from pathlib import Path
 
 # Pkg
-from crudgen.domain.models import RelationType
+from crudhex.domain.models import RelationType
 
-TEMPLATES_PACKAGE = 'crudgen.adapters.infrastructure.template_writer'
+TEMPLATES_PACKAGE = 'crudhex.adapters.infrastructure.template_writer'
 
 # Base folders
 TEMPLATE_FOLDER = 'templates'

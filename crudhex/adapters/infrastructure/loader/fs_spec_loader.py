@@ -1,13 +1,10 @@
 from pathlib import Path
-from typing import Optional, List, Any, Set
+from typing import Optional
 
 import yaml
 
 
-from crudgen.domain.models import ProjectConfig
-
-
-CONFIG_FILE = '.crudgen_config.yml'
+from crudhex.domain.models import ProjectConfig
 
 
 def load_project_config(path: Optional[Path]) -> ProjectConfig:
