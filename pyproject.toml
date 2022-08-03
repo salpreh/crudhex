@@ -5,7 +5,7 @@ description = ""
 authors = ["salpreh <salpreh.7@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.8"
 typer = {extras = ["all"], version = "^0.6.1"}
 PyYAML = "^6.0"
 Jinja2 = "^3.1.2"
