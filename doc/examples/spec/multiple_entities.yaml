@@ -1,0 +1,67 @@
+Person:
+  .meta:
+    table-name: persons
+  id:
+    type: Long
+    id: sequence
+  birthPlanet:
+    type: Planet
+    column: birth_planet
+    relation:
+      type: many-to-one
+      join-column: birth_planet_id
+  affiliations:
+    type: Faction
+    relation:
+      type: many-to-many
+      join-table: person_affiliation
+      join-column: person_id
+      inverse-join-column: faction_id
+  backup:
+    type: Person
+    relation:
+      join-column: backup_id
+      type: one-to-one
+  backing:
+    type: Person
+    relation:
+      type: one-to-one
+      mapped-by: backup
+
+Planet:
+  .meta:
+    table-name: planets
+  id:
+    type: Long
+    id:
+      type: sequence
+      sequence: planet_pk_gen
+  name:
+    type: String
+    column: original_name
+  affiliation:
+    type: Faction
+    relation:
+      type: many-to-one
+      join-column: affiliation_id
+  relevantPersons:
+    type: Person
+    relation:
+      type: one-to-many
+      mapped-by: birthPlanet
+
+Faction:
+  id:
+    type: Long
+    id: sequence
+  name: String
+  affiliatedPlanets:
+    type: Planet
+    relation:
+      type: one-to-many
+      mapped-by: affiliation
+  affiliatedPersons:
+    type: Planet
+    relation:
+      type: one-to-many
+      mapped-by: affiliations

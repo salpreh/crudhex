@@ -1,0 +1,9 @@
+Person:
+  .meta:
+    table-name: persons
+  id:
+    type: long
+    id: sequence
+  name: String
+  age: int
+  race: com.salpreh.baseapi.domain.models.RaceType

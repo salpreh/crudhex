@@ -1,0 +1,10 @@
+# Java source folder for single module apps (where your packages start). If no specific sources folder for a layer this will be the fallback
+# src: src/main/java
+
+domain-src: domain/src/main/java # Domain java sources
+db-adapter-src: infrastructure/datasource-adapter/src/main/java # DB adapter java sources
+rest-adapter-src: application/web/src/main/java # Rest adapter java sources
+
+domain-models-pkg: com.salpreh.baseapi.domain.models # domain models package
+db-models-pkg: com.salpreh.baseapi.adapers.infrasturcture.db.models # db entities package
+rest-models-pkg: com.salpreh.baseapi.adapters.api.models # rest api models

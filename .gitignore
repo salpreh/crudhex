@@ -99,5 +99,5 @@ cython_debug/
 # PyCharm
 .idea/
 
-# Temporary ignoring project doc
-doc/
+# Temporary ignoring project .doc
+.doc/
