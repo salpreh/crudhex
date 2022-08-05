@@ -1,5 +1,11 @@
 src: src/main/java # Java source folder for single module apps (where your packages start)
 
+# Domain/application
 domain-models-pkg: com.salpreh.baseapi.domain.models # domain models package
+
+# DB adapter
 db-models-pkg: com.salpreh.baseapi.adapers.infrasturcture.db.models # db entities package
+db-repositories-pkg: com.salpreh.baseapi.adapters.infrastructure.db.repositories # JPA repositories package
+
+# REST api adapter
 rest-models-pkg: com.salpreh.baseapi.adapters.api.models # rest api models

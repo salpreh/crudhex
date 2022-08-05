@@ -22,6 +22,7 @@ class ProjectConfig:
 
         self.domain_models_pkg = ''
         self.db_models_pkg = ''
+        self.db_repositories_pkg = ''
         self.rest_models_pkg = ''
 
     @classmethod
