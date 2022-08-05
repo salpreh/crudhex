@@ -1,0 +1,10 @@
+package {{ package }};
+
+{# Fixed imports #}
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+{{ imports }}
+
+@Repository
+public interface {{ class_type }} extends JpaRepository<{{ entity_type }}, {{ id_type }}> { }

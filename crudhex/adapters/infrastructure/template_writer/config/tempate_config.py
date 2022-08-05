@@ -14,6 +14,7 @@ FRAGMENTS_FOLDER = 'fragments'
 
 # DB TEMPLATES
 DB_ENTITY_TEMPLATE = 'entity.jinja2'
+DB_REPOSITORY_TEMPLATE = 'repository.jinja2'
 
 # DB FRAGMENTS
 COLLECTION_INVERSE_METHODS = 'collection_inverse_methods.jinja2'
