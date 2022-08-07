@@ -4,7 +4,10 @@
 
 ⚠️ **Warn: Alpha development stage**
 
+---
+
 CLI tool to generate Java CRUD classes from a spec file. The target for this code generation is a Hexagonal architecture.
+
 
 ## Motivation
 Adding CRUD operation in a hexagonal project is quite a pain. You can take shortcuts that can be totally legit in cases of just CRUD operations, but most cases if there is already a rich domain/application layer for other use cases CRUD shortcuts can break the consistency of the project.

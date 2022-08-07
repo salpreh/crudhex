@@ -12,6 +12,7 @@ class ProjectConfig:
 
     domain_models_pkg: str
     db_models_pkg: str
+    db_repositories_pkg: str
     rest_models_pkg: str
 
     def __init__(self):
@@ -22,6 +23,7 @@ class ProjectConfig:
 
         self.domain_models_pkg = ''
         self.db_models_pkg = ''
+        self.db_repositories_pkg = ''
         self.rest_models_pkg = ''
 
     @classmethod
@@ -39,8 +41,11 @@ class ProjectConfig:
     def get_db_models_path(self) -> Path:
         return pkg_to_path(self.db_models_pkg, self.db_adapter_src)
 
+    def get_db_repositories_path(self) -> Path:
+        return pkg_to_path(self.db_repositories_pkg, self.db_adapter_src)
+
     def get_rest_models_path(self) -> Path:
-        return pkg_to_path(self.rest_models_pkg, self._rest_adapter_src)
+        return pkg_to_path(self.rest_models_pkg, self.rest_adapter_src)
 
     @property
     def domain_src(self):
@@ -92,4 +97,5 @@ class ConfigKeys:
 
     DOMAIN_MODELS_PKG = 'domain-models-pkg'
     DB_MODELS_PKG = 'db-models-pkg'
+    DB_REPOSITORIES_PKG = 'db-repositories-pkg'
     REST_MODELS_PKG = 'rest-models-pkg'

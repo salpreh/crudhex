@@ -20,7 +20,7 @@ def create_entity(dest: Path, class_type: str, package: str,
     if not id_field: raise RuntimeError('Id field is mandatory for db entity generation')
 
     fields_fragment = _generate_fields_fragment(fields)
-    # TODO: Collections accessors generation
+    # TODO: Inverted relation sync accessors
 
     entity_template = template_env.get_template(get_db_file_path(tempate_config.DB_ENTITY_TEMPLATE))
     entity_code = entity_template.render({
@@ -35,6 +35,24 @@ def create_entity(dest: Path, class_type: str, package: str,
 
     with open(dest.resolve(), 'w+', encoding='utf-8') as f:
         f.write(entity_code)
+
+
+def create_entity_repository(dest: Path, class_type: str, package: str,
+                             imports: List[str], entity_type: str, id_type: str):
+
+    template_env = _get_template_environment()
+
+    repository_template = template_env.get_template(get_db_file_path(tempate_config.DB_REPOSITORY_TEMPLATE))
+    repository_code = repository_template.render({
+        'package': package,
+        'imports': '\n'.join(imports),
+        'class_type': class_type,
+        'entity_type': entity_type,
+        'id_type': id_type
+    })
+
+    with open(dest.resolve(), 'w+', encoding='utf-8') as f:
+        f.write(repository_code)
 
 
 def _generate_fields_fragment(fields: List[Dict[str, Union[str, RelationType]]]) -> str:

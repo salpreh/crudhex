@@ -1,40 +1,36 @@
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 from crudhex.domain.models import Entity, Field
 from crudhex.domain.utils.package_utils import generate_import
-from .config_context import get_config
-from .type_resolver import get_type_resolver
+from ..config_context import get_config
+from ..type_resolver import get_type_resolver
 
 from crudhex.adapters.infrastructure.template_writer import db_entity_code_writer
 
 DB_ENTITY_SUFFIX = 'Entity'
 
 
-def create_entity_class(entity: Entity, folder: Optional[Path] = None) -> Path:
-    if not folder:
-        folder = Path(get_config().get_db_models_path())
-
+def create_entity_class(entity: Entity, folder: Path) -> Path:
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
-    class_type = _get_entity_type_name(entity)
+    class_type = get_entity_type_name(entity)
     entity_file = folder / f'{class_type}.java'
 
     db_entity_code_writer.create_entity(
-        entity_file, class_type, _get_package(),
+        entity_file, class_type, get_package(),
         _get_entity_imports(entity), _get_entity_meta(entity), _get_entity_fields_data(entity)
     )
 
     return entity_file
 
 
-def _get_package() -> str:
+def get_package() -> str:
     return get_config().db_models_pkg
 
 
-def _get_entity_type_name(entity: Entity) -> str:
-    name = entity.name
-    return f'{name}{DB_ENTITY_SUFFIX}'
+def get_entity_type_name(entity: Entity) -> str:
+    return f'{entity.name}{DB_ENTITY_SUFFIX}'
 
 
 def _get_entity_meta(entity: Entity) -> Dict[str, str]:
@@ -93,4 +89,3 @@ def _get_field_data(field: Field) -> Dict[str, str]:
         field_data.update(**field.relation.to_dict())
 
     return field_data
-

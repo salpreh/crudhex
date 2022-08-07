@@ -14,6 +14,12 @@ class Entity:
     def has_meta(self):
         return self.meta is not None
 
+    def get_id_field(self) -> Optional[Field]:
+        for field in self.fields:
+            if field.is_id(): return field
+
+        return None
+
     class Meta:
         table_name: str
 
