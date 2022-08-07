@@ -45,9 +45,14 @@ def generate(
 
         generate_task = progress.add_task('Generate classes', total=100)
         for entity in entities:
-            entity_path = db_entity_generator.create_entity_class(entity)
-            progress.update(generate_task, advance=100/len(entities))
+            entity_path = db_adapter_generator.create_entity_class(entity)
             progress.console.print(f'Generated entity: {entity_path.resolve()}', style='cyan')
+
+            repo_path = db_adapter_generator.create_repository_class(entity)
+            progress.console.print(f'Generated repository: {repo_path.resolve()}', style='cyan')
+
+            progress.update(generate_task, advance=100/len(entities))
+            progress.console.print('\n')
 
         progress.update(generate_task, advance=100)
 
