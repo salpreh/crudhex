@@ -2,11 +2,10 @@ from pathlib import Path
 from typing import Dict, List
 
 from crudhex.domain.models import Entity, Field
-from crudhex.domain.utils.package_utils import generate_import
+from crudhex.domain.utils.class_type_utils import get_field_imports, get_field_types
 from ..config_context import get_config
-from ..type_resolver import get_type_resolver
 
-from crudhex.adapters.infrastructure.template_writer import db_entity_code_writer
+from crudhex.adapters.infrastructure.template_writer import db_code_writer
 
 DB_ENTITY_SUFFIX = 'Entity'
 
@@ -17,7 +16,7 @@ def create_entity_class(entity: Entity, folder: Path) -> Path:
     class_type = get_entity_type_name(entity)
     entity_file = folder / f'{class_type}.java'
 
-    db_entity_code_writer.create_entity(
+    db_code_writer.create_entity(
         entity_file, class_type, get_package(),
         _get_entity_imports(entity), _get_entity_meta(entity), _get_entity_fields_data(entity)
     )
@@ -44,18 +43,9 @@ def _get_entity_meta(entity: Entity) -> Dict[str, str]:
 def _get_entity_imports(entity: Entity) -> List[str]:
     imports = []
     for field in entity.fields:
-        imports += _get_entity_field_imports(field)
+        imports += get_field_imports(field)
 
     return imports
-
-
-def _get_entity_field_imports(field: Field) -> List[str]:
-    type_resolver = get_type_resolver()
-    if field.type.is_native() or field.type.is_generated: return []
-
-    class_types = type_resolver.get_field_types_full_class(field)
-
-    return [generate_import(ct) for ct in class_types]
 
 
 def _get_entity_fields_data(entity: Entity) -> List[Dict[str, str]]:
@@ -68,17 +58,12 @@ def _get_entity_fields_data(entity: Entity) -> List[Dict[str, str]]:
 
 def _get_field_data(field: Field) -> Dict[str, str]:
     field_data = {
-        'class_type': field.type.class_type,
         'name': field.name,
         'column_name': field.column,
         'relationship': False,
-        'id': False
+        'id': False,
     }
-
-    if field.type.is_collection():
-        type_resolver = get_type_resolver()
-        field_data['collection_type'] = field.type.collection_type
-        field_data['collection_type_impl'] = type_resolver.get_collection_type_impl(field.type.collection_type)
+    field_data.update(get_field_types(field)._asdict())
 
     if field.is_id():
         field_data['id'] = True

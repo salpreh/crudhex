@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Optional
 
-from .db import db_entity_generator as entity_generator
-from .db import db_repository_generator as repository_generator
+from .db import entity_generator
+from .db import repository_generator
 from .config_context import get_config
 from crudhex.domain.models import Entity
 

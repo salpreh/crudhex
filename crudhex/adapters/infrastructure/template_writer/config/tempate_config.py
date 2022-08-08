@@ -1,16 +1,23 @@
 from collections import namedtuple
 from pathlib import Path
 
-# Pkg
 from crudhex.domain.models import RelationType
 
+# Pkg
 TEMPLATES_PACKAGE = 'crudhex.adapters.infrastructure.template_writer'
 
 # Base folders
 TEMPLATE_FOLDER = 'templates'
 DB_FOLDER = 'db'
+DOMAIN_FOLDER = 'domain'
 COMMONS_FOLDER = 'commons'
 FRAGMENTS_FOLDER = 'fragments'
+
+# DOMAIN TEMPLATES
+MODEL_TEMPLATE = 'model.jinja2'
+
+# DOMAIN FRAGMENTS
+DOM_FIELD = 'field.jinja2'
 
 # DB TEMPLATES
 DB_ENTITY_TEMPLATE = 'entity.jinja2'
@@ -38,7 +45,8 @@ _FRAGMENTS = [
     M2ONE_FIELD,
     ONE2M_FIELD,
     ONE2ONE_MAIN_FIELD,
-    ONE2ONE_INVERSE_FIELD
+    ONE2ONE_INVERSE_FIELD,
+    DOM_FIELD
 ]
 
 RelationTemplate = namedtuple('RelationTemplate', 'main inverse')
@@ -51,10 +59,22 @@ _RELATION_TEMPLATE_MAP = {
 
 
 def get_db_file_path(file_name: str) -> str:
-    file_path = Path(DB_FOLDER)
-    if _is_fragment(file_name): file_path = file_path / FRAGMENTS_FOLDER
+    file_path = _evaluate_file_type(Path(DB_FOLDER), file_name)
 
     return str(file_path / file_name)
+
+
+def get_domain_file_path(file_name: str) -> str:
+    file_path = _evaluate_file_type(Path(DOMAIN_FOLDER), file_name)
+
+    return str(file_path / file_name)
+
+
+def _evaluate_file_type(root_path: Path, file_name: str) -> Path:
+    path = root_path
+    if _is_fragment(file_name): path = root_path / FRAGMENTS_FOLDER
+
+    return path
 
 
 def _is_fragment(file_name: str) -> bool:

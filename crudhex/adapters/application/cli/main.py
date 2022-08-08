@@ -1,4 +1,5 @@
 from pathlib import Path
+from time import sleep
 from typing import Optional
 
 import typer
@@ -6,7 +7,7 @@ from rich.console import Console
 from rich.theme import Theme
 from rich.progress import Progress
 
-from crudhex.domain.services import dsl_parser, db_adapter_generator, config_context
+from crudhex.domain.services import dsl_parser, config_context, db_adapter_generator, domain_generator
 
 
 _CONF_HELP = f'Project config file to know packages and code paths. defaults to {config_context.DEFAULT_CONFIG}'
@@ -45,11 +46,14 @@ def generate(
 
         generate_task = progress.add_task('Generate classes', total=100)
         for entity in entities:
-            entity_path = db_adapter_generator.create_entity_class(entity)
-            progress.console.print(f'Generated entity: {entity_path.resolve()}', style='cyan')
+            out_path = db_adapter_generator.create_entity_class(entity)
+            progress.console.print(f'Entity: {out_path}', style='cyan')
 
-            repo_path = db_adapter_generator.create_repository_class(entity)
-            progress.console.print(f'Generated repository: {repo_path.resolve()}', style='cyan')
+            out_path = db_adapter_generator.create_repository_class(entity)
+            progress.console.print(f'Repository: {out_path}', style='cyan')
+
+            out_path = domain_generator.create_model_class(entity)
+            progress.console.print(f'Domain model: {out_path}', style='bright_blue')
 
             progress.update(generate_task, advance=100/len(entities))
             progress.console.print('\n')

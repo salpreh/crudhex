@@ -1,20 +1,16 @@
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
-from jinja2 import Environment, PackageLoader
-
 from crudhex.domain.models import RelationType
 from .config import tempate_config
 from .config.tempate_config import get_db_file_path
-
-
-_TEMPLATE_ENV: Optional[Environment] = None
+from .services.template_env import get_template_environment
 
 
 def create_entity(dest: Path, class_type: str, package: str,
                   imports: List[str], meta: Dict[str, str], fields: List[Dict[str, str]]):
 
-    template_env = _get_template_environment()
+    template_env = get_template_environment()
 
     id_field = _get_id_field(fields)
     if not id_field: raise RuntimeError('Id field is mandatory for db entity generation')
@@ -40,7 +36,7 @@ def create_entity(dest: Path, class_type: str, package: str,
 def create_entity_repository(dest: Path, class_type: str, package: str,
                              imports: List[str], entity_type: str, id_type: str):
 
-    template_env = _get_template_environment()
+    template_env = get_template_environment()
 
     repository_template = template_env.get_template(get_db_file_path(tempate_config.DB_REPOSITORY_TEMPLATE))
     repository_code = repository_template.render({
@@ -56,7 +52,7 @@ def create_entity_repository(dest: Path, class_type: str, package: str,
 
 
 def _generate_fields_fragment(fields: List[Dict[str, Union[str, RelationType]]]) -> str:
-    template_env = _get_template_environment()
+    template_env = get_template_environment()
 
     templates = {}
     field_fragments = []
@@ -88,13 +84,3 @@ def _get_id_field(fields: List[Dict[str, str]]) -> Optional[Dict[str, str]]:
             break
 
     return id_field
-
-
-def _get_template_environment():
-    global _TEMPLATE_ENV
-    if _TEMPLATE_ENV: return _TEMPLATE_ENV
-
-    _TEMPLATE_ENV = Environment(loader=PackageLoader('crudhex.adapters.infrastructure.template_writer', 'templates'),
-                                trim_blocks=True, lstrip_blocks=True)
-
-    return _TEMPLATE_ENV
