@@ -5,7 +5,7 @@ from crudhex.domain.models import Entity
 from crudhex.domain.utils import package_utils
 from ..config_context import get_config
 from ..type_resolver import get_type_resolver
-from . import db_entity_generator as entity_generator
+from . import entity_generator as entity_generator
 
 from crudhex.adapters.infrastructure.template_writer import db_entity_code_writer
 
