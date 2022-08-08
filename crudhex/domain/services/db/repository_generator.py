@@ -7,7 +7,7 @@ from ..config_context import get_config
 from ..type_resolver import get_type_resolver
 from . import entity_generator as entity_generator
 
-from crudhex.adapters.infrastructure.template_writer import db_entity_code_writer
+from crudhex.adapters.infrastructure.template_writer import db_code_writer
 
 DB_REPO_SUFFIX = 'Repository'
 
@@ -18,7 +18,7 @@ def create_repository_class(entity: Entity, folder: Optional[Path] = None) -> Pa
     class_type = get_repository_type_name(entity)
     repo_file = folder / f'{class_type}.java'
 
-    db_entity_code_writer.create_entity_repository(
+    db_code_writer.create_entity_repository(
         repo_file, class_type, get_package(), _get_imports(entity),
         entity_generator.get_entity_type_name(entity), entity.get_id_field().type.class_type
     )
