@@ -14,4 +14,12 @@ def get_template_environment():
     _TEMPLATE_ENV = Environment(loader=PackageLoader(tempate_config.TEMPLATES_PACKAGE, tempate_config.TEMPLATE_FOLDER),
                                 trim_blocks=True, lstrip_blocks=True)
 
+    _TEMPLATE_ENV.filters['firstlower'] = _first_lower_filter
+
     return _TEMPLATE_ENV
+
+
+def _first_lower_filter(value: str):
+    if not value or len(value) == 0: return value
+
+    return value[0].lower() + value[1:]

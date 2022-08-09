@@ -44,7 +44,7 @@ def create_use_case(dest: Path, class_type: str, package: str,
 
     extras = {'db_port_type': db_port_type}
 
-    _create_port_class(tempate_config.USE_CASE_PORT_TEMPLATE, dest, class_type,
+    _create_port_class(tempate_config.USE_CASE_TEMPLATE, dest, class_type,
                        package, imports, id_type,
                        model_type, create_cmd_type, update_cmd_type, extras)
 
