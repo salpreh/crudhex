@@ -1,4 +1,4 @@
-package com.salpreh.baseapi.domain.ports.infrastructure;
+package {{ package }};
 
 {# Fixed imports in the template #}
 import org.springframework.data.domain.Page;
@@ -9,13 +9,13 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface {{ class_type }} {
-  Optional<{{ model_type }}> findById({{ id_type }} id);
+    Optional<{{ model_type }}> findById({{ id_type }} id);
 
-  Page<{{ model_type }}> findAll(Pageable pageable);
+    Page<{{ model_type }}> findAll(Pageable pageable);
 
-  {{ model_type }} create({{ create_command_type }} createCommand);
+    {{ model_type }} create({{ create_command_type }} createCommand);
 
-  {{ model_type }} update({{ id_type }} id, {{ update_command_type }} updateCommand);
+    {{ model_type }} update({{ id_type }} id, {{ update_command_type }} updateCommand);
 
-  void delete({{ id_type }} id);
+    void delete({{ id_type }} id);
 }

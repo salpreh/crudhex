@@ -1,0 +1,45 @@
+package {{ package }};
+
+{# Fixed imports in the template #}
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+
+{{ imports }}
+
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class {{ class_type }} implements {{ class_type_interface }} {
+
+    {% set db_port_var = db_port_type|firstlower %}
+
+    private final {{ db_port_type }} {{ db_port_var }};
+
+    @Override
+    public Optional<{{ model_type }}> getById({{ id_type }} id) {
+        return {{ db_port_var }}.findById(id);
+    }
+
+    @Override
+    public Page<{{ model_type }}> getAll(Pageable page) {
+        return {{ db_port_var }}.findAll(page);
+    }
+
+    @Override
+    public {{ model_type  }} create({{ create_command_type }} createCommand) {
+        return {{ db_port_var }}.create(createCommand);
+    }
+
+    @Override
+    public {{ model_type }} update({{ id_type }} id, {{ update_command_type }} updateCommand) {
+        return {{ db_port_var }}.update(id, updateCommand);
+    }
+
+    @Override
+    public void delete(id_type id) {
+        {{ db_port_var }}.delete(id);
+    }
+}

@@ -55,6 +55,12 @@ def generate(
             out_path = domain_generator.create_db_port_class(entity)
             progress.console.print(f'DB port: {out_path}', style='bright_blue')
 
+            out_path = domain_generator.create_use_case_port_class(entity)
+            progress.console.print(f'Use case port: {out_path}', style='bright_blue')
+
+            out_path = domain_generator.create_use_case_class(entity)
+            progress.console.print(f'Use case: {out_path}', style='bright_blue')
+
             out_path = db_adapter_generator.create_entity_class(entity)
             progress.console.print(f'Entity: {out_path}', style='bright_cyan')
 

@@ -10,7 +10,7 @@ from . import model_generator
 from crudhex.adapters.infrastructure.template_writer import domain_code_writer
 
 
-_PORT_PREFIX = 'DatasourcePort'
+_PORT_PREFIX = 'UseCasePort'
 
 
 def create_port_class(entity: Entity, folder: Path) -> Path:
@@ -23,15 +23,15 @@ def create_port_class(entity: Entity, folder: Path) -> Path:
     model_type = model_generator.get_model_type_name(entity)
     command_type = command_generator.get_command_type_name(entity)
 
-    domain_code_writer.create_db_port(port_file, class_type, get_package(),
-                                      _get_port_imports(entity), id_type, model_type,
-                                      command_type, command_type)
+    domain_code_writer.create_use_case_port(port_file, class_type, get_package(),
+                                            _get_port_imports(entity), id_type, model_type,
+                                            command_type, command_type)
 
     return port_file
 
 
 def get_package() -> str:
-    return get_config().domain_out_ports_pkg
+    return get_config().domain_in_ports_pkg
 
 
 def get_port_type_name(entity: Entity) -> str:

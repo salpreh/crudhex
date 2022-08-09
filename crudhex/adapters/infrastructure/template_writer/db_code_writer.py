@@ -2,8 +2,8 @@ from pathlib import Path
 from typing import Dict, List, Optional, Union
 
 from crudhex.domain.models import RelationType
-from .config import tempate_config
-from .config.tempate_config import get_db_file_path
+from .config import template_config
+from .config.template_config import get_db_file_path
 from .services.template_env import get_template_environment
 
 
@@ -18,7 +18,7 @@ def create_entity(dest: Path, class_type: str, package: str,
     fields_fragment = _generate_fields_fragment(fields)
     # TODO: Inverted relation sync accessors
 
-    entity_template = template_env.get_template(get_db_file_path(tempate_config.DB_ENTITY_TEMPLATE))
+    entity_template = template_env.get_template(get_db_file_path(template_config.DB_ENTITY_TEMPLATE))
     entity_code = entity_template.render({
         'package': package,
         'imports': '\n'.join(imports),
@@ -38,7 +38,7 @@ def create_entity_repository(dest: Path, class_type: str, package: str,
 
     template_env = get_template_environment()
 
-    repository_template = template_env.get_template(get_db_file_path(tempate_config.DB_REPOSITORY_TEMPLATE))
+    repository_template = template_env.get_template(get_db_file_path(template_config.DB_REPOSITORY_TEMPLATE))
     repository_code = repository_template.render({
         'package': package,
         'imports': '\n'.join(imports),
@@ -58,7 +58,7 @@ def _generate_fields_fragment(fields: List[Dict[str, Union[str, RelationType]]])
     field_fragments = []
     for field in fields:
         if field['relationship']:
-            template_name = tempate_config.get_relation_template(field['relationship'], field['mapped_by'] is None)
+            template_name = template_config.get_relation_template(field['relationship'], field['mapped_by'] is None)
             template = templates.setdefault(
                 template_name,
                 template_env.get_template(get_db_file_path(template_name))
@@ -67,8 +67,8 @@ def _generate_fields_fragment(fields: List[Dict[str, Union[str, RelationType]]])
             field_fragments.append(template.render(field))
         else:
             template = templates.setdefault(
-                tempate_config.FIELD,
-                template_env.get_template(get_db_file_path(tempate_config.FIELD))
+                template_config.FIELD,
+                template_env.get_template(get_db_file_path(template_config.FIELD))
             )
 
             field_fragments.append(template.render(field))

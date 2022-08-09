@@ -1,0 +1,18 @@
+package {{ package }};
+
+{# Fixed imports in the template #}
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+{{ imports }}
+
+import java.util.Optional;
+
+public interface {{ class_type }} {
+
+    public Optional<{{ model_type }}> getById({{ id_type }} id);
+    public Page<{{ model_type }}> getAll(Pageable page);
+    public {{ model_type  }} create({{ create_command_type }} createCommand);
+    public {{ model_type }} update({{ id_type }} id, {{ update_command_type }} updateCommand);
+    public void delete({{ id_type }} id);
+}
