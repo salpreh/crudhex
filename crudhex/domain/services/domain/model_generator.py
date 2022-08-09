@@ -5,7 +5,7 @@ from crudhex.domain.models import Entity, Field
 from crudhex.domain.utils.class_type_utils import get_field_imports, get_field_types
 from ..config_context import get_config
 
-from crudhex.adapters.infrastructure.template_writer import domain_code_writer
+from crudhex.domain.ports import domain_code_writer
 
 
 def create_model_class(entity: Entity, folder: Path) -> Path:

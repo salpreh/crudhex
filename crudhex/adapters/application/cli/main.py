@@ -46,6 +46,7 @@ def generate(
 
         generate_task = progress.add_task('Generate classes', total=100)
         for entity in entities:
+            progress.console.rule(entity.name)
             out_path = domain_generator.create_model_class(entity)
             progress.console.print(f'Domain model: {out_path}', style='bright_blue')
 
@@ -68,7 +69,7 @@ def generate(
             progress.console.print(f'Repository: {out_path}', style='bright_cyan')
 
             progress.update(generate_task, advance=100/len(entities))
-            progress.console.print('\n')
+            progress.console.print('')
 
         progress.update(generate_task, advance=100)
 
