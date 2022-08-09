@@ -2,21 +2,21 @@ from pathlib import Path
 from typing import List, Dict, Optional
 
 from .services.template_env import get_template_environment
-from .config import tempate_config
-from .config.tempate_config import get_domain_file_path
+from .config import template_config
+from .config.template_config import get_domain_file_path
 
 
 def create_command(dest: Path, class_type: str, package: str,
                    imports: List[str], fields: List[Dict[str, str]]):
 
-    _create_data_class(tempate_config.COMMAND_TEMPLATE, dest, class_type,
+    _create_data_class(template_config.COMMAND_TEMPLATE, dest, class_type,
                        package, imports, fields)
 
 
 def create_model(dest: Path, class_type: str, package: str,
                  imports: List[str], fields: List[Dict[str, str]]):
 
-    _create_data_class(tempate_config.MODEL_TEMPLATE, dest, class_type,
+    _create_data_class(template_config.MODEL_TEMPLATE, dest, class_type,
                        package, imports, fields)
 
 
@@ -24,7 +24,7 @@ def create_db_port(dest: Path, class_type: str, package: str,
                    imports: List[str], id_type: str, model_type: str,
                    create_cmd_type: str, update_cmd_type: str):
 
-    _create_port_class(tempate_config.DB_PORT_TEMPLATE, dest, class_type,
+    _create_port_class(template_config.DB_PORT_TEMPLATE, dest, class_type,
                        package, imports, id_type,
                        model_type, create_cmd_type, update_cmd_type)
 
@@ -33,7 +33,7 @@ def create_use_case_port(dest: Path, class_type: str, package: str,
                          imports: List[str], id_type: str, model_type: str,
                          create_cmd_type: str, update_cmd_type: str):
 
-    _create_port_class(tempate_config.USE_CASE_PORT_TEMPLATE, dest, class_type,
+    _create_port_class(template_config.USE_CASE_PORT_TEMPLATE, dest, class_type,
                        package, imports, id_type,
                        model_type, create_cmd_type, update_cmd_type)
 
@@ -44,7 +44,7 @@ def create_use_case(dest: Path, class_type: str, package: str,
 
     extras = {'db_port_type': db_port_type}
 
-    _create_port_class(tempate_config.USE_CASE_TEMPLATE, dest, class_type,
+    _create_port_class(template_config.USE_CASE_TEMPLATE, dest, class_type,
                        package, imports, id_type,
                        model_type, create_cmd_type, update_cmd_type, extras)
 
@@ -94,7 +94,7 @@ def _create_port_class(template: str, dest: Path, class_type: str, package: str,
 
 def _generate_fields_fragment(fields: List[Dict[str, str]]):
     template_env = get_template_environment()
-    field_template = template_env.get_template(get_domain_file_path(tempate_config.DOM_FIELD))
+    field_template = template_env.get_template(get_domain_file_path(template_config.DOM_FIELD))
 
     field_fragments = []
     for field in fields:
