@@ -7,8 +7,7 @@ import yaml
 from crudhex.domain.models import ProjectConfig
 
 
-def load_project_config(path: Optional[Path]) -> ProjectConfig:
-    if not path: path = _default_path()
+def load_project_config(path: Path) -> ProjectConfig:
     config_data = _load_yaml_data(path)
 
     return ProjectConfig.from_dict(config_data)

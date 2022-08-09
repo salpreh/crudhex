@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Optional
 
 from crudhex.domain.models import ProjectConfig
-from crudhex.adapters.infrastructure.loader.fs_spec_loader import load_project_config
+from crudhex.domain.ports import spec_loader
 
 DEFAULT_CONFIG = './.crudhex-conf.yaml'
 _CONFIG: Optional[ProjectConfig] = None
@@ -11,7 +11,7 @@ _CONFIG: Optional[ProjectConfig] = None
 def load_config(path: Optional[Path] = None):
     if not path: path = Path(DEFAULT_CONFIG)
 
-    config = load_project_config(path)
+    config = spec_loader.load_project_config(path)
     set_config(config)
 
     return config

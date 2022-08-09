@@ -7,11 +7,11 @@ from crudhex.domain.models import Entity, Field
 from crudhex.domain.services import TypeResolver
 from crudhex.domain.services.type_resolver import get_type_resolver
 
-from crudhex.adapters.infrastructure.loader.fs_spec_loader import load_spec_config
+from crudhex.domain.ports import spec_loader
 
 
 def parse_spec_file(spec_path: Path) -> List[Entity]:
-    spec_data = load_spec_config(spec_path)
+    spec_data = spec_loader.load_spec_config(spec_path)
     type_resolver = get_type_resolver()
 
     return parse_spec_data(spec_data, type_resolver)
