@@ -11,8 +11,13 @@ class ProjectConfig:
     _rest_adapter_src: Optional[str]
 
     domain_models_pkg: str
+    domain_commands_pkg: str
+    domain_in_ports_pkg: str
+    domain_out_ports_pkg: str
+
     db_models_pkg: str
     db_repositories_pkg: str
+
     rest_models_pkg: str
 
     def __init__(self):
@@ -22,8 +27,13 @@ class ProjectConfig:
         self._rest_adapter_src = None
 
         self.domain_models_pkg = ''
+        self.domain_commands_pkg = ''
+        self.domain_in_ports_pkg = ''
+        self.domain_out_ports_pkg = ''
+
         self.db_models_pkg = ''
         self.db_repositories_pkg = ''
+
         self.rest_models_pkg = ''
 
     @classmethod
@@ -37,6 +47,15 @@ class ProjectConfig:
 
     def get_domain_models_path(self) -> Path:
         return pkg_to_path(self.domain_models_pkg, self.domain_src)
+
+    def get_domain_in_ports_path(self) -> Path:
+        return pkg_to_path(self.domain_in_ports_pkg, self.domain_src)
+
+    def get_domain_out_ports_path(self) -> Path:
+        return pkg_to_path(self.domain_out_ports_pkg, self.domain_src)
+
+    def get_domain_commands_path(self) -> Path:
+        return pkg_to_path(self.domain_commands_pkg, self.domain_src)
 
     def get_db_models_path(self) -> Path:
         return pkg_to_path(self.db_models_pkg, self.db_adapter_src)

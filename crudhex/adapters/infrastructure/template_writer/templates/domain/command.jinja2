@@ -1,0 +1,18 @@
+package {{ package }};
+
+{# Fixed imports in the template #}
+import lombok.*;
+
+{{ imports }}
+
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class {{ class_type }} {
+
+{% filter indent(width=4) %}
+    {{ fields }}
+{%- endfilter -%}
+}

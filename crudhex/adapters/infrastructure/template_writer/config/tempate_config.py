@@ -15,6 +15,8 @@ FRAGMENTS_FOLDER = 'fragments'
 
 # DOMAIN TEMPLATES
 MODEL_TEMPLATE = 'model.jinja2'
+COMMAND_TEMPLATE = 'command.jinja2'
+DB_PORT_TEMPLATE = 'db_port.jinja2'
 
 # DOMAIN FRAGMENTS
 DOM_FIELD = 'field.jinja2'
