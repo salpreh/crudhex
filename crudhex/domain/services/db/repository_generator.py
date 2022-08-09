@@ -7,7 +7,7 @@ from ..config_context import get_config
 from ..type_resolver import get_type_resolver
 from . import entity_generator as entity_generator
 
-from crudhex.adapters.infrastructure.template_writer import db_code_writer
+from crudhex.domain.ports import db_code_writer
 
 DB_REPO_SUFFIX = 'Repository'
 

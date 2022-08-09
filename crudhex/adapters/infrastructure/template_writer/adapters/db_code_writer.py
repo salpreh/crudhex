@@ -2,9 +2,9 @@ from pathlib import Path
 from typing import Dict, List, Optional, Union
 
 from crudhex.domain.models import RelationType
-from .config import template_config
-from .config.template_config import get_db_file_path
-from .services.template_env import get_template_environment
+from crudhex.adapters.infrastructure.template_writer.config import template_config
+from crudhex.adapters.infrastructure.template_writer.config.template_config import get_db_file_path
+from crudhex.adapters.infrastructure.template_writer.services.template_env import get_template_environment
 
 
 def create_entity(dest: Path, class_type: str, package: str,

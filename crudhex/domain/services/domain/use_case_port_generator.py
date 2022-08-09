@@ -7,8 +7,7 @@ from ..config_context import get_config
 from . import command_generator
 from . import model_generator
 
-from crudhex.adapters.infrastructure.template_writer import domain_code_writer
-
+from crudhex.domain.ports import domain_code_writer
 
 _PORT_PREFIX = 'UseCasePort'
 

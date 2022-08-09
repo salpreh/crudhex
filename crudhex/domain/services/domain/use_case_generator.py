@@ -2,15 +2,14 @@ from pathlib import Path
 from typing import List
 
 from crudhex.domain.models import Entity
-from crudhex.domain.utils.class_type_utils import get_field_imports, get_import
+from crudhex.domain.utils.class_type_utils import get_import
 from ..config_context import get_config
 from . import command_generator
 from . import model_generator
 from . import use_case_port_generator
 from . import db_port_generator
 
-from crudhex.adapters.infrastructure.template_writer import domain_code_writer
-
+from crudhex.domain.ports import domain_code_writer
 
 _PORT_PREFIX = 'UseCase'
 

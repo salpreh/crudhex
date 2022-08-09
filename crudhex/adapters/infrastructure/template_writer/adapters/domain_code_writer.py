@@ -1,9 +1,9 @@
 from pathlib import Path
 from typing import List, Dict, Optional
 
-from .services.template_env import get_template_environment
-from .config import template_config
-from .config.template_config import get_domain_file_path
+from crudhex.adapters.infrastructure.template_writer.services.template_env import get_template_environment
+from crudhex.adapters.infrastructure.template_writer.config import template_config
+from crudhex.adapters.infrastructure.template_writer.config.template_config import get_domain_file_path
 
 
 def create_command(dest: Path, class_type: str, package: str,
