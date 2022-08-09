@@ -47,17 +47,20 @@ def generate(
 
         generate_task = progress.add_task('Generate classes', total=100)
         for entity in entities:
-            out_path = db_adapter_generator.create_entity_class(entity)
-            progress.console.print(f'Entity: {out_path}', style='cyan')
-
-            out_path = db_adapter_generator.create_repository_class(entity)
-            progress.console.print(f'Repository: {out_path}', style='cyan')
-
             out_path = domain_generator.create_model_class(entity)
             progress.console.print(f'Domain model: {out_path}', style='bright_blue')
 
             out_path = domain_generator.create_command_class(entity, entities_map)
             progress.console.print(f'Domain command: {out_path}', style='bright_blue')
+
+            out_path = domain_generator.create_db_port_class(entity)
+            progress.console.print(f'DB port: {out_path}', style='bright_blue')
+
+            out_path = db_adapter_generator.create_entity_class(entity)
+            progress.console.print(f'Entity: {out_path}', style='cyan')
+
+            out_path = db_adapter_generator.create_repository_class(entity)
+            progress.console.print(f'Repository: {out_path}', style='cyan')
 
             progress.update(generate_task, advance=100/len(entities))
             progress.console.print('\n')
