@@ -6,14 +6,28 @@ from .config import tempate_config
 from .config.tempate_config import get_domain_file_path
 
 
+def create_command(dest: Path, class_type: str, package: str,
+                   imports: List[str], fields: List[Dict[str, str]]):
+
+    _create_data_class(tempate_config.COMMAND_TEMPLATE, dest, class_type,
+                       package, imports, fields)
+
+
 def create_model(dest: Path, class_type: str, package: str,
                  imports: List[str], fields: List[Dict[str, str]]):
+
+    _create_data_class(tempate_config.MODEL_TEMPLATE, dest, class_type,
+                       package, imports, fields)
+
+
+def _create_data_class(template: str, dest: Path, class_type: str, package: str,
+                       imports: List[str], fields: List[Dict[str, str]]):
 
     template_env = get_template_environment()
 
     fields_fragment = _generate_fields_fragment(fields)
 
-    model_template = template_env.get_template(get_domain_file_path(tempate_config.MODEL_TEMPLATE))
+    model_template = template_env.get_template(get_domain_file_path(template))
     model_code = model_template.render({
         'package': package,
         'imports': '\n'.join(imports),
