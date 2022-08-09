@@ -30,6 +30,7 @@ class ProjectConfig:
         self.domain_commands_pkg = ''
         self.domain_in_ports_pkg = ''
         self.domain_out_ports_pkg = ''
+        self.domain_use_cases_pkg = ''
 
         self.db_models_pkg = ''
         self.db_repositories_pkg = ''
@@ -48,14 +49,17 @@ class ProjectConfig:
     def get_domain_models_path(self) -> Path:
         return pkg_to_path(self.domain_models_pkg, self.domain_src)
 
+    def get_domain_commands_path(self) -> Path:
+        return pkg_to_path(self.domain_commands_pkg, self.domain_src)
+
     def get_domain_in_ports_path(self) -> Path:
         return pkg_to_path(self.domain_in_ports_pkg, self.domain_src)
 
     def get_domain_out_ports_path(self) -> Path:
         return pkg_to_path(self.domain_out_ports_pkg, self.domain_src)
 
-    def get_domain_commands_path(self) -> Path:
-        return pkg_to_path(self.domain_commands_pkg, self.domain_src)
+    def get_domain_use_cases_path(self) -> Path:
+        return pkg_to_path(self.domain_use_cases_pkg, self.domain_src)
 
     def get_db_models_path(self) -> Path:
         return pkg_to_path(self.db_models_pkg, self.db_adapter_src)
