@@ -1,5 +1,4 @@
 from pathlib import Path
-from time import sleep
 from typing import Optional
 
 import typer
@@ -57,17 +56,17 @@ def generate(
             progress.console.print(f'DB port: {out_path}', style='bright_blue')
 
             out_path = db_adapter_generator.create_entity_class(entity)
-            progress.console.print(f'Entity: {out_path}', style='cyan')
+            progress.console.print(f'Entity: {out_path}', style='bright_cyan')
 
             out_path = db_adapter_generator.create_repository_class(entity)
-            progress.console.print(f'Repository: {out_path}', style='cyan')
+            progress.console.print(f'Repository: {out_path}', style='bright_cyan')
 
             progress.update(generate_task, advance=100/len(entities))
             progress.console.print('\n')
 
         progress.update(generate_task, advance=100)
 
-    out_console.print('\nAll entities generated', style='success')
+    out_console.print('\n-- All classes generated --\n', style='finished')
 
 
 def _setup():
@@ -75,6 +74,7 @@ def _setup():
         "notify": "cyan",
         "info": "dim cyan",
         "success": "green",
+        "finished": "black on green",
         "warning": "yellow",
         "error": "red",
         "critical": "bold red"
