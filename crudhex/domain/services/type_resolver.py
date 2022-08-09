@@ -22,6 +22,7 @@ class TypeResolver:
     GENERIC_TEMPLATE = '{}<{}>'
 
     _TYPE_DATA = {
+        # Java
         'Collection': 'java.util.Collection',
         'List': 'java.util.List',
         'ArrayList': 'java.util.ArrayList',
@@ -41,6 +42,10 @@ class TypeResolver:
         'Boolean': 'java.lang.Boolean',
         'BigDecimal': 'java.math.BigDecimal',
         'BigInteger': 'java.math.BigInteger',
+        # Spring data
+        'Page': 'org.springframework.data.domain.Page',
+        'Pageable': 'org.springframework.data.domain.Pageable',
+
     }
 
     _COLLECTION_INTERFACES = [

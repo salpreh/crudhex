@@ -3,7 +3,7 @@ from typing import List
 
 from crudhex.domain.models import Field
 from crudhex.domain.services.type_resolver import get_type_resolver
-from crudhex.domain.utils.package_utils import generate_import
+from crudhex.domain.utils.package_utils import generate_import, full_class_name
 
 
 def get_field_imports(field: Field) -> List[str]:
@@ -13,6 +13,12 @@ def get_field_imports(field: Field) -> List[str]:
     class_types = type_resolver.get_field_types_full_class(field)
 
     return [generate_import(ct) for ct in class_types]
+
+
+def get_import(package: str, class_type: str) -> str:
+    full_class = full_class_name(package, class_type)
+
+    return generate_import(full_class)
 
 
 def get_field_types(field: Field) -> 'FieldTypes':
