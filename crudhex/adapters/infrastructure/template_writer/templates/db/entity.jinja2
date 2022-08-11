@@ -19,7 +19,7 @@ public class {{ class_type }} {
     {{ fields }}
 {% endfilter %}
 {% filter indent(width=4) %}
-{{ collection_methods }}
+{{ methods }}
 {% endfilter %}
 
     @Override
@@ -31,7 +31,7 @@ public class {{ class_type }} {
         return false;
 
     return {{ id_field }} != null &&
-        {{ id_field }}.equals((({{ class_type }}) o).get{{ id_field|capitalize }}());
+        {{ id_field }}.equals((({{ class_type }}) o).get{{ id_field|firstupper }}());
     }
 
     @Override
