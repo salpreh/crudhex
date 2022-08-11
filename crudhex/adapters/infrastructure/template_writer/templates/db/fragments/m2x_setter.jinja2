@@ -1,0 +1,15 @@
+{% set remove_method = 'remove' + (field_sing|firstupper) %}
+{% set add_method = 'add' + (field_sing|firstupper) %}
+
+public void set{{ field|firstupper }}({{ collection_type }}<{{ class_type }}> {{ field }}) {
+    this.{{ field }}.clear();
+    this.{{ field }}.addAll({{ field }});
+}
+
+public void add{{ field_sing|firstupper }}({{ class_type }} {{ field_sing }}) {
+    {{ field }}.add({{ field_sing }});
+}
+
+public void remove{{ field_sing|firstupper }}({{ class_type }} {{ field_sing }}) {
+    {{ field }}.remove({{ field_sing }});
+}
