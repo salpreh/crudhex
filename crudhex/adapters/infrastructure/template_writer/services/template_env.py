@@ -15,11 +15,18 @@ def get_template_environment():
                                 trim_blocks=True, lstrip_blocks=True)
 
     _TEMPLATE_ENV.filters['firstlower'] = _first_lower_filter
+    _TEMPLATE_ENV.filters['firstupper'] = _first_upper_filter
 
     return _TEMPLATE_ENV
 
 
-def _first_lower_filter(value: str):
+def _first_lower_filter(value: str) -> str:
     if not value or len(value) == 0: return value
 
     return value[0].lower() + value[1:]
+
+
+def _first_upper_filter(value: str) -> str:
+    if not value or len(value) == 0: return value
+
+    return value[0].upper() + value[1:]

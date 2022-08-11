@@ -5,6 +5,7 @@ from crudhex.domain.models import RelationType
 from crudhex.adapters.infrastructure.template_writer.config import template_config
 from crudhex.adapters.infrastructure.template_writer.config.template_config import get_db_file_path
 from crudhex.adapters.infrastructure.template_writer.services.template_env import get_template_environment
+from crudhex.adapters.infrastructure.template_writer.services.inflect_engine import get_inflect_engine
 
 
 def create_entity(dest: Path, class_type: str, package: str,
@@ -16,7 +17,7 @@ def create_entity(dest: Path, class_type: str, package: str,
     if not id_field: raise RuntimeError('Id field is mandatory for db entity generation')
 
     fields_fragment = _generate_fields_fragment(fields)
-    # TODO: Inverted relation sync accessors
+    setters_fragment = _generate_fields_relation_setters(fields)
 
     entity_template = template_env.get_template(get_db_file_path(template_config.DB_ENTITY_TEMPLATE))
     entity_code = entity_template.render({
@@ -24,7 +25,7 @@ def create_entity(dest: Path, class_type: str, package: str,
         'imports': '\n'.join(imports),
         'class_type': class_type,
         'fields': fields_fragment,
-        'collection_methods': '',  # TODO
+        'methods': setters_fragment,
         'id_field': id_field['name'],
         **meta
     })
@@ -74,6 +75,27 @@ def _generate_fields_fragment(fields: List[Dict[str, Union[str, RelationType]]])
             field_fragments.append(template.render(field))
 
     return '\n\n'.join(field_fragments)
+
+
+def _generate_fields_relation_setters(fields: List[Dict[str, Union[RelationType, str]]]) -> str:
+    template_env = get_template_environment()
+
+    templates = {}
+    setter_fragments = []
+    for field in fields:
+        if not field['relationship']: continue  # Sync setters only for relations
+
+        template_name = template_config.get_sync_relation_template(field['relationship'], field['mapped_by'] is None)
+        if not template_name: continue
+
+        template = templates.setdefault(template_name, template_env.get_template(get_db_file_path(template_name)))
+        params = {**field, 'field': field['name']}
+        if field['relationship'].has_multiple():
+            params['field_sing'] = get_inflect_engine().singular_noun(field['name'])
+
+        setter_fragments.append(template.render(params))
+
+    return '\n\n'.join(setter_fragments)
 
 
 def _get_id_field(fields: List[Dict[str, str]]) -> Optional[Dict[str, str]]:

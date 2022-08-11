@@ -1,0 +1,6 @@
+public void set{{ field|firstupper }}({{ class_type }} {{ field }}) {
+    if (this.{{ field }} != null) this.{{ field }}.set{{ mapped_by|firstupper }}(null);
+    if ({{ field }} != null) {{ field }}.set{{ mapped_by|firstupper }}(this);
+
+    this.{{ field }} = {{ field }};
+}

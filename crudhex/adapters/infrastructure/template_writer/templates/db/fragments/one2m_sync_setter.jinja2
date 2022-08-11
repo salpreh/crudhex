@@ -1,0 +1,17 @@
+{% set remove_method = 'remove' + (field_sing|firstupper) %}
+{% set add_method = 'add' + (field_sing|firstupper) %}
+
+public void set{{ field|firstupper }}({{ collection_type }}<{{ class_type }}> {{ field }}) {
+    this.{{ field }}.forEach(this::{{ remove_method }});
+    if ({{ field }} != null) {{ field }}.forEach(this::{{ add_method }});
+}
+
+public void {{ add_method }}({{ class_type }} {{ field_sing }}) {
+    {{ field_sing }}.set{{ mapped_by|firstupper }}(this);
+    {{ field }}.add({{ field_sing }});
+}
+
+public void {{ remove_method }}({{ class_type }} {{ field_sing }}) {
+    {{ field_sing }}.set{{ mapped_by|firstupper }}(null);
+    {{ field }}.remove({{ field_sing }});
+}

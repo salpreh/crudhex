@@ -61,7 +61,7 @@ Faction:
       type: one-to-many
       mapped-by: affiliation
   affiliatedPersons:
-    type: Planet
+    type: Person
     relation:
-      type: one-to-many
+      type: many-to-many
       mapped-by: affiliations
