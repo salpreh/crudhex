@@ -1,0 +1,29 @@
+private {{ entity_type }} processCommand({{ update_command_type }} command, {{ entity_type }} entity) {
+    BeanUtils.copyProperties(command, entity);
+
+    {% for cmd_relation in command_relations %}
+        {% set getter = 'get' + (cmd_relation.name|firstupper) %}
+        {% set setter = 'set' + (cmd_relation.name|firstupper) %}
+        {% set repository_var = cmd_relation.repository_type|firstlower %}
+
+    {%- if cmd_relation.is_collection %}
+    if (command.{{ getter }}() != null) {
+      {{ cmd_relation.collection_type }}<{{ cmd_relation.entity_type }}> {{ cmd_relation.name }} = command.{{ getter }}().stream()
+        .map(id -> {{ repository_var }}.findById(id).orElseThrow(() -> new RuntimeException("Unable to find {{ cmd_relation.name }}")))
+        .collect(Collectors.to{{ cmd_relation.collection_type }}());
+
+      entity.{{ setter }}({{ cmd_relation.name }});
+    }
+
+    {% else %}
+    {{ cmd_relation.entity_type }} {{ cmd_relation.name }} = null;
+    if (command.{{ getter }}() != null) {
+    {{ cmd_relation.name }} = {{ repository_var }}.findById(command.{{ getter }}())
+        .orElseThrow(() -> new RuntimeException("Unable to find {{ cmd_relation.name }} with ID " + command.{{ getter }}()));
+    }
+    entity.{{ setter }}({{ cmd_relation.name }});
+
+    {% endif %}
+    {% endfor %}
+    return entity;
+}
