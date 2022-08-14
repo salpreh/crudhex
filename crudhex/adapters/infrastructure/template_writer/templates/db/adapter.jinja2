@@ -15,7 +15,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class {{ class_type }} implements {{ class_type_interface }} {
 
-    {% set main_repository_var = main_repository_type|firstlower %}
+    {%- set main_repository_var = main_repository_type|firstlower %}
+
 
     private final {{ main_repository_type }} {{ main_repository_var }};
     {# Additional repos #}

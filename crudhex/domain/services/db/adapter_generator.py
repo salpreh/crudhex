@@ -68,7 +68,6 @@ def _get_adapter_imports(entity: Entity, entities_map: Dict[str, Entity]) -> Lis
     # Getting updated relations classes (entity and repository)
     for field in _get_command_relation_fields(entity):
         related_entity = entities_map.get(field.type.class_type)
-        print('Related entity -> type ({}) / val ({})'.format(field.type.class_type, related_entity))
         if not related_entity: continue
 
         imports.update([

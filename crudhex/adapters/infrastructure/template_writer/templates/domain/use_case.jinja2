@@ -14,7 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class {{ class_type }} implements {{ class_type_interface }} {
 
-    {% set db_port_var = db_port_type|firstlower %}
+    {%- set db_port_var = db_port_type|firstlower %}
+
 
     private final {{ db_port_type }} {{ db_port_var }};
 
