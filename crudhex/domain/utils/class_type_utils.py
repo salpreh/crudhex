@@ -17,7 +17,7 @@ def get_field_imports(field: Field) -> List[str]:
 
 
 def get_type_import(class_type: ClassType) -> str:
-    return generate_import(class_type.get_qualified_class_type())
+    return generate_import(class_type.get_full_class_type())
 
 
 def get_import(package: str, class_type: str) -> str:

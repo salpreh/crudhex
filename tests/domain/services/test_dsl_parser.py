@@ -116,7 +116,7 @@ def _assert_id_field(field: Field, generation: GenerationType, sequence: Optiona
 
 def _assert_field(field: Field, name: str, class_type: str):
     assert field.name == name
-    assert field.type.get_qualified_class_type() == class_type
+    assert field.type.get_full_class_type() == class_type
 
 
 def _assert_field_relation_12m(field: Field, join_column: Optional[str] = None):

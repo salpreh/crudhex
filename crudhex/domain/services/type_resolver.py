@@ -80,7 +80,7 @@ class TypeResolver:
     def get_field_types_full_class(self, field: Field, filter_native: bool = False) -> List[str]:
         if filter_native and field.type.is_native(): return []
 
-        field_types = [field.type.get_qualified_class_type()]
+        field_types = [field.type.get_full_class_type()]
         if not field.type.is_collection():
             return field_types
 

@@ -84,7 +84,7 @@ class ClassType:
         self.collection_type = None
         self.is_generated = is_generated
 
-    def get_qualified_class_type(self) -> str:
+    def get_full_class_type(self) -> str:
         return full_class_name(self.package, self.class_type)
 
     def is_native(self) -> bool:
