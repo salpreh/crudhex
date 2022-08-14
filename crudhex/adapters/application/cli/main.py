@@ -68,6 +68,9 @@ def generate(
             out_path = db_adapter_generator.create_repository_class(entity)
             progress.console.print(f'Repository: {out_path}', style='bright_cyan')
 
+            out_path = db_adapter_generator.create_adapter_class(entity, entities_map)
+            progress.console.print(f'DB adapter: {out_path}', style='bright_cyan')
+
             progress.update(generate_task, advance=100/len(entities))
             progress.console.print('')
 
