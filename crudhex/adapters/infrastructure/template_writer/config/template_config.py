@@ -27,6 +27,7 @@ DOM_FIELD = 'field.jinja2'
 # DB TEMPLATES
 DB_ENTITY_TEMPLATE = 'entity.jinja2'
 DB_REPOSITORY_TEMPLATE = 'repository.jinja2'
+DB_ADAPTER_TEMPLATE = 'adapter.jinja2'
 
 # DB FRAGMENTS
 FIELD = 'field.jinja2'
@@ -41,6 +42,7 @@ M2M_SYNC_SETTER = 'm2m_sync_setter.jinja2'
 ONE2M_SYNC_SETTER = 'one2m_sync_setter.jinja2'
 ONE2ONE_SYNC_SETTER = 'one2one_sync_setter.jinja2'
 M2X_SETTER = 'm2x_setter.jinja2'
+PROCESS_COMMAND = 'process_command.jinja2'
 
 _FRAGMENTS = [
     FIELD,
@@ -55,7 +57,8 @@ _FRAGMENTS = [
     M2M_SYNC_SETTER,
     ONE2M_SYNC_SETTER,
     ONE2ONE_SYNC_SETTER,
-    M2X_SETTER
+    M2X_SETTER,
+    PROCESS_COMMAND
 ]
 
 RelationTemplate = namedtuple('RelationTemplate', 'main inverse')

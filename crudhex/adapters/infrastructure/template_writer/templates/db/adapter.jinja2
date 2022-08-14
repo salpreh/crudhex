@@ -1,0 +1,72 @@
+package {{ package }};
+
+{# Fixed template imports #}
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+{{ imports }}
+
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class {{ class_type }} implements {{ class_type_interface }} {
+
+    {%- set main_repository_var = main_repository_type|firstlower %}
+
+
+    private final {{ main_repository_type }} {{ main_repository_var }};
+    {# Additional repos #}
+    {% for repository in additional_repositories %}
+    private final {{ repository }} {{ repository|firstlower }};
+    {% endfor %}
+
+    {% if mapper_type %}
+    private final {{ mapper_type }} mapper;
+    {% else %}
+    private final Mapper mapper; // TODO: Replace by real project mapper
+    {% endif %}
+
+    @Override
+    public Optional<{{ model_type }}> findById({{ id_type }} id) {
+        return {{ main_repository_var }}.findById(id)
+            .map(mapper::map);
+    }
+
+    @Override
+    public Page<{{ model_type }}> findAll(Pageable pageable) {
+        return {{ main_repository_var }}.findAll(pageable)
+            .map(mapper::map);
+    }
+
+    @Override
+    public {{ model_type }} create({{ create_command_type }} createCommand) {
+        {{ entity_type }} entity = {{ entity_type }}.builder().build();
+        entity = processCommand(createCommand, entity);
+
+        return mapper.map({{ main_repository_var }}.save(entity));
+    }
+
+    @Override
+    public {{ model_type }} update({{ id_type }} id, {{ update_command_type }} updateCommand)
+        {{ entity_type }} entity = {{ main_repository_var }}.findById(id)
+            .orElseThrow(() -> new RuntimeException("Unable to find {{ entity_type }} with ID " + id));
+
+        processCommand(updateCommand, entity);
+
+        return mapper.map({{ main_repository_var }}.save(entity));
+    }
+
+    @Override
+    public void delete({{ id_type }} id) {
+        {{ main_repository_var }}.deleteById(id);
+    }
+
+    {% filter indent(width=4) %}
+    {{ process_command }}
+    {% endfilter %}
+
+}

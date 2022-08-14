@@ -30,6 +30,10 @@ def get_command_type_name(entity: Entity) -> str:
     return f'{entity.name}{_COMMAND_SUFFIX}'
 
 
+def get_command_used_fields(entity: Entity) -> List[Field]:
+    return [f for f in entity.fields if _is_used_field(f)]
+
+
 def _get_command_imports(entity: Entity) -> List[str]:
     imports = []
     for field in entity.fields:

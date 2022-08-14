@@ -52,6 +52,41 @@ def create_entity_repository(dest: Path, class_type: str, package: str,
         f.write(repository_code)
 
 
+def create_adapter(dest: Path, class_type: str, package: str, class_type_interface: str,
+                   imports: List[str], model_type: str, entity_type: str, id_type: str,
+                   repository_type: str, create_command_type: str, update_command_type: str,
+                   relations_data: List[Dict[str, str]], mapper_type: Optional[str] = None):
+
+    template_env = get_template_environment()
+
+    process_cmd_template = template_env.get_template(get_db_file_path(template_config.PROCESS_COMMAND))
+    process_cmd_code = process_cmd_template.render({
+        'entity_type': entity_type,
+        'update_command_type': update_command_type,
+        'command_relations': relations_data
+    })
+
+    adapter_template = template_env.get_template(get_db_file_path(template_config.DB_ADAPTER_TEMPLATE))
+    adapter_code = adapter_template.render({
+        'package': package,
+        'imports': '\n'.join(imports),
+        'class_type': class_type,
+        'class_type_interface': class_type_interface,
+        'main_repository_type': repository_type,
+        'additional_repositories': _get_additional_repositories(relations_data, repository_type),
+        'mapper_type': mapper_type,
+        'model_type': model_type,
+        'entity_type': entity_type,
+        'id_type': id_type,
+        'create_command_type': create_command_type,
+        'update_command_type': update_command_type,
+        'process_command': process_cmd_code
+    })
+
+    with open(dest.resolve(), 'w+', encoding='utf-8') as f:
+        f.write(adapter_code)
+
+
 def _generate_fields_fragment(fields: List[Dict[str, Union[str, RelationType]]]) -> str:
     template_env = get_template_environment()
 
@@ -106,3 +141,8 @@ def _get_id_field(fields: List[Dict[str, str]]) -> Optional[Dict[str, str]]:
             break
 
     return id_field
+
+
+def _get_additional_repositories(relations_data: List[Dict[str, str]], main_repository: str) -> List[str]:
+    return [rd.get('repository_type') for rd in relations_data
+            if rd.get('repository_type') and rd.get('repository_type') != main_repository]
