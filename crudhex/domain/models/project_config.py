@@ -17,6 +17,8 @@ class ProjectConfig:
 
     db_models_pkg: str
     db_repositories_pkg: str
+    db_adapters_pkg: str
+    db_mapper_class: Optional[str]
 
     rest_models_pkg: str
 
@@ -34,6 +36,8 @@ class ProjectConfig:
 
         self.db_models_pkg = ''
         self.db_repositories_pkg = ''
+        self.db_adapters_pkg = ''
+        self.db_mapper_class = None
 
         self.rest_models_pkg = ''
 
@@ -66,6 +70,9 @@ class ProjectConfig:
 
     def get_db_repositories_path(self) -> Path:
         return pkg_to_path(self.db_repositories_pkg, self.db_adapter_src)
+
+    def get_db_adapters_path(self) -> Path:
+        return pkg_to_path(self.db_adapters_pkg, self.db_adapter_src)
 
     def get_rest_models_path(self) -> Path:
         return pkg_to_path(self.rest_models_pkg, self.rest_adapter_src)
@@ -110,15 +117,3 @@ class ProjectConfig:
             p_config[key.replace('-', '_')] = val
 
         return p_config
-
-
-class ConfigKeys:
-    SOURCE = 'src'
-    DOMAIN_SOURCE = 'domain-src'
-    DB_SOURCE = 'db-adapter-src'
-    REST_SOURCE = 'rest-adapter-src'
-
-    DOMAIN_MODELS_PKG = 'domain-models-pkg'
-    DB_MODELS_PKG = 'db-models-pkg'
-    DB_REPOSITORIES_PKG = 'db-repositories-pkg'
-    REST_MODELS_PKG = 'rest-models-pkg'
