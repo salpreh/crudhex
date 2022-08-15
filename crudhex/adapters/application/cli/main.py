@@ -6,7 +6,7 @@ from rich.console import Console
 from rich.theme import Theme
 from rich.progress import Progress
 
-from crudhex.domain.services import dsl_parser, config_context, db_adapter_generator, domain_generator
+from crudhex.domain.services import dsl_parser, config_context, db_adapter_generator, domain_generator, rest_generator
 
 
 _CONF_HELP = f'Project config file to know packages and code paths. defaults to {config_context.DEFAULT_CONFIG}'
@@ -70,6 +70,9 @@ def generate(
 
             out_path = db_adapter_generator.create_adapter_class(entity, entities_map)
             progress.console.print(f'DB adapter: {out_path}', style='bright_cyan')
+
+            out_path = rest_generator.create_model_class(entity)
+            progress.console.print(f'Controller: {out_path}', style='bright_yellow')
 
             progress.update(generate_task, advance=100/len(entities))
             progress.console.print('')
