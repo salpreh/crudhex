@@ -15,9 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("{{ name|firstlower }}")
 public class {{ class_type }} {
 
-    {% set use_case_var = user_case_type|firstlower %}
-
-
+    {% set use_case_var = use_case_type|firstlower %}
     private final {{ use_case_type }} {{ use_case_var }};
 
     @GetMapping
@@ -45,7 +43,7 @@ public class {{ class_type }} {
     public ResponseEntity<Void> delete(@PathVariable {{ id_type }} id) {
         {{ use_case_var }}.delete(id);
 
-    return ResponseEntity.noContent()
-        .build();
+        return ResponseEntity.noContent()
+            .build();
     }
 }
