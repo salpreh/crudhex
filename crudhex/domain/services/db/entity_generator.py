@@ -7,7 +7,7 @@ from ..config_context import get_config
 
 from crudhex.domain.ports import db_code_writer
 
-DB_ENTITY_SUFFIX = 'Entity'
+_DB_ENTITY_SUFFIX = 'Entity'
 
 
 def create_entity_class(entity: Entity, folder: Path) -> Path:
@@ -29,7 +29,7 @@ def get_package() -> str:
 
 
 def get_entity_type_name(entity: Entity) -> str:
-    return f'{entity.name}{DB_ENTITY_SUFFIX}'
+    return f'{entity.name}{_DB_ENTITY_SUFFIX}'
 
 
 def _get_entity_meta(entity: Entity) -> Dict[str, str]:
