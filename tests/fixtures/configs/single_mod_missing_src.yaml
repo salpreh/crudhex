@@ -1,0 +1,14 @@
+domain-models-pkg: com.salpreh.baseapi.domain.models # domain models package
+domain-commands-pkg: com.salpreh.baseapi.domain.models.commands # domain commands package
+domain-in-ports-pkg: com.salpreh.baseapi.domain.ports.application # domain ports (in/driving/application)
+domain-out-ports-pkg: com.salpreh.baseapi.domain.ports.infrastructure # domain ports (out/driven/infrastructure)
+domain-use-cases-pkg: com.salpreh.baseapi.domain.services
+
+db-adapters-pkg: com.salpreh.baseapi.db.adapters # db adapters (port implementations)
+db-models-pkg: com.salpreh.baseapi.db.models # db entities package
+db-repositories-pkg: com.salpreh.baseapi.db.repositories # db repositories package
+
+db-mapper-class: com.salpreh.baseapi.db.mappers.DbMapper # mapper class to map db adapter entities to domain models (optional)
+
+rest-models-pkg: com.salpreh.baseapi.rest.models # rest models package
+rest-controllers-pkg: com.salpreh.baseapi.api.controllers # rest controllers package
