@@ -12,10 +12,10 @@ from crudhex.domain.ports import rest_code_writer
 _CONTROLLER_SUFFIX = 'Controller'
 
 
-def create_controller_class(entity: Entity, folder: Optional[Path] = None) -> Path:
+def create_class(entity: Entity, folder: Optional[Path] = None) -> Path:
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
-    class_type = get_controller_type_name(entity)
+    class_type = get_type_name(entity)
     controller_file = folder / get_java_filename(class_type)
 
     model_type = model_generator.get_type_name(entity)
@@ -32,7 +32,7 @@ def create_controller_class(entity: Entity, folder: Optional[Path] = None) -> Pa
     return controller_file
 
 
-def get_controller_type_name(entity: Entity) -> str:
+def get_type_name(entity: Entity) -> str:
     return f'{entity.name}{_CONTROLLER_SUFFIX}'
 
 
@@ -41,7 +41,7 @@ def get_package() -> str:
 
 
 def get_filename(entity: Entity) -> str:
-    return get_java_filename(get_controller_type_name(entity))
+    return get_java_filename(get_type_name(entity))
 
 
 def _get_imports(entity: Entity) -> List[str]:

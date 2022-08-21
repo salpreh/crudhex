@@ -3,6 +3,7 @@ from typing import Dict, List
 
 from crudhex.domain.models import Entity, Field
 from crudhex.domain.utils.class_type_utils import get_field_imports, get_field_types
+from crudhex.domain.utils.file_utils import get_java_filename
 from ..config_context import get_config
 
 from crudhex.domain.ports import db_code_writer
@@ -10,15 +11,15 @@ from crudhex.domain.ports import db_code_writer
 _DB_ENTITY_SUFFIX = 'Entity'
 
 
-def create_entity_class(entity: Entity, folder: Path) -> Path:
+def create_class(entity: Entity, folder: Path) -> Path:
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
-    class_type = get_entity_type_name(entity)
-    entity_file = folder / f'{class_type}.java'
+    class_type = get_type_name(entity)
+    entity_file = folder / get_java_filename(class_type)
 
     db_code_writer.create_entity(
         entity_file, class_type, get_package(),
-        _get_entity_imports(entity), _get_entity_meta(entity), _get_entity_fields_data(entity)
+        _get_imports(entity), _get_entity_meta(entity), _get_entity_fields_data(entity)
     )
 
     return entity_file
@@ -28,8 +29,20 @@ def get_package() -> str:
     return get_config().db_models_pkg
 
 
-def get_entity_type_name(entity: Entity) -> str:
+def get_type_name(entity: Entity) -> str:
     return f'{entity.name}{_DB_ENTITY_SUFFIX}'
+
+
+def get_filename(entity: Entity) -> str:
+    return get_java_filename(get_type_name(entity))
+
+
+def _get_imports(entity: Entity) -> List[str]:
+    imports = []
+    for field in entity.fields:
+        imports += get_field_imports(field)
+
+    return imports
 
 
 def _get_entity_meta(entity: Entity) -> Dict[str, str]:
@@ -38,14 +51,6 @@ def _get_entity_meta(entity: Entity) -> Dict[str, str]:
         meta = Entity.Meta.default(entity.name)
 
     return meta.to_dict()
-
-
-def _get_entity_imports(entity: Entity) -> List[str]:
-    imports = []
-    for field in entity.fields:
-        imports += get_field_imports(field)
-
-    return imports
 
 
 def _get_entity_fields_data(entity: Entity) -> List[Dict[str, str]]:
