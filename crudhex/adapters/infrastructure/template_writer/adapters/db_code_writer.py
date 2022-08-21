@@ -126,7 +126,8 @@ def _generate_fields_relation_setters(fields: List[Dict[str, Union[RelationType,
         template = templates.setdefault(template_name, template_env.get_template(get_db_file_path(template_name)))
         params = {**field, 'field': field['name']}
         if field['relationship'].has_multiple():
-            params['field_sing'] = get_inflect_engine().singular_noun(field['name'])
+            field_sing = get_inflect_engine().singular_noun(field['name'])
+            params['field_sing'] = field_sing if field_sing else field['name']
 
         setter_fragments.append(template.render(params))
 
