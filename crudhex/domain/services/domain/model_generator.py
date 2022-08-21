@@ -34,13 +34,13 @@ def get_filename(entity: Entity) -> str:
 
 
 def _get_imports(entity: Entity) -> List[str]:
-    imports = []
+    imports = set()
     for field in entity.fields:
         # Exclude non owning relation side getters to avoid loops in serialization
         if not _is_used_field(field): continue
-        imports += get_field_imports(field)
+        imports.update(set(get_field_imports(field)))
 
-    return imports
+    return list(imports)
 
 
 def _get_model_fields_data(entity: Entity) -> List[Dict[str, str]]:

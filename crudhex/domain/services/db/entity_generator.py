@@ -38,11 +38,11 @@ def get_filename(entity: Entity) -> str:
 
 
 def _get_imports(entity: Entity) -> List[str]:
-    imports = []
+    imports = set()
     for field in entity.fields:
-        imports += get_field_imports(field)
+        imports.update(set(get_field_imports(field)))
 
-    return imports
+    return list(imports)
 
 
 def _get_entity_type_name(class_type: str) -> str:

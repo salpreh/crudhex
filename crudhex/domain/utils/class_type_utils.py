@@ -9,7 +9,7 @@ from crudhex.domain.utils.package_utils import generate_import, full_class_name
 
 def get_field_imports(field: Field) -> List[str]:
     type_resolver = get_type_resolver()
-    if field.type.is_native() or field.type.is_generated: return []
+    if field.type.is_native(): return []
 
     class_types = type_resolver.get_field_types_full_class(field)
 

@@ -77,10 +77,13 @@ class TypeResolver:
     def add_additional_types(self, types: Dict[str, str]):
         self.type_data.update(**types)
 
-    def get_field_types_full_class(self, field: Field, filter_native: bool = False) -> List[str]:
+    def get_field_types_full_class(self, field: Field, filter_native: bool = False, filter_generated: bool = True) -> List[str]:
         if filter_native and field.type.is_native(): return []
 
-        field_types = [field.type.get_full_class_type()]
+        field_types = []
+        if not field.type.is_generated or not filter_generated:
+            field_types.append(field.type.get_full_class_type())
+
         if not field.type.is_collection():
             return field_types
 

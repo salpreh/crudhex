@@ -40,12 +40,12 @@ def get_used_fields(entity: Entity) -> List[Field]:
 
 
 def _get_imports(entity: Entity) -> List[str]:
-    imports = []
+    imports = set()
     for field in entity.fields:
         if not _is_used_field(field): continue
-        imports += get_field_imports(field)
+        imports.update(set(get_field_imports(field)))
 
-    return imports
+    return list(imports)
 
 
 def _get_command_fields_data(entity: Entity, entities_map: Dict[str, Entity]) -> List[Dict[str, str]]:
