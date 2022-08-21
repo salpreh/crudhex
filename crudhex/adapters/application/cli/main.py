@@ -66,17 +66,17 @@ def generate(
             out_path = domain_generator.create_use_case_class(entity, force_override)
             _log_domain_generation('Use case', out_path, progress)
 
-            out_path = db_adapter_generator.create_entity_class(entity)
-            progress.console.print(f'Entity: {out_path}', style='bright_cyan')
+            out_path = db_adapter_generator.create_entity_class(entity, force_override)
+            _log_db_adapter_generation('Entity', out_path, progress)
 
-            out_path = db_adapter_generator.create_repository_class(entity)
-            progress.console.print(f'Repository: {out_path}', style='bright_cyan')
+            out_path = db_adapter_generator.create_repository_class(entity, force_override)
+            _log_db_adapter_generation('Repository', out_path, progress)
 
-            out_path = db_adapter_generator.create_adapter_class(entity, entities_map)
-            progress.console.print(f'DB adapter: {out_path}', style='bright_cyan')
+            out_path = db_adapter_generator.create_adapter_class(entity, entities_map, force_override)
+            _log_db_adapter_generation('DB adapter', out_path, progress)
 
-            out_path = rest_generator.create_model_class(entity)
-            progress.console.print(f'Controller: {out_path}', style='bright_yellow')
+            out_path = rest_generator.create_model_class(entity, force_override)
+            _log_rest_adapter_generation('Controller', out_path, progress)
 
             progress.update(generate_task, advance=100/len(entities))
             progress.console.print('')
@@ -121,9 +121,9 @@ def _log_generation(file_type: str, gen_output: Tuple[bool, Path], style: str, p
         console = progress.console
 
     if gen_output[0]:
-        console.print(f'{file_type}: {gen_output[1]}', style='bright_blue')
+        console.print(f'{file_type}: {gen_output[1]}', style=style)
     else:
-        console.print(f'{file_type}: [yellow]Skipped[/yellow]', style='bright_blue')
+        console.print(f'{file_type}: [yellow]Skipped[/yellow]', style=style)
 
 
 def _setup():
