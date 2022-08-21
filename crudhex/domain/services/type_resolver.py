@@ -82,7 +82,8 @@ class TypeResolver:
 
         field_types = []
         if not field.type.is_generated or not filter_generated:
-            field_types.append(field.type.get_full_class_type())
+            class_type = field.type.get_full_class_type()
+            field_types.append(self.resolve_type(class_type))
 
         if not field.type.is_collection():
             return field_types

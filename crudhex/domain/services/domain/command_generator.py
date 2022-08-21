@@ -18,7 +18,7 @@ def create_class(entity: Entity, entities_map: Dict[str, Entity], folder: Path) 
     model_file = folder / get_java_filename(class_type)
 
     domain_code_writer.create_command(model_file, get_type_name(entity), get_package(),
-                                      _get_imports(entity), _get_command_fields_data(entity, entities_map))
+                                      _get_imports(entity, entities_map), _get_command_fields_data(entity, entities_map))
 
     return model_file
 
@@ -39,10 +39,14 @@ def get_used_fields(entity: Entity) -> List[Field]:
     return [f for f in entity.fields if _is_used_field(f)]
 
 
-def _get_imports(entity: Entity) -> List[str]:
+def _get_imports(entity: Entity, entities_map: Dict[str, Entity]) -> List[str]:
     imports = set()
     for field in entity.fields:
         if not _is_used_field(field): continue
+        if field.has_relation():
+            related_entity = entities_map.get(field.type.class_type)
+            field = _get_relation_id_field_data(related_entity, field)
+
         imports.update(set(get_field_imports(field)))
 
     return list(imports)
