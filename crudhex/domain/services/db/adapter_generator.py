@@ -38,7 +38,7 @@ def create_class(entity: Entity, entities_map: Dict[str, Entity], folder: Path) 
 
 
 def get_package() -> str:
-    return get_config().domain_use_cases_pkg
+    return get_config().db_adapters_pkg
 
 
 def get_type_name(entity: Entity) -> str:
