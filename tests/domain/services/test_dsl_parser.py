@@ -1,7 +1,7 @@
 from typing import Optional
 
 from crudhex.domain.models import Field, GenerationType, RelationType
-from tests.utils.file_utils import load_fixture_file
+from tests.utils.file_utils import load_spec_fixture_file
 from crudhex.domain.services.dsl_parser import parse_spec_data
 
 
@@ -13,7 +13,7 @@ MULTIPLE_TYPES = 'multi_types.yaml'
 
 def test_single_type_parse():
     # given
-    spec_data = load_fixture_file(SINGLE_TYPE)
+    spec_data = load_spec_fixture_file(SINGLE_TYPE)
 
     # when
     entities = parse_spec_data(spec_data)
@@ -36,7 +36,7 @@ def test_single_type_parse():
 
 def test_id_full_spec_type_parse():
     # given
-    spec_data = load_fixture_file(ID_SPEC_TYPE)
+    spec_data = load_spec_fixture_file(ID_SPEC_TYPE)
 
     # when
     entities = parse_spec_data(spec_data)
@@ -54,7 +54,7 @@ def test_id_full_spec_type_parse():
 
 def test_with_relation_type_parse():
     # given
-    spec_data = load_fixture_file(WITH_RELATIONS_TYPE)
+    spec_data = load_spec_fixture_file(WITH_RELATIONS_TYPE)
 
     # when
     entities = parse_spec_data(spec_data)
@@ -81,7 +81,7 @@ def test_with_relation_type_parse():
 
 def test_multi_types_parse():
     # given
-    spec_data = load_fixture_file(MULTIPLE_TYPES)
+    spec_data = load_spec_fixture_file(MULTIPLE_TYPES)
 
     # when
     entities = parse_spec_data(spec_data)
