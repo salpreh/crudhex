@@ -3,6 +3,7 @@ from typing import List, Dict
 
 from crudhex.domain.models import Entity, Field
 from crudhex.domain.utils.class_type_utils import get_field_imports, get_field_types
+from crudhex.domain.utils.file_utils import get_java_filename
 from ..config_context import get_config
 
 from crudhex.domain.ports import domain_code_writer
@@ -10,14 +11,14 @@ from crudhex.domain.ports import domain_code_writer
 _COMMAND_SUFFIX = 'UpsertCommand'
 
 
-def create_command_class(entity: Entity, entities_map: Dict[str, Entity], folder: Path) -> Path:
+def create_class(entity: Entity, entities_map: Dict[str, Entity], folder: Path) -> Path:
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
-    class_type = get_command_type_name(entity)
-    model_file = folder / f'{class_type}.java'
+    class_type = get_type_name(entity)
+    model_file = folder / get_java_filename(class_type)
 
-    domain_code_writer.create_command(model_file, get_command_type_name(entity), get_package(),
-                                      _get_command_imports(entity), _get_command_fields_data(entity, entities_map))
+    domain_code_writer.create_command(model_file, get_type_name(entity), get_package(),
+                                      _get_imports(entity), _get_command_fields_data(entity, entities_map))
 
     return model_file
 
@@ -26,15 +27,19 @@ def get_package() -> str:
     return get_config().domain_commands_pkg
 
 
-def get_command_type_name(entity: Entity) -> str:
+def get_type_name(entity: Entity) -> str:
     return f'{entity.name}{_COMMAND_SUFFIX}'
 
 
-def get_command_used_fields(entity: Entity) -> List[Field]:
+def get_filename(entity: Entity) -> str:
+    return get_java_filename(get_type_name(entity))
+
+
+def get_used_fields(entity: Entity) -> List[Field]:
     return [f for f in entity.fields if _is_used_field(f)]
 
 
-def _get_command_imports(entity: Entity) -> List[str]:
+def _get_imports(entity: Entity) -> List[str]:
     imports = []
     for field in entity.fields:
         if not _is_used_field(field): continue

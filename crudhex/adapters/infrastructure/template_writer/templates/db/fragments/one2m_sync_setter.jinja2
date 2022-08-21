@@ -1,5 +1,5 @@
 {% set remove_method = 'remove' + (field_sing|firstupper) %}
-{% set add_method = 'add' + (field_sing|firstupper) %}
+{% set add_method = 'add' + (field_sing|firstupper) -%}
 
 public void set{{ field|firstupper }}({{ collection_type }}<{{ class_type }}> {{ field }}) {
     this.{{ field }}.forEach(this::{{ remove_method }});
