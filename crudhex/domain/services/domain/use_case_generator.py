@@ -3,6 +3,7 @@ from typing import List
 
 from crudhex.domain.models import Entity
 from crudhex.domain.utils.class_type_utils import get_import
+from crudhex.domain.utils.file_utils import get_java_filename
 from ..config_context import get_config
 from . import command_generator
 from . import model_generator
@@ -18,7 +19,7 @@ def create_use_case_class(entity: Entity, folder: Path) -> Path:
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
     class_type = get_use_case_type_name(entity)
-    port_file = folder / f'{class_type}.java'
+    port_file = folder / get_java_filename(class_type)
 
     id_type = entity.get_id_field().type.class_type
     model_type = model_generator.get_model_type_name(entity)
@@ -38,6 +39,10 @@ def get_package() -> str:
 
 def get_use_case_type_name(entity: Entity) -> str:
     return f'{entity.name}{_PORT_PREFIX}'
+
+
+def get_filename(entity: Entity) -> str:
+    return get_java_filename(get_use_case_type_name(entity))
 
 
 def _get_use_case_imports(entity: Entity) -> List[str]:

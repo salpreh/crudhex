@@ -3,6 +3,7 @@ from typing import List, Dict
 
 from crudhex.domain.models import Entity, Field
 from crudhex.domain.utils.class_type_utils import get_field_imports, get_field_types
+from crudhex.domain.utils.file_utils import get_java_filename
 from ..config_context import get_config
 
 from crudhex.domain.ports import domain_code_writer
@@ -14,7 +15,7 @@ def create_command_class(entity: Entity, entities_map: Dict[str, Entity], folder
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
     class_type = get_command_type_name(entity)
-    model_file = folder / f'{class_type}.java'
+    model_file = folder / get_java_filename(class_type)
 
     domain_code_writer.create_command(model_file, get_command_type_name(entity), get_package(),
                                       _get_command_imports(entity), _get_command_fields_data(entity, entities_map))
@@ -28,6 +29,10 @@ def get_package() -> str:
 
 def get_command_type_name(entity: Entity) -> str:
     return f'{entity.name}{_COMMAND_SUFFIX}'
+
+
+def get_filename(entity: Entity) -> str:
+    return get_java_filename(get_command_type_name(entity))
 
 
 def get_command_used_fields(entity: Entity) -> List[Field]:

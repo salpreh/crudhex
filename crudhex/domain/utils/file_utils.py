@@ -15,3 +15,7 @@ def create_first_folder(*args: Optional[Path]) -> Path:
             return file
 
     raise RuntimeError('All provided paths are None')
+
+
+def get_java_filename(class_type: str) -> str:
+    return f'{class_type}.java'
