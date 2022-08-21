@@ -9,8 +9,9 @@ TEMPLATES_PACKAGE = 'crudhex.adapters.infrastructure.template_writer'
 
 # Base folders
 TEMPLATE_FOLDER = 'templates'
-DB_FOLDER = 'db'
 DOMAIN_FOLDER = 'domain'
+DB_FOLDER = 'db'
+REST_FOLDER = 'rest'
 COMMONS_FOLDER = 'commons'
 FRAGMENTS_FOLDER = 'fragments'
 
@@ -43,6 +44,9 @@ ONE2M_SYNC_SETTER = 'one2m_sync_setter.jinja2'
 ONE2ONE_SYNC_SETTER = 'one2one_sync_setter.jinja2'
 M2X_SETTER = 'm2x_setter.jinja2'
 PROCESS_COMMAND = 'process_command.jinja2'
+
+# REST TEMPLATES
+CONTROLLER_TEMPLATE = 'controller.jinja2'
 
 _FRAGMENTS = [
     FIELD,
@@ -85,6 +89,12 @@ def get_db_file_path(file_name: str) -> str:
 
 def get_domain_file_path(file_name: str) -> str:
     file_path = _evaluate_file_type(Path(DOMAIN_FOLDER), file_name)
+
+    return str(file_path / file_name)
+
+
+def get_rest_file_path(file_name: str) -> str:
+    file_path = _evaluate_file_type(Path(REST_FOLDER), file_name)
 
     return str(file_path / file_name)
 

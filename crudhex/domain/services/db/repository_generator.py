@@ -9,7 +9,7 @@ from . import entity_generator as entity_generator
 
 from crudhex.domain.ports import db_code_writer
 
-DB_REPO_SUFFIX = 'Repository'
+_DB_REPO_SUFFIX = 'Repository'
 
 
 def create_repository_class(entity: Entity, folder: Optional[Path] = None) -> Path:
@@ -27,7 +27,7 @@ def create_repository_class(entity: Entity, folder: Optional[Path] = None) -> Pa
 
 
 def get_repository_type_name(entity: Entity) -> str:
-    return f'{entity.name}{DB_REPO_SUFFIX}'
+    return f'{entity.name}{_DB_REPO_SUFFIX}'
 
 
 def get_package() -> str:

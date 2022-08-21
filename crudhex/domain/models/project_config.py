@@ -21,6 +21,7 @@ class ProjectConfig:
     db_mapper_class: Optional[str]
 
     rest_models_pkg: str
+    rest_controllers_pkg: str
 
     def __init__(self):
         self.src = None
@@ -40,6 +41,7 @@ class ProjectConfig:
         self.db_mapper_class = None
 
         self.rest_models_pkg = ''
+        self.rest_controllers_pkg = ''
 
     @classmethod
     def from_dict(cls, data: Dict[str, str]) -> 'ProjectConfig':
@@ -76,6 +78,9 @@ class ProjectConfig:
 
     def get_rest_models_path(self) -> Path:
         return pkg_to_path(self.rest_models_pkg, self.rest_adapter_src)
+
+    def get_rest_controllers_path(self) -> Path:
+        return pkg_to_path(self.rest_controllers_pkg, self.rest_adapter_src)
 
     @property
     def domain_src(self):
