@@ -38,11 +38,11 @@ def create_use_case_port(dest: Path, class_type: str, package: str,
                        model_type, create_cmd_type, update_cmd_type)
 
 
-def create_use_case(dest: Path, class_type: str, package: str,
-                    imports: List[str], id_type: str, model_type: str,
-                    create_cmd_type: str, update_cmd_type: str, db_port_type: str):
+def create_use_case(dest: Path, class_type: str, package: str, class_type_interface: str,
+                    imports: List[str], id_type: str, model_type: str, create_cmd_type: str,
+                    update_cmd_type: str, db_port_type: str):
 
-    extras = {'db_port_type': db_port_type}
+    extras = {'db_port_type': db_port_type, 'class_type_interface': class_type_interface}
 
     _create_port_class(template_config.USE_CASE_TEMPLATE, dest, class_type,
                        package, imports, id_type,
