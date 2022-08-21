@@ -6,6 +6,7 @@
 {% endif %}
 {# ID section #}
 {% if id %}
+@Id
     {% set generation_type = generation.value %}
     {% if generation_type == 'sequence' %}
 @SequenceGenerator(name = "{{ sequence }}", sequenceName = "{{ sequence }}")
