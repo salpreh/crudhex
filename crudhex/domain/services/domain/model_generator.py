@@ -9,14 +9,14 @@ from ..config_context import get_config
 from crudhex.domain.ports import domain_code_writer
 
 
-def create_model_class(entity: Entity, folder: Path) -> Path:
+def create_class(entity: Entity, folder: Path) -> Path:
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
-    class_type = get_model_type_name(entity)
+    class_type = get_type_name(entity)
     model_file = folder / get_java_filename(class_type)
 
-    domain_code_writer.create_model(model_file, get_model_type_name(entity), get_package(),
-                                    _get_model_imports(entity), _get_model_fields_data(entity))
+    domain_code_writer.create_model(model_file, get_type_name(entity), get_package(),
+                                    _get_imports(entity), _get_model_fields_data(entity))
 
     return model_file
 
@@ -25,15 +25,15 @@ def get_package() -> str:
     return get_config().domain_models_pkg
 
 
-def get_model_type_name(entity: Entity) -> str:
+def get_type_name(entity: Entity) -> str:
     return entity.name
 
 
 def get_filename(entity: Entity) -> str:
-    return get_java_filename(get_model_type_name(entity))
+    return get_java_filename(get_type_name(entity))
 
 
-def _get_model_imports(entity: Entity) -> List[str]:
+def _get_imports(entity: Entity) -> List[str]:
     imports = []
     for field in entity.fields:
         # Exclude non owning relation side getters to avoid loops in serialization

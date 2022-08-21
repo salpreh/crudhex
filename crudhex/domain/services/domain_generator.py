@@ -16,7 +16,7 @@ def create_model_class(entity: Entity, override: bool = False, folder: Optional[
     if not override and file.exists():
         return False, file
 
-    return True, model_generator.create_model_class(entity, folder)
+    return True, model_generator.create_class(entity, folder)
 
 
 def create_command_class(entity: Entity, entities_map: Dict[str, Entity],
@@ -26,7 +26,7 @@ def create_command_class(entity: Entity, entities_map: Dict[str, Entity],
     if not override and file.exists():
         return False, file
 
-    return True, command_generator.create_command_class(entity, entities_map, folder)
+    return True, command_generator.create_class(entity, entities_map, folder)
 
 
 def create_db_port_class(entity: Entity, override: bool = False,
@@ -36,7 +36,7 @@ def create_db_port_class(entity: Entity, override: bool = False,
     if not override and file.exists():
         return False, file
 
-    return True, db_port_generator.create_port_class(entity, folder)
+    return True, db_port_generator.create_class(entity, folder)
 
 
 def create_use_case_port_class(entity: Entity, override: bool = False,
@@ -46,7 +46,7 @@ def create_use_case_port_class(entity: Entity, override: bool = False,
     if not override and file.exists():
         return False, file
 
-    return True, use_case_port_generator.create_port_class(entity, folder)
+    return True, use_case_port_generator.create_class(entity, folder)
 
 
 def create_use_case_class(entity: Entity, override: bool = False,
@@ -56,4 +56,4 @@ def create_use_case_class(entity: Entity, override: bool = False,
     if not override and file.exists():
         return False, file
 
-    return True, use_case_generator.create_use_case_class(entity, folder)
+    return True, use_case_generator.create_class(entity, folder)
