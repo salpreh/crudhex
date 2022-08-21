@@ -30,7 +30,7 @@ def get_package() -> str:
 
 
 def get_type_name(entity: Entity) -> str:
-    return f'{entity.name}{_DB_ENTITY_SUFFIX}'
+    return _get_entity_type_name(entity.name)
 
 
 def get_filename(entity: Entity) -> str:
@@ -43,6 +43,10 @@ def _get_imports(entity: Entity) -> List[str]:
         imports += get_field_imports(field)
 
     return imports
+
+
+def _get_entity_type_name(class_type: str) -> str:
+    return f'{class_type}{_DB_ENTITY_SUFFIX}'
 
 
 def _get_entity_meta(entity: Entity) -> Dict[str, str]:
@@ -69,6 +73,9 @@ def _get_field_data(field: Field) -> Dict[str, str]:
         'id': False,
     }
     field_data.update(get_field_types(field)._asdict())
+
+    if field.type.is_generated:
+        field_data['class_type'] = _get_entity_type_name(field_data['class_type'])
 
     if field.is_id():
         field_data['id'] = True
