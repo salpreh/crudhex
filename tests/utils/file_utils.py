@@ -1,9 +1,20 @@
+from os import path
 from pathlib import Path
 
 import yaml
 
 
 FIXTURE_FOLDER = 'fixtures'
+SPECS_FOLDER = 'specs'
+CONFIG_FOLDER = 'configs'
+
+
+def load_spec_fixture_file(filename: str) -> dict:
+    return load_fixture_file(path.join(SPECS_FOLDER, filename))
+
+
+def load_config_fixture_file(filename: str) -> dict:
+    return load_fixture_file(path.join(CONFIG_FOLDER, filename))
 
 
 def load_fixture_file(filename: str) -> dict:
