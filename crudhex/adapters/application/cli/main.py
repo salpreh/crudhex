@@ -6,6 +6,7 @@ from rich.console import Console
 from rich.theme import Theme
 from rich.progress import Progress
 
+from crudhex.domain.models.project_config import ConfigValidationError
 from crudhex.domain.services import dsl_parser, config_context, db_adapter_generator, domain_generator, rest_generator
 
 
@@ -27,10 +28,8 @@ def generate(
         project_config: str = typer.Option(None, '--config', '-c', help=_CONF_HELP),
         spec_file: str = typer.Argument(..., help=_SPEC_HELP)
 ):
-    if not project_config:
-        out_console.print('Loading from default config path...', style='info')
 
-    config_context.load_config(Path(project_config) if project_config else None)
+    load_config(project_config)
 
     spec_path = Path(spec_file)
     if not spec_path.exists():
@@ -80,6 +79,23 @@ def generate(
         progress.update(generate_task, advance=100)
 
     out_console.print('\n-- All classes generated --\n', style='finished')
+
+
+def load_config(project_config: Optional[str]):
+    """
+    Loads config file. If config cannot be loaded or invalid will raise an exeption
+    :param project_config: Config path. If `None` default path will be used
+    :raises Exit
+    """
+    if not project_config:
+        out_console.print('Loading from default config path...', style='info')
+
+    try:
+        config_context.load_config(Path(project_config) if project_config else None)
+        config_context.get_config().validate()
+    except ConfigValidationError as err:
+        err_console.print('Errors in config file: {}'.format('\n- '.join(err.errors)))
+        raise typer.Exit(code=1)
 
 
 def _setup():

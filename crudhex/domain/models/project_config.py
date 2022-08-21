@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 
 from crudhex.domain.utils.package_utils import pkg_to_path
 
@@ -48,9 +48,21 @@ class ProjectConfig:
         project_config = ProjectConfig()
 
         data = ProjectConfig._process_config(data)
-        project_config.__dict__.update(**data)
+        for attr, val in data.items():
+            project_config.__setattr__(attr, val)
 
         return project_config
+
+    def validate(self):
+        errors = []
+        if not self.domain_src or not Path(self.domain_src).exists():
+            errors.append(f'Unable to resolve domain src folder ({self.domain_src})')
+        if not self.db_adapter_src or not Path(self.db_adapter_src).exists():
+            errors.append(f'Unable to resolve db adapter src folder ({self.db_adapter_src})')
+        if not self.rest_adapter_src or not Path(self.rest_adapter_src).exists():
+            errors.append(f'Unable to resolve rest adapter src folder ({self.rest_adapter_src})')
+
+        if errors: raise ConfigValidationError(errors)
 
     def get_domain_models_path(self) -> Path:
         return pkg_to_path(self.domain_models_pkg, self.domain_src)
@@ -83,7 +95,7 @@ class ProjectConfig:
         return pkg_to_path(self.rest_controllers_pkg, self.rest_adapter_src)
 
     @property
-    def domain_src(self):
+    def domain_src(self) -> Optional[str]:
         if self._domain_src is None:
             return self.src
 
@@ -94,7 +106,7 @@ class ProjectConfig:
         self._domain_src = src
 
     @property
-    def db_adapter_src(self):
+    def db_adapter_src(self) -> Optional[str]:
         if self._db_adapter_src is None:
             return self.src
 
@@ -105,7 +117,7 @@ class ProjectConfig:
         self._db_adapter_src = src
 
     @property
-    def rest_adapter_src(self):
+    def rest_adapter_src(self) -> Optional[str]:
         if self._rest_adapter_src is None:
             return self.src
 
@@ -122,3 +134,15 @@ class ProjectConfig:
             p_config[key.replace('-', '_')] = val
 
         return p_config
+
+
+class ConfigValidationError(RuntimeError):
+    _errors: List[str]
+
+    def __init__(self, errors=None):
+        super().__init__(','.join(errors) if errors else None)
+        self._errors = errors
+
+    @property
+    def errors(self) -> List[str]:
+        return self._errors
