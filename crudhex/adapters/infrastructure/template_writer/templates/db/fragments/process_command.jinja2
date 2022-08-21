@@ -9,7 +9,7 @@ private {{ entity_type }} processCommand({{ update_command_type }} command, {{ e
     {%- if cmd_relation.is_collection %}
     if (command.{{ getter }}() != null) {
       {{ cmd_relation.collection_type }}<{{ cmd_relation.entity_type }}> {{ cmd_relation.name }} = command.{{ getter }}().stream()
-        .map(id -> {{ repository_var }}.findById(id).orElseThrow(() -> new RuntimeException("Unable to find {{ cmd_relation.name }}")))
+        .map(id -> {{ repository_var }}.findById(id).orElseThrow(() -> new RuntimeException("Unable to find {{ cmd_relation.name }} with ID " + id)))
         .collect(Collectors.to{{ cmd_relation.collection_type }}());
 
       entity.{{ setter }}({{ cmd_relation.name }});
