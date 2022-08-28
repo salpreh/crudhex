@@ -14,6 +14,7 @@ DB_FOLDER = 'db'
 REST_FOLDER = 'rest'
 COMMONS_FOLDER = 'commons'
 FRAGMENTS_FOLDER = 'fragments'
+MAPPERS_FOLDER = 'mappers'
 
 # DOMAIN TEMPLATES
 MODEL_TEMPLATE = 'model.jinja2'
@@ -47,6 +48,9 @@ PROCESS_COMMAND = 'process_command.jinja2'
 
 # REST TEMPLATES
 CONTROLLER_TEMPLATE = 'controller.jinja2'
+
+# MAPPERS TEMPLATES
+MAPSTRUCT_TEMPLATE = 'mapstruct.jinja2'
 
 _FRAGMENTS = [
     FIELD,
@@ -95,6 +99,12 @@ def get_domain_file_path(file_name: str) -> str:
 
 def get_rest_file_path(file_name: str) -> str:
     file_path = _evaluate_file_type(Path(REST_FOLDER), file_name)
+
+    return str(file_path / file_name)
+
+
+def get_mapper_file_path(file_name: str) -> str:
+    file_path = _evaluate_file_type(Path(MAPPERS_FOLDER), file_name)
 
     return str(file_path / file_name)
 
