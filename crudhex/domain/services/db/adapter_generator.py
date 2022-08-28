@@ -3,8 +3,9 @@ from typing import List, Dict
 
 from crudhex.domain.models import Entity, Field
 from crudhex.domain.utils.class_type_utils import get_import, get_type_import, get_resolved_import
+from crudhex.domain.utils.package_utils import full_class_name
 from crudhex.domain.utils.file_utils import get_java_filename
-from . import entity_generator, repository_generator
+from . import entity_generator, repository_generator, mapper_generator
 from ..config_context import get_config
 from ..domain import command_generator, model_generator, db_port_generator
 from ...models.RelationData import RelationData
@@ -12,7 +13,6 @@ from ...models.field import ClassType
 from crudhex.domain.ports import db_code_writer
 
 _ADAPTER_PREFIX = 'DatasourceAdapter'
-_DEFAULT_MAPPER_TYPE = 'Mapper'
 
 
 def create_class(entity: Entity, entities_map: Dict[str, Entity], folder: Path) -> Path:
@@ -78,11 +78,7 @@ def _get_imports(entity: Entity, entities_map: Dict[str, Entity]) -> List[str]:
 
 
 def _get_mapper_type() -> ClassType:
-    config_mapper = get_config().db_mapper_class
-    if not config_mapper:
-        return ClassType(_DEFAULT_MAPPER_TYPE, True)
-
-    return ClassType(config_mapper)
+    return ClassType(full_class_name(mapper_generator.get_package(), mapper_generator.get_type_name()))
 
 
 def _get_relations_data(entity: Entity, entities_map: Dict[str, Entity]) -> List[RelationData]:
