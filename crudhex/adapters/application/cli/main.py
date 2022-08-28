@@ -1,4 +1,5 @@
 from pathlib import Path
+from os import sep
 from typing import Optional, Tuple
 
 import typer
@@ -135,7 +136,7 @@ def _log_generation(file_type: str, gen_output: Tuple[bool, Path], style: str, p
         console = progress.console
 
     if gen_output[0]:
-        console.print(f'{file_type}: {gen_output[1]}', style=style)
+        console.print(f'{file_type}: [default]{gen_output[1].parent}{sep}[/default][{style}]{gen_output[1].name}[/{style}]', style=style)
     else:
         console.print(f'{file_type}: [yellow]Skipped[/yellow]', style=style)
 
