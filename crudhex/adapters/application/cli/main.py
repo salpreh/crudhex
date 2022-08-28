@@ -58,8 +58,9 @@ def generate(
 
         # Shared classes
         progress.console.rule('Shared classes', style='bright_yellow')
-        out_path = db_adapter_generator.create_mapper_class(entities_map, mapper_type, force_override)
-        _log_db_adapter_generation('DB mapper', out_path, progress)
+        if mapper_type != MapperType.NONE:
+            out_path = db_adapter_generator.create_mapper_class(entities_map, mapper_type, force_override)
+            _log_db_adapter_generation('DB mapper', out_path, progress)
 
         progress.console.print('')
 
