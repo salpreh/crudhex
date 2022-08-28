@@ -6,6 +6,8 @@ from crudhex.adapters.infrastructure.template_writer.config import template_conf
 from crudhex.adapters.infrastructure.template_writer.config.template_config import get_db_file_path
 from crudhex.adapters.infrastructure.template_writer.services.template_env import get_template_environment
 from crudhex.adapters.infrastructure.template_writer.services.inflect_engine import get_inflect_engine
+from . import mapper_code_writer
+from crudhex.domain.models.mapper import MapperType
 
 
 def create_entity(dest: Path, class_type: str, package: str,
@@ -85,6 +87,12 @@ def create_adapter(dest: Path, class_type: str, package: str, class_type_interfa
 
     with open(dest.resolve(), 'w+', encoding='utf-8') as f:
         f.write(adapter_code)
+
+
+def create_mapper(dest: Path, class_type: str, package: str,
+                  imports: List[str], mappings: Dict[str, str], mapper_type: MapperType):
+
+    mapper_code_writer.create_mapper(dest, class_type, package, imports, mappings, mapper_type)
 
 
 def _generate_fields_fragment(fields: List[Dict[str, Union[str, RelationType]]]) -> str:

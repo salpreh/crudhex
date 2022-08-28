@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Dict, Optional, List
 
-from crudhex.domain.utils.package_utils import pkg_to_path
+from crudhex.domain.utils.package_utils import pkg_to_path, get_package
 
 
 class ProjectConfig:
@@ -39,6 +39,7 @@ class ProjectConfig:
         self.db_repositories_pkg = ''
         self.db_adapters_pkg = ''
         self.db_mapper_class = None
+        self.db_mapper_pkg = ''
 
         self.rest_models_pkg = ''
         self.rest_controllers_pkg = ''
@@ -87,6 +88,12 @@ class ProjectConfig:
 
     def get_db_adapters_path(self) -> Path:
         return pkg_to_path(self.db_adapters_pkg, self.db_adapter_src)
+
+    def get_db_mapper_path(self) -> Path:
+        if self.db_mapper_class: mapper_pkg = get_package(self.db_mapper_class)
+        else: mapper_pkg = self.db_mapper_pkg
+
+        return pkg_to_path(mapper_pkg, self.db_adapter_src)
 
     def get_rest_models_path(self) -> Path:
         return pkg_to_path(self.rest_models_pkg, self.rest_adapter_src)

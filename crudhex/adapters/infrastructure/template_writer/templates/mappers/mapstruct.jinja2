@@ -1,0 +1,14 @@
+package {{ package }};
+
+{{ imports }}
+
+import org.mapstruct.Mapper;
+
+@Mapper(componentModel = "spring")
+public interface {{ class_type }} {
+    {% for src_type, dest_type in mappings.items() %}
+
+    {{ src_type }} map({{ dest_type }} src);
+    {{ dest_type }} map({{ src_type }} src);
+    {% endfor %}
+}

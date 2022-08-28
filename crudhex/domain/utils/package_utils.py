@@ -19,6 +19,10 @@ def get_class_name(class_name: str) -> str:
     return class_name.split('.')[-1]
 
 
+def get_package(class_name: str) -> str:
+    return parse_class_name(class_name)[0]
+
+
 def parse_class_name(class_name: str) -> Tuple[str, str]:
     class_pkgs = class_name.split('.')
 

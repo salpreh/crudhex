@@ -4,8 +4,7 @@ from typing import Optional, Set, Union, List
 from crudhex.domain.config.SpecConfig import SpecConfig
 from crudhex.domain.models import IdMeta, Relation, GenerationType, RelationType
 from crudhex.domain.models import Entity, Field
-from crudhex.domain.services import TypeResolver
-from crudhex.domain.services.type_resolver import get_type_resolver
+from crudhex.domain.services.type_resolver import TypeResolver, get_type_resolver
 
 from crudhex.domain.ports import spec_loader
 
