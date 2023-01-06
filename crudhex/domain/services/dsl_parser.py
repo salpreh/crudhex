@@ -28,7 +28,7 @@ def parse_spec_data(spec_data: dict, type_resolver: Optional[TypeResolver] = Non
 
 def parse_entity_data(name: str, data: dict, generated_types: Set[str],
                       type_resolver: Optional[TypeResolver]) -> Entity:
-    entity = Entity(name)
+    entity = Entity(_capitalize(name))
     entity.meta = parse_entity_meta(data)
 
     fields_data = data.copy()
@@ -95,3 +95,7 @@ def parse_field_relation(data: dict) -> Optional[Relation]:
     relation.mapped_by = relation_data.get(SpecConfig.MAPPED_BY)
 
     return relation
+
+
+def _capitalize(name: str) -> str:
+    return name[0].upper() + name[1:]
