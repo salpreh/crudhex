@@ -3,7 +3,11 @@ Person:
     table-name: persons
   id:
     type: Long
-    id: sequence
+    id:
+      type: sequence
+      sequence: person_pk_gen
+  name: String
+  surname: String
   birthPlanet:
     type: Planet
     column: birth_planet
@@ -53,7 +57,9 @@ Planet:
 Faction:
   id:
     type: Long
-    id: sequence
+    id:
+      type: sequence
+      sequence: faction_pk_gen
   name: String
   affiliatedPlanets:
     type: Planet

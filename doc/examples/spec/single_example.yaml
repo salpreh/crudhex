@@ -3,7 +3,11 @@ Person:
     table-name: persons
   id:
     type: long
-    id: sequence
-  name: String
+    id:
+      type: sequence
+      sequence: person_pk_gen
+  name:
+    type: String
+    column: public_name
   age: int
   race: com.salpreh.baseapi.domain.models.RaceType

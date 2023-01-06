@@ -2,8 +2,8 @@ Person:
   .meta:
     table-name: persons
   id:
-    type: Long
-    id: sequence
+    type: UUID
+    id: auto
   birthPlanet:
     type: Planet
     column: birth_planet
