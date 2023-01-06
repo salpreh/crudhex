@@ -144,3 +144,170 @@ If you want to use a different config file, you can specify it with the `-c` opt
 ```shell
 crudhex -c .doc/config/cruhex-config.yaml spec/crudhex.yaml
 ```
+
+## Details
+### Spec file options
+#### Model
+First level keys in spec file are the **model names**. Each model name is followed by a map with the model fields/attributes. 
+```yaml
+Person: # Model name
+  id: Long # Field name
+  name: String # Field name
+  surname:  # Field name
+    type: String
+    column: last_name
+  birthPlanet: # Field name with relation data
+    type: Planet
+    column: birth_planet
+    relation:
+      type: many-to-one
+      join-column: birth_planet_id
+```
+There is a special key inside the model map called `.meta` that contains metadata about the model.
+
+```yaml
+Person: # Model name
+  .meta:
+    table-name: persons # Table name for entity
+  id: Long # Field name
+  name: String # Field name
+# More fields
+```
+Current supported options in meta are:
+- `table-name`: Table name for the entity. If not specified, will use the model name as table name.
+
+#### Field
+Fields in the model have many options depending on the type of the field. The most basic field spec is just the field name and the type:
+```yaml
+Person: # Model name
+  id: Long # Field name
+  name: String # Field name
+```
+
+This structure can be expanded to specify additional options for the field. 
+```yaml
+Person: # Model name
+  id:  # Field name
+    type: Long # Field type
+    id: 
+      type: sequence # PK generation strategy
+      sequence: person_pk_gen # Sequence name
+    
+  name: # Field name
+    type: String # Field type
+    column: original_name # Column name alias
+    
+  birthPlanet: # Field name
+    type: Planet # Field type
+    column: birth_planet # Column name alias
+    relation: # DB relation metadata
+      type: many-to-one
+      join-column: birth_planet_id
+```
+
+Options available are:
+- `type`: Field type. Can contain a primitive, java type, custom class or another model.
+- `column`: Column name alias. If not specified, will use the field name as column name.
+- `id`: Marks the field as Primary key in DB. Also contains metadata for PK generation strategy. 
+- `relation`: Contains metadata for DB relations.
+
+Expanding on type options here is an example with one of the mentioned options:
+```yaml
+Person:
+  id: 
+    type: UUID # Java type
+    id: auto
+    age: int # Primitive type
+    birthPlanet: Planet # Model class
+    race: com.salpreh.baseapi.domain.models.RaceType # Custom class
+```
+For custom classes full package name is required (`race` field in example). For java types not all are supported, in case you need a not supported type you can use full package name to refer to it. There is a list of supported types in the annexes section [here](#annexes).
+
+For regular fields most common options are use type directly as value (first example) or map with type and column name alias (second example). We will dig into id and relation options in the next sections.
+
+#### Id fields
+Id fields are marked with the `id` key. This key also contains metadata about the PK generation strategy.
+```yaml
+Person: # Model name
+  id:  # Field name
+    type: Long # Field type
+    id: 
+      type: sequence # PK generation strategy
+      sequence: person_pk_gen # Sequence name
+      
+Spaceship: # Model name
+  code: # Field name
+    type: UUID # Field type
+    column: ship_code # Column name alias
+    id: auto # PK generation strategy
+```
+
+PK generation strategies are mapped to JPA generation strategies with lower case. Current supported strategies are:
+- `none`: No generation strategy.
+- `auto`: Auto generation strategy.
+- `sequence`: Sequence generation strategy. Sequence name can be provided.
+- `identity`: Identity generation strategy.
+
+#### Relation fields
+Relation fields are marked with the `relation` key. This key also contains metadata about the relation.
+```yaml
+Person:
+  birthPlanet: # Field name
+    type: Planet # Field type
+    column: birth_planet
+    relation: # DB relation metadata
+      type: many-to-one # Relation type
+      join-column: birth_planet_id # Join column for relation
+  affiliations:
+    type: Faction # Field type
+    relation: # DB relation metadata
+      type: many-to-many # Relation type
+      join-table: person_affiliation # Join table for relation
+      join-column: person_id # Join column for relation
+      inverse-join-column: faction_id # Inverse join column for relation
+  backup: # Field name
+    type: Person # Field type
+    relation: # DB relation metadata
+      type: one-to-one # Relation type
+      join-column: backup_id # Join column for relation
+```
+Options available are:
+- `type`: Relation type. Supported options are:
+  - `one-to-one`
+  - `one-to-many`
+  - `many-to-one`
+  - `many-to-many`
+- `join-column`: Join column for relation (owning side).
+- `mapped-by`: Mapped by field for relation (inverse side).
+- `inverse-join-column`: Inverse join column for relation (many-to-many relations).
+- `join-table`: Join table for relation (many-to-many relations).
+
+All of these options are mapped to JPA annotations and configurations. Explaining when to use each option and what it does is out of the scope of this document.
+
+## Annexes
+### Supported types
+```yaml
+# Java
+'Collection': 'java.util.Collection'
+'List': 'java.util.List'
+'ArrayList': 'java.util.ArrayList'
+'Set': 'java.util.Set'
+'HashSet': 'java.util.HashSet'
+'Map': 'java.util.Map'
+'HashMap': 'java.util.HashMap'
+'UUID': 'java.util.UUID'
+'Optional': 'java.util.Optional'
+'Stream': 'java.util.stream.Stream'
+'String': 'java.lang.String'
+'Double': 'java.lang.Double'
+'Float': 'java.lang.Float'
+'Integer': 'java.lang.Integer'
+'Short': 'java.lang.Short'
+'Long': 'java.lang.Long'
+'Boolean': 'java.lang.Boolean'
+'BigDecimal': 'java.math.BigDecimal'
+'BigInteger': 'java.math.BigInteger'
+# Spring data
+'Page': 'org.springframework.data.domain.Page'
+'Pageable': 'org.springframework.data.domain.Pageable'
+```
