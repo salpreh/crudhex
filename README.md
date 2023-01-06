@@ -2,7 +2,7 @@
 
 [![PyPI version](https://badge.fury.io/py/crudhex.svg)](https://badge.fury.io/py/crudhex)
 
-⚠️ **Warn: Alpha development stage**
+⚠️ **Warn: Beta development stage**
 
 ---
 
@@ -20,19 +20,39 @@ The target of this CLI is to ease ~~my life~~ and try to give a general solution
 Project config file is used to know where things should go in the project. Usually contains a path to the sources folder (`src/main/java` in regular maven projects) and packages where things are located within that source folder.
 Here is a basic example:
 ```yaml
-src: src/main/java # Java source folder for single module apps (where your packages start)
+src: src/main/java # General sources for single module apps, default to src/main/java (maven project)
 
 domain-models-pkg: com.salpreh.baseapi.domain.models # domain models package
-db-models-pkg: com.salpreh.baseapi.adapers.infrasturcture.db.models # db entities package
-rest-models-pkg: com.salpreh.baseapi.adapters.api.models # rest api models
+domain-commands-pkg: com.salpreh.baseapi.domain.models.commands # domain commands package
+domain-in-ports-pkg: com.salpreh.baseapi.domain.ports.application # domain ports (in/driving/application)
+domain-out-ports-pkg: com.salpreh.baseapi.domain.ports.infrastructure # domain ports (out/driven/infrastructure)
+domain-use-cases-pkg: com.salpreh.baseapi.domain.services
+
+db-adapters-pkg: com.salpreh.baseapi.adapters.infrastructure.db.adapters # db adapters (port implementations)
+db-models-pkg: com.salpreh.baseapi.adapters.infrastructure.db.models # db entities package
+db-repositories-pkg: com.salpreh.baseapi.adapters.infrastructure.db.repositories # db repositories package
+
+db-mapper-class: com.salpreh.baseapi.adapters.infrastructure.db.mappers.DbMapper # mapper class to map db adapter entities to domain models (optional)
+
+rest-models-pkg: com.salpreh.baseapi.application.api.models # rest models package
+rest-controllers-pkg: com.salpreh.baseapi.application.api.controllers # rest controllers package
 ```
 
-In case of multi-module project you will have to specify `src` path to each module (domain, rest adapter and db adapter). More examples of config can be found in (`doc/examples/config`).
+In case of multimodule project you will have to specify `src` path to each module (domain, rest adapter and db adapter). 
+```yaml
+# Source folder for each module
+domain-src: domain/src/main/java # Domain java sources
+db-adapter-src: infrastructure/datasource-adapter/src/main/java # DB adapter java sources
+rest-adapter-src: application/web/src/main/java # Rest adapter java sources
+
+# Packages config as previous example
+```
+More examples of config can be found in (`doc/examples/config`).
 
 The default name for this config file is `.crudhex-conf.yaml`, located in the root of the project (you can provide the path to config file by cli options, so you can place it anywhere you want)
 
 ### Spec file
-This is the file where you specify the crud model. Class name, attributes and some meta data about DB structure (relations, PK field, column name alias, etc).
+This is the file where you specify the crud model. Class name, attributes and some metadata about DB structure (relations, PK field, column name alias, etc).
 
 An example of spec file:
 ```yaml
@@ -42,11 +62,12 @@ Person: # Model name
   id: # Field name
     type: Long
     id: sequence # PK marker. This field will be the primary key for the entity. 
-                 # As value you specify generation strategy available in JPA with lower case.
+                 # As value, you specify generation strategy available in JPA with lower case.
+  name: String # Field name and type
   birthPlanet: # Field name
     type: Planet
     column: birth_planet # OPTIONAL: Column name alias
-    relation: # OPTIONAL: DB relation meta data
+    relation: # DB relation meta data in case of FK
       type: many-to-one # Relation type
       join-column: birth_planet_id # Join column for relation
   affiliations:
@@ -66,14 +87,38 @@ Person: # Model name
     relation:
       type: one-to-one
       mapped-by: backup # Mapping attribute for non-owning side of relation
+
+# Here another model
+Planet:
+  .meta:
+    table-name: planets
+  id:
+    type: Long
+    id: # You can specify the generation strategy as map to use additional options. In this case we are giving a sequence name
+      type: sequence 
+      sequence: planet_pk_gen
+  name: # Field name and type also can be specified as map to add column name metadata
+    type: String 
+    column: original_name
+  affiliation:
+    type: Faction
+    relation:
+      type: many-to-one
+      join-column: affiliation_id
+  relevantPersons:
+    type: Person
+    relation:
+      type: one-to-many
+      mapped-by: birthPlanet
+
 ```
 
-Snippet config comments provide a overview of each relevant section in config. I'll dig further in config details in a dedicated section.
-For now, you can find some aditional examples in `doc/examples/spec`.
+Snippet config comments provide an overview of each relevant section in config. I'll dig further in config details in a dedicated section.
+For now, you can find some additional examples in `doc/examples/spec`.
 
 ### Installation
 
-Package is published in Pypi public repositories. You can use [pip]() (or another convinient python dependency manager) to install the package:
+Package is published in Pypi public repositories. You can use [pip]() (or another convenient python dependency manager) to install the package:
 ```shell
 pip install crudhex
 ```
