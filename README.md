@@ -127,3 +127,20 @@ Once installed you should be able to use it as CLI tool:
 ```shell
 crudhex --help
 ```
+
+### Usage
+Once installed, you can use the CLI tool to generate the code. You can use the `--help` option to see all available options:
+```shell
+crudhex --help
+```
+
+To generate the code you need to locate the shell in the root of the project and run the command:
+```shell
+crudhex -m mapstruct spec/crudhex.yaml
+```
+Here we are specifying mapstruct as mapper library and the path to the spec file. By default, will use the config file `.crudhex-conf.yaml` located in the root of the project.
+
+If you want to use a different config file, you can specify it with the `-c` option:
+```shell
+crudhex -c .doc/config/cruhex-config.yaml spec/crudhex.yaml
+```
