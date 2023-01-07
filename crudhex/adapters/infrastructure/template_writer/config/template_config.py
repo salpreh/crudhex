@@ -48,6 +48,10 @@ PROCESS_COMMAND = 'process_command.jinja2'
 
 # REST TEMPLATES
 CONTROLLER_TEMPLATE = 'controller.jinja2'
+REST_MODEL_TEMPLATE = 'model.jinja2'
+
+# REST FRAGMENTS
+REST_FIELD = 'field.jinja2'
 
 # MAPPERS TEMPLATES
 MAPSTRUCT_TEMPLATE = 'mapstruct.jinja2'
@@ -66,7 +70,8 @@ _FRAGMENTS = [
     ONE2M_SYNC_SETTER,
     ONE2ONE_SYNC_SETTER,
     M2X_SETTER,
-    PROCESS_COMMAND
+    PROCESS_COMMAND,
+    REST_FIELD
 ]
 
 RelationTemplate = namedtuple('RelationTemplate', 'main inverse')
