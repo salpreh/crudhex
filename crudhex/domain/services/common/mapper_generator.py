@@ -14,6 +14,10 @@ from ..generation_commons import IGenerator
 from ...models.mapper import MapperType
 
 
+mapper_class = 'mapper_class'
+mapper_pkg = 'mapper_pkg'
+
+
 def create_class(entities_map: Dict[str, Entity], mapper_type: MapperType, folder: Path) -> Path:
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
@@ -29,14 +33,14 @@ def create_class(entities_map: Dict[str, Entity], mapper_type: MapperType, folde
 
 def get_package() -> str:
     config = get_config()
-    if config.db_mapper_class: return package_utils.get_package(config.db_mapper_class)
+    if getattr(config, mapper_class): return package_utils.get_package(getattr(config, mapper_class))
 
-    return get_config().db_mapper_pkg
+    return getattr(config, mapper_pkg)
 
 
 def get_type_name() -> str:
     config = get_config()
-    if config.db_mapper_class: return package_utils.get_class_name(config.db_mapper_class)
+    if getattr(config, mapper_class): return package_utils.get_class_name(getattr(config, mapper_class))
 
     return get_default_name()
 
