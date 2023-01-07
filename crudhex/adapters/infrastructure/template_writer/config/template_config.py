@@ -48,6 +48,7 @@ PROCESS_COMMAND = 'process_command.jinja2'
 
 # REST TEMPLATES
 CONTROLLER_TEMPLATE = 'controller.jinja2'
+CONTROLLER_WITH_MAP_TEMPLATE = 'controller_w_map.jinja2'
 REST_MODEL_TEMPLATE = 'model.jinja2'
 
 # REST FRAGMENTS
