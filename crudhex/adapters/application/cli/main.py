@@ -1,12 +1,13 @@
 from pathlib import Path
 from os import sep
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Dict
 
 import typer
 from rich.console import Console
 from rich.theme import Theme
 from rich.progress import Progress
 
+from crudhex.domain.models import Entity
 from crudhex.domain.models.mapper import MapperType
 from crudhex.domain.models.project_config import ConfigValidationError
 from crudhex.domain.services import dsl_parser, config_context, db_adapter_generator, domain_generator, rest_generator
@@ -17,6 +18,7 @@ _CONF_HELP = f'Project config file to know packages and code paths. Defaults to 
 _FORCE_HELP = f'Override file outputs if exists'
 _MAPPER_HELP = f'Mapper generation option. By default no mapper will be generated.' \
                '\n[WARN]: modelmapper generation not supported yet.'
+_API_MODELS_HELP = 'Generate API models'
 
 app = typer.Typer()
 out_console: Optional[Console] = None
@@ -33,7 +35,8 @@ def generate(
         spec_file: str = typer.Argument(..., help=_SPEC_HELP),
         project_config: str = typer.Option(None, '--config', '-c', help=_CONF_HELP),
         force_override: bool = typer.Option(False, '--force', '-f', help=_FORCE_HELP),
-        mapper_type: MapperType = typer.Option(MapperType.NONE.value, '--mapper', '-m', help=_MAPPER_HELP)
+        mapper_type: MapperType = typer.Option(MapperType.NONE.value, '--mapper', '-m', help=_MAPPER_HELP),
+        gen_api_models: bool = typer.Option(True, '--generate-api-models', '-ga', help=_API_MODELS_HELP)
 ):
 
     load_config(project_config)
@@ -67,32 +70,9 @@ def generate(
         # Per entity classes
         for entity in entities:
             progress.console.rule(entity.name)
-            out_path = domain_generator.create_model_class(entity, force_override)
-            _log_domain_generation('Domain model', out_path, progress)
-
-            out_path = domain_generator.create_command_class(entity, entities_map, force_override)
-            _log_domain_generation('Domain command', out_path, progress)
-
-            out_path = domain_generator.create_db_port_class(entity, force_override)
-            _log_domain_generation('DB port', out_path, progress)
-
-            out_path = domain_generator.create_use_case_port_class(entity, force_override)
-            _log_domain_generation('Use case port', out_path, progress)
-
-            out_path = domain_generator.create_use_case_class(entity, force_override)
-            _log_domain_generation('Use case', out_path, progress)
-
-            out_path = db_adapter_generator.create_entity_class(entity, force_override)
-            _log_db_adapter_generation('Entity', out_path, progress)
-
-            out_path = db_adapter_generator.create_repository_class(entity, force_override)
-            _log_db_adapter_generation('Repository', out_path, progress)
-
-            out_path = db_adapter_generator.create_adapter_class(entity, entities_map, force_override)
-            _log_db_adapter_generation('DB adapter', out_path, progress)
-
-            out_path = rest_generator.create_model_class(entity, force_override)
-            _log_rest_adapter_generation('Controller', out_path, progress)
+            _generate_domain_classes(entity, entities_map, progress, force_override)
+            _generate_db_classes(entity, entities_map, progress, force_override)
+            _generate_rest_classes(entity, entities_map, progress, force_override, gen_api_models)
 
             progress.update(generate_task, advance=100/len(entities))
             progress.console.print('')
@@ -117,6 +97,44 @@ def load_config(project_config: Optional[str]):
     except ConfigValidationError as err:
         err_console.print('Errors in config file: {}'.format('\n- '.join(err.errors)))
         raise typer.Exit(code=1)
+
+
+def _generate_domain_classes(entity: Entity, entities_map: Dict[str, Entity], progress: Progress, force_override: bool):
+    out_path = domain_generator.create_model_class(entity, force_override)
+    _log_domain_generation('Domain model', out_path, progress)
+
+    out_path = domain_generator.create_command_class(entity, entities_map, force_override)
+    _log_domain_generation('Domain command', out_path, progress)
+
+    out_path = domain_generator.create_db_port_class(entity, force_override)
+    _log_domain_generation('DB port', out_path, progress)
+
+    out_path = domain_generator.create_use_case_port_class(entity, force_override)
+    _log_domain_generation('Use case port', out_path, progress)
+
+    out_path = domain_generator.create_use_case_class(entity, force_override)
+    _log_domain_generation('Use case', out_path, progress)
+
+
+def _generate_db_classes(entity: Entity, entities_map: Dict[str, Entity], progress: Progress, force_override: bool):
+    out_path = db_adapter_generator.create_entity_class(entity, force_override)
+    _log_db_adapter_generation('Entity', out_path, progress)
+
+    out_path = db_adapter_generator.create_repository_class(entity, force_override)
+    _log_db_adapter_generation('Repository', out_path, progress)
+
+    out_path = db_adapter_generator.create_adapter_class(entity, entities_map, force_override)
+    _log_db_adapter_generation('DB adapter', out_path, progress)
+
+
+def _generate_rest_classes(entity: Entity, entities_map: Dict[str, Entity], progress: Progress,
+                           force_override: bool, gen_api_models: bool):
+    out_path = rest_generator.create_controller_class(entity, force_override)
+    _log_rest_adapter_generation('Controller', out_path, progress)
+
+    if gen_api_models:
+        out_path = rest_generator.create_model_class(entity, force_override)
+        _log_rest_adapter_generation('Model', out_path, progress)
 
 
 def _log_domain_generation(file_type: str, gen_output: Tuple[bool, Path], progress: Optional[Progress] = None):
