@@ -129,7 +129,7 @@ crudhex --help
 ```
 
 ### Usage
-Once installed, you can use the CLI tool to generate the code. You can use the `--help` option to see all available options:
+You can use the `--help` option to see all available options:
 ```shell
 crudhex --help
 ```
@@ -177,7 +177,7 @@ Current supported options in meta are:
 - `table-name`: Table name for the entity. If not specified, will use the model name as table name.
 
 #### Field
-Fields in the model have many options depending on the type of the field. The most basic field spec is just the field name and the type:
+Fields in the model have many options depending on the type of field. The most basic field spec is just the field name and the type:
 ```yaml
 Person: # Model name
   id: Long # Field name
@@ -187,15 +187,15 @@ Person: # Model name
 This structure can be expanded to specify additional options for the field. 
 ```yaml
 Person: # Model name
-  id:  # Field name
-    type: Long # Field type
-    id: 
-      type: sequence # PK generation strategy
-      sequence: person_pk_gen # Sequence name
-    
   name: # Field name
     type: String # Field type
     column: original_name # Column name alias
+    
+  id:  # Field name
+    type: Long # Field type
+    id:
+      type: sequence # PK generation strategy
+      sequence: person_pk_gen # Sequence name
     
   birthPlanet: # Field name
     type: Planet # Field type
@@ -211,19 +211,23 @@ Options available are:
 - `id`: Marks the field as Primary key in DB. Also contains metadata for PK generation strategy. 
 - `relation`: Contains metadata for DB relations.
 
-Expanding on type options here is an example with one of the mentioned options:
+Expanding on `type` options available here is an example with each one of the mentioned options:
 ```yaml
 Person:
   id: 
     type: UUID # Java type
     id: auto
-    age: int # Primitive type
-    birthPlanet: Planet # Model class
-    race: com.salpreh.baseapi.domain.models.RaceType # Custom class
+  age: int # Primitive type
+  birthPlanet: 
+    type: Planet # Model class
+    relation:
+      type: many-to-one
+      join-column: birth_planet_id
+  race: com.salpreh.baseapi.domain.models.RaceType # Custom class
 ```
-For custom classes full package name is required (`race` field in example). For java types not all are supported, in case you need a not supported type you can use full package name to refer to it. There is a list of supported types in the annexes section [here](#annexes).
+For custom classes full package name is required (`race` field in example). For java types, currently not all types are supported, in case you need a not supported type you can use full package name to refer to it. There is a list of supported types in the annexes section [here](#annexes).
 
-For regular fields most common options are use type directly as value (first example) or map with type and column name alias (second example). We will dig into id and relation options in the next sections.
+For regular fields most common option is to use type directly as value (first example), or a map with type and column name alias (second example). We will dig into `id` and `relation` options in the next sections.
 
 #### Id fields
 Id fields are marked with the `id` key. This key also contains metadata about the PK generation strategy.
