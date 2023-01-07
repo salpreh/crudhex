@@ -8,7 +8,7 @@ from crudhex.domain.utils.file_utils import get_java_filename
 from . import entity_generator, repository_generator, mapper_generator
 from ..config_context import get_config
 from ..domain import command_generator, model_generator, db_port_generator
-from ...models.RelationData import RelationData
+from ...models.relation_data import RelationData
 from ...models.field import ClassType
 from crudhex.domain.ports import db_code_writer
 

@@ -60,7 +60,7 @@ class IdMeta:
         if self.sequence: return self.sequence
 
         if not id_name:
-            id_name = uuid.uuid4()
+            id_name = str(uuid.uuid4()).replace('-', '')
 
         return f'{id_name}_pk_gen'
 
