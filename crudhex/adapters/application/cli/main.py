@@ -36,7 +36,7 @@ def generate(
         project_config: str = typer.Option(None, '--config', '-c', help=_CONF_HELP),
         force_override: bool = typer.Option(False, '--force', '-f', help=_FORCE_HELP),
         mapper_type: MapperType = typer.Option(MapperType.NONE.value, '--mapper', '-m', help=_MAPPER_HELP),
-        gen_api_models: bool = typer.Option(True, '--generate-api-models', '-ga', help=_API_MODELS_HELP)
+        gen_api_models: bool = typer.Option(True, '--generate-api-models/--no-generate-api-models', help=_API_MODELS_HELP)
 ):
 
     load_config(project_config)
@@ -65,6 +65,10 @@ def generate(
             out_path = db_adapter_generator.create_mapper_class(entities_map, mapper_type, force_override)
             _log_db_adapter_generation('DB mapper', out_path, progress)
 
+            if gen_api_models:
+                out_path = rest_generator.create_mapper_class(entities_map, mapper_type, force_override)
+                _log_rest_adapter_generation('API mapper', out_path, progress)
+
         progress.console.print('')
 
         # Per entity classes
@@ -84,7 +88,7 @@ def generate(
 
 def load_config(project_config: Optional[str]):
     """
-    Loads config file. If config cannot be loaded or invalid will raise an exeption
+    Loads config file. If config cannot be loaded or invalid will raise an exception
     :param project_config: Config path. If `None` default path will be used
     :raises Exit
     """
