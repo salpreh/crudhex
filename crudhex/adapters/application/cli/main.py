@@ -133,7 +133,7 @@ def _generate_db_classes(entity: Entity, entities_map: Dict[str, Entity], progre
 
 def _generate_rest_classes(entity: Entity, entities_map: Dict[str, Entity], progress: Progress,
                            force_override: bool, gen_api_models: bool):
-    out_path = rest_generator.create_controller_class(entity, force_override)
+    out_path = rest_generator.create_controller_class(entity, force_override, gen_api_models)
     _log_rest_adapter_generation('Controller', out_path, progress)
 
     if gen_api_models:
