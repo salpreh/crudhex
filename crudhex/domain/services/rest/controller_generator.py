@@ -51,14 +51,17 @@ def get_filename(entity: Entity) -> str:
 
 
 def _get_imports(entity: Entity, with_mapping: bool) -> List[str]:
-    model_import = get_import(model_generator.get_package(), model_generator.get_type_name(entity)) if with_mapping \
-        else get_import(domain_model_generator.get_package(), domain_model_generator.get_type_name(entity))
     imports = [
-        model_import,
         get_import(command_generator.get_package(), command_generator.get_type_name(entity)),
         get_import(use_case_port_generator.get_package(), use_case_port_generator.get_type_name(entity))
     ]
     imports += get_field_imports(entity.get_id_field())
+
+    if with_mapping:
+        imports.append(get_import(mapper_generator.get_package(), mapper_generator.get_type_name()))
+        imports.append(get_import(model_generator.get_package(), model_generator.get_type_name(entity)))
+    else:
+        imports.append(get_import(domain_model_generator.get_package(), domain_model_generator.get_type_name(entity)))
 
     return imports
 
