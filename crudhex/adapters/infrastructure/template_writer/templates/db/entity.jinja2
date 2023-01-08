@@ -7,12 +7,12 @@ import javax.persistence.*;
 {{ imports }}
 
 
-@Entity
-@Table(name = "{{ table_name }}")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "{{ table_name }}")
 public class {{ class_type }} {
 
 {% filter indent(width=4) %}
