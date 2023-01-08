@@ -45,14 +45,18 @@ class IGenerator(Protocol):
 
 class ISharedGenerator(Protocol):
 
-    def create_class(self, entities_map: Dict[str, Entity], *args) -> Path:
+    @staticmethod
+    def create_class(entities_map: Dict[str, Entity], *args) -> Path:
         ...
 
-    def get_package(self) -> str:
+    @staticmethod
+    def get_package() -> str:
         ...
 
-    def get_type_name(self) -> str:
+    @staticmethod
+    def get_type_name() -> str:
         ...
 
-    def get_filename(self) -> str:
+    @staticmethod
+    def get_filename() -> str:
         ...

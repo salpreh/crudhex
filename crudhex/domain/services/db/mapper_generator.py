@@ -1,32 +1,32 @@
 """
-Implements `ISharedClass` protocol interface
+Implements `ISharedGenerator` protocol interface
 """
+from pathlib import Path
+from typing import Dict
+
 from . import entity_generator
-from ..common import mapper_generator
 from ..domain import model_generator
-from ..generation_commons import IGenerator
-from ...utils import module_utils
+from ..common import mapper_generator
+from ...models import Entity
+from ...models.mapper import MapperType
 
 _MAPPER_NAME = 'DbMapper'
+_MAPPER_CLASS_KEY = 'db_mapper_class'
+_MAPPER_PKG_KEY = 'db_mapper_pkg'
 
 
-def get_default_name() -> str:
-    return _MAPPER_NAME
+def create_class(entities_map: Dict[str, Entity], mapper_type: MapperType, folder: Path) -> Path:
+    mapper_params = mapper_generator.MapperParams(entity_generator, model_generator, get_package(), get_type_name()) # type: ignore
+    return mapper_generator.create_class(entities_map, mapper_type, folder, mapper_params)
 
 
-def get_from_generator() -> IGenerator:
-    return entity_generator  # type: ignore
+def get_package() -> str:
+    return mapper_generator.get_package(_MAPPER_CLASS_KEY, _MAPPER_PKG_KEY)
 
 
-def get_to_generator() -> IGenerator:
-    return model_generator  # type: ignore
+def get_type_name() -> str:
+    return mapper_generator.get_type_name(_MAPPER_CLASS_KEY, _MAPPER_NAME)
 
 
-# Override the default mapper generator
-mapper_generator.get_default_name = get_default_name
-mapper_generator.get_from_generator = get_from_generator
-mapper_generator.get_to_generator = get_to_generator
-mapper_generator.mapper_pkg = 'db_mapper_pkg'
-mapper_generator.mapper_class = 'db_mapper_class'
-
-module_utils.extract_functions(mapper_generator, locals())
+def get_filename() -> str:
+    return mapper_generator.get_filename(_MAPPER_CLASS_KEY, _MAPPER_NAME)
