@@ -1,9 +1,3 @@
-{# COLUMN meta #}
-{% if column_name -%}
-    @Column(name = "{{ column_name }}")
-{% else -%}
-    @Column
-{% endif %}
 {# ID section #}
 {% if id %}
 @Id
@@ -14,5 +8,11 @@
     {% elif generation_type != 'none' %}
 @GeneratedValue(strategy = GenerationType.{{ generation_type|upper }})
     {% endif %}
+{% endif %}
+{# COLUMN meta #}
+{% if column_name -%}
+    @Column(name = "{{ column_name }}")
+{% else -%}
+    @Column
 {% endif %}
 private {{ class_type }} {{ name }};

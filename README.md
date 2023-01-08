@@ -32,10 +32,14 @@ db-adapters-pkg: com.salpreh.baseapi.adapters.infrastructure.db.adapters # db ad
 db-models-pkg: com.salpreh.baseapi.adapters.infrastructure.db.models # db entities package
 db-repositories-pkg: com.salpreh.baseapi.adapters.infrastructure.db.repositories # db repositories package
 
-db-mapper-class: com.salpreh.baseapi.adapters.infrastructure.db.mappers.DbMapper # mapper class to map db adapter entities to domain models (optional)
+db-mapper-class: com.salpreh.baseapi.adapters.infrastructure.db.mappers.DbMapper # mapper class to map db adapter entities to domain models. Needed if no mapper option specified when running command (optional)
+db-mapper-pkg: com.salpreh.baseapi.adapters.infrastructure.db.mappers # db mapper package.Needed when mapper option specified when running command (optional)
 
 rest-models-pkg: com.salpreh.baseapi.application.api.models # rest models package
 rest-controllers-pkg: com.salpreh.baseapi.application.api.controllers # rest controllers package
+
+rest-mapper-class: com.salpreh.baseapi.application.api.controllers.mappers.ApiMapper # mapper class to map domain models to api models. Needed if no mapper option specified when running command (optional)
+rest-mapper-pkg: com.salpreh.baseapi.application.api.controllers.mappers # api mapper package. Needed when mapper option specified when running command (optional)
 ```
 
 In case of multimodule project you will have to specify `src` path to each module (domain, rest adapter and db adapter). 

@@ -92,7 +92,7 @@ def _create_port_class(template: str, dest: Path, class_type: str, package: str,
         f.write(port_code)
 
 
-def _generate_fields_fragment(fields: List[Dict[str, str]]):
+def _generate_fields_fragment(fields: List[Dict[str, str]]) -> str:
     template_env = get_template_environment()
     field_template = template_env.get_template(get_domain_file_path(template_config.DOM_FIELD))
 

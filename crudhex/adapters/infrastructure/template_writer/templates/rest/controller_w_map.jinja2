@@ -1,0 +1,54 @@
+package {{ package }};
+
+{# Template fixed imports #}
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+{{ imports }}
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("{{ name|firstlower }}")
+public class {{ class_type }} {
+
+    {% set use_case_var = use_case_type|firstlower %}
+    private final {{ use_case_type }} {{ use_case_var }};
+
+    private final {{ mapper_type }} mapper;
+
+    @GetMapping
+    public Page<{{ model_type }}> getAll(Pageable page) {
+        return {{ use_case_var }}.getAll(page)
+            .map(mapper::map);
+    }
+
+    @GetMapping("{id}")
+    public {{ model_type }} get(@PathVariable {{ id_type }} id) {
+        return {{ use_case_var }}.getById(id)
+            .map(mapper::map)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping
+    public {{ model_type }} create(@RequestBody {{ create_command_type }} command) {
+        return mapper.map({{ use_case_var }}.create(command));
+    }
+
+    @PutMapping("{id}")
+    public {{ model_type }} update(@PathVariable {{ id_type }} id, @RequestBody {{ update_command_type }} command) {
+        return mapper.map({{ use_case_var }}.update(id, command));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable {{ id_type }} id) {
+        {{ use_case_var }}.delete(id);
+
+        return ResponseEntity.noContent()
+            .build();
+    }
+}

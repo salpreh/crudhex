@@ -1,0 +1,7 @@
+{% if collection_type %}
+
+    @Builder.Default
+    private {{ collection_type }}<{{ class_type }}> {{ name }} = new {{ collection_type_impl }}<>();
+{% else %}
+    private {{ class_type }} {{ name }};
+{% endif %}

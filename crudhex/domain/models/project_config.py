@@ -18,10 +18,13 @@ class ProjectConfig:
     db_models_pkg: str
     db_repositories_pkg: str
     db_adapters_pkg: str
+    db_mapper_pkg: str
     db_mapper_class: Optional[str]
 
     rest_models_pkg: str
     rest_controllers_pkg: str
+    rest_mapper_pkg: str
+    rest_mapper_class: Optional[str]
 
     def __init__(self):
         self.src = None
@@ -38,11 +41,13 @@ class ProjectConfig:
         self.db_models_pkg = ''
         self.db_repositories_pkg = ''
         self.db_adapters_pkg = ''
-        self.db_mapper_class = None
         self.db_mapper_pkg = ''
+        self.db_mapper_class = None
 
         self.rest_models_pkg = ''
         self.rest_controllers_pkg = ''
+        self.rest_mapper_pkg = ''
+        self.rest_mapper_class = None
 
     @classmethod
     def from_dict(cls, data: Dict[str, str]) -> 'ProjectConfig':
@@ -100,6 +105,12 @@ class ProjectConfig:
 
     def get_rest_controllers_path(self) -> Path:
         return pkg_to_path(self.rest_controllers_pkg, self.rest_adapter_src)
+
+    def get_rest_mapper_path(self) -> Path:
+        if self.rest_mapper_class: mapper_pkg = get_package(self.rest_mapper_class)
+        else: mapper_pkg = self.rest_mapper_pkg
+
+        return pkg_to_path(mapper_pkg, self.rest_adapter_src)
 
     @property
     def domain_src(self) -> Optional[str]:

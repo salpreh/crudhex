@@ -4,19 +4,19 @@ Implements `ISharedGenerator` protocol interface
 from pathlib import Path
 from typing import Dict
 
-from . import entity_generator
-from ..domain import model_generator
+from . import model_generator
 from ..common import mapper_generator
+from ..domain import model_generator as domain_model_generator
 from ...models import Entity
 from ...models.mapper import MapperType
 
-_MAPPER_NAME = 'DbMapper'
-_MAPPER_CLASS_KEY = 'db_mapper_class'
-_MAPPER_PKG_KEY = 'db_mapper_pkg'
+_MAPPER_NAME = 'ApiMapper'
+_MAPPER_CLASS_KEY = 'rest_mapper_class'
+_MAPPER_PKG_KEY = 'rest_mapper_pkg'
 
 
 def create_class(entities_map: Dict[str, Entity], mapper_type: MapperType, folder: Path) -> Path:
-    mapper_params = mapper_generator.MapperParams(entity_generator, model_generator, get_package(), get_type_name()) # type: ignore
+    mapper_params = mapper_generator.MapperParams(domain_model_generator, model_generator, get_package(), get_type_name()) # type: ignore
     return mapper_generator.create_class(entities_map, mapper_type, folder, mapper_params)
 
 
