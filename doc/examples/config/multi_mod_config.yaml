@@ -15,8 +15,9 @@ db-adapters-pkg: com.salpreh.baseapi.adapters.infrastructure.db.adapters # db ad
 db-models-pkg: com.salpreh.baseapi.adapters.infrastructure.db.models # db entities package
 db-repositories-pkg: com.salpreh.baseapi.adapters.infrastructure.db.repositories # db repositories package
 
-db-mapper-class: com.salpreh.baseapi.adapters.infrastructure.db.mappers.DbMapper # mapper class to map db adapter entities to domain models (optional)
+db-mapper-pkg: com.salpreh.baseapi.adapters.infrastructure.db.mappers # db mapper package.Needed when mapper option specified when running command (optional)
 
 # REST api adapter
 rest-models-pkg: com.salpreh.baseapi.application.api.models # rest models package
 rest-controllers-pkg: com.salpreh.baseapi.application.api.controllers # rest controllers package
+rest-mapper-pkg: com.salpreh.baseapi.application.api.mappers # api mapper package. Needed when mapper option specified when running command (optional)
