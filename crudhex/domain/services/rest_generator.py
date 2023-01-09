@@ -8,9 +8,9 @@ from crudhex.domain.services.rest import controller_generator, model_generator, 
 from ..models.mapper import MapperType
 
 
-def create_controller_class(entity: Entity, override: bool = False,
-                            with_mapper: bool = True, folder: Optional[Path] = None) -> Tuple[bool, Path]:
-    return create_class(controller_generator, entity, with_mapper, override=override,
+def create_controller_class(entity: Entity, override: bool = False, with_mapper: bool = True,
+                            with_api_page: bool = False, folder: Optional[Path] = None) -> Tuple[bool, Path]:
+    return create_class(controller_generator, entity, with_mapper, with_api_page, override=override,
                         folder=folder, default_folder=Path(get_config().get_rest_controllers_path()))
 
 

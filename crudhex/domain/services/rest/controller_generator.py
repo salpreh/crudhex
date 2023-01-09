@@ -15,7 +15,7 @@ from ...utils.package_utils import full_class_name
 _CONTROLLER_SUFFIX = 'Controller'
 
 
-def create_class(entity: Entity, with_mapper: bool, folder: Optional[Path] = None) -> Path:
+def create_class(entity: Entity, with_mapper: bool, with_api_page: bool, folder: Optional[Path] = None) -> Path:
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
     class_type = get_type_name(entity)
@@ -32,7 +32,7 @@ def create_class(entity: Entity, with_mapper: bool, folder: Optional[Path] = Non
         controller_file, class_type, get_package(),
         _get_imports(entity, with_mapper), entity.name, model_type,
         id_type, use_case_type, mapper_type,
-        command_type, command_type
+        command_type, command_type, with_api_page
     )
 
     return controller_file
