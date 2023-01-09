@@ -319,3 +319,9 @@ All of these options are mapped to JPA annotations and configurations. Explainin
 'Page': 'org.springframework.data.domain.Page'
 'Pageable': 'org.springframework.data.domain.Pageable'
 ```
+
+### References
+- [JPA Bidirectional relations](https://vladmihalcea.com/jpa-hibernate-synchronize-bidirectional-entity-associations/)
+- [JPA many-to-many relations](https://www.jpa-buddy.com/blog/synchronization-methods-for-many-to-many-associations/)
+- [JPA equals/hashCode](https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/)
+- [JPA many-to-many collections](https://vladmihalcea.com/the-best-way-to-use-the-manytomany-annotation-with-jpa-and-hibernate/)
