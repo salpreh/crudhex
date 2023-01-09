@@ -19,6 +19,7 @@ _FORCE_HELP = f'Override file outputs if exists'
 _MAPPER_HELP = f'Mapper generation option. By default no mapper will be generated.' \
                '\n[WARN]: modelmapper generation not supported yet.'
 _API_MODELS_HELP = 'Generate API models'
+_API_PAGE_HELP = 'Use Spring data Page as return type for get all endpoints. By default List with items is returned'
 
 app = typer.Typer()
 out_console: Optional[Console] = None
@@ -36,7 +37,8 @@ def generate(
         project_config: str = typer.Option(None, '--config', '-c', help=_CONF_HELP),
         force_override: bool = typer.Option(False, '--force', '-f', help=_FORCE_HELP),
         mapper_type: MapperType = typer.Option(MapperType.NONE.value, '--mapper', '-m', help=_MAPPER_HELP),
-        gen_api_models: bool = typer.Option(True, '--generate-api-models/--no-generate-api-models', help=_API_MODELS_HELP)
+        gen_api_models: bool = typer.Option(True, '--generate-api-models/--no-generate-api-models', help=_API_MODELS_HELP),
+        with_api_page: bool = typer.Option(False, '--with-api-page', '-ap', help=_API_PAGE_HELP)
 ):
 
     load_config(project_config)
@@ -76,7 +78,7 @@ def generate(
             progress.console.rule(entity.name)
             _generate_domain_classes(entity, entities_map, progress, force_override)
             _generate_db_classes(entity, entities_map, progress, force_override)
-            _generate_rest_classes(entity, entities_map, progress, force_override, gen_api_models)
+            _generate_rest_classes(entity, entities_map, progress, force_override, gen_api_models, with_api_page)
 
             progress.update(generate_task, advance=100/len(entities))
             progress.console.print('')
@@ -132,8 +134,8 @@ def _generate_db_classes(entity: Entity, entities_map: Dict[str, Entity], progre
 
 
 def _generate_rest_classes(entity: Entity, entities_map: Dict[str, Entity], progress: Progress,
-                           force_override: bool, gen_api_models: bool):
-    out_path = rest_generator.create_controller_class(entity, force_override, gen_api_models)
+                           force_override: bool, gen_api_models: bool, with_api_page: bool):
+    out_path = rest_generator.create_controller_class(entity, force_override, gen_api_models, with_api_page)
     _log_rest_adapter_generation('Controller', out_path, progress)
 
     if gen_api_models:
