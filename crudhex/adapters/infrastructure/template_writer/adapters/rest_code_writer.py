@@ -7,8 +7,9 @@ from crudhex.adapters.infrastructure.template_writer.services.template_env impor
 
 
 def create_controller(dest: Path, class_type: str, package: str,
-                      imports: List[str], entity_name: str, model_type: str, id_type: str,
-                      use_case_type: str, mapper_type: str, create_command_type: str, update_command_type: str):
+                      imports: List[str], entity_name: str, model_type: str,
+                      id_type: str, use_case_type: str, mapper_type: str,
+                      create_command_type: str, update_command_type: str, as_page: bool):
 
     template_env = get_template_environment()
 
@@ -24,7 +25,8 @@ def create_controller(dest: Path, class_type: str, package: str,
         'id_type': id_type,
         'mapper_type': mapper_type,
         'create_command_type': create_command_type,
-        'update_command_type': update_command_type
+        'update_command_type': update_command_type,
+        'as_page': as_page
     })
 
     with open(dest.resolve(), 'w+', encoding='utf-8') as f:

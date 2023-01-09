@@ -2,7 +2,11 @@ package {{ package }};
 
 {# Template fixed imports #}
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+{% if as_page -%}
+    import org.springframework.data.domain.Page;
+{% else -%}
+    import java.util.List;
+{% endif %}
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +24,12 @@ public class {{ class_type }} {
     private final {{ use_case_type }} {{ use_case_var }};
 
     @GetMapping
-    public Page<{{ model_type }}> getAll(Pageable page) {
+    public {{ 'Page' if as_page else 'List' }}<{{ model_type }}> getAll(Pageable page) {
+    {% if as_page %}
         return {{ use_case_var }}.getAll(page);
+    {% else %}
+        return {{ use_case_var }}.getAll(page).getContent();
+    {% endif %}
     }
 
     @GetMapping("{id}")
