@@ -2,11 +2,11 @@ from pathlib import Path
 from typing import Optional, Dict, Tuple
 
 from crudhex.domain.models import Entity
-from .generation_commons import create_class
+from .generation_commons import create_class, create_common_class
 from crudhex.domain.services.config_context import get_config
 from crudhex.domain.services.domain import (
     model_generator, command_generator, db_port_generator,
-    use_case_port_generator, use_case_generator
+    use_case_port_generator, use_case_generator, not_found_exception_generator
 )
 
 
@@ -37,3 +37,8 @@ def create_use_case_class(entity: Entity, override: bool = False,
                           folder: Optional[Path] = None) -> Tuple[bool, Path]:
     return create_class(use_case_generator, entity, override=override,
                         folder=folder, default_folder=Path(get_config().get_domain_use_cases_path()))
+
+
+def create_not_found_exception_class(override: bool = False, folder: Optional[Path] = None) -> Tuple[bool, Path]:
+    return create_common_class(not_found_exception_generator, override=override,
+                               folder=folder, default_folder=Path(get_config().get_domain_exceptions_path()))
