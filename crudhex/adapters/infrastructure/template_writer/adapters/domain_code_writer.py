@@ -49,6 +49,22 @@ def create_use_case(dest: Path, class_type: str, package: str, class_type_interf
                        model_type, create_cmd_type, update_cmd_type, extras)
 
 
+def create_exception(dest: Path, class_type: str, package: str, imports: List[str]):
+    template_env = get_template_environment()
+
+    exception_template = template_env.get_template(get_domain_file_path(template_config.EXCEPTION_TEMPLATE))
+    exception_data = {
+        'package': package,
+        'imports': '\n'.join(imports),
+        'class_type': class_type
+    }
+
+    exception_code = exception_template.render(exception_data)
+
+    with open(dest.resolve(), 'w+', encoding='utf-8') as f:
+        f.write(exception_code)
+
+
 def _create_data_class(template: str, dest: Path, class_type: str, package: str,
                        imports: List[str], fields: List[Dict[str, str]]):
 
