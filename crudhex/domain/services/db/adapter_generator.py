@@ -7,7 +7,7 @@ from crudhex.domain.utils.package_utils import full_class_name
 from crudhex.domain.utils.file_utils import get_java_filename
 from . import entity_generator, repository_generator, mapper_generator
 from ..config_context import get_config
-from ..domain import command_generator, model_generator, db_port_generator
+from ..domain import command_generator, model_generator, db_port_generator, not_found_exception_generator
 from ...models.relation_data import RelationData
 from ...models.field import ClassType
 from crudhex.domain.ports import db_code_writer
@@ -54,8 +54,8 @@ def _get_imports(entity: Entity, entities_map: Dict[str, Entity]) -> List[str]:
     imports.update([
         get_import(entity_generator.get_package(), entity_generator.get_type_name(entity)),
         get_import(repository_generator.get_package(), repository_generator.get_type_name(entity)),
-        get_import(db_port_generator.get_package(), db_port_generator.get_type_name(entity))
-
+        get_import(db_port_generator.get_package(), db_port_generator.get_type_name(entity)),
+        get_import(not_found_exception_generator.get_package(), not_found_exception_generator.get_type_name()),
     ])
 
     mapper_type = _get_mapper_type()
