@@ -14,6 +14,8 @@ class ProjectConfig:
     domain_commands_pkg: str
     domain_in_ports_pkg: str
     domain_out_ports_pkg: str
+    domain_use_cases_pkg: str
+    domain_exceptions_pkg: str
 
     db_models_pkg: str
     db_repositories_pkg: str
@@ -37,6 +39,7 @@ class ProjectConfig:
         self.domain_in_ports_pkg = ''
         self.domain_out_ports_pkg = ''
         self.domain_use_cases_pkg = ''
+        self.domain_exceptions_pkg = ''
 
         self.db_models_pkg = ''
         self.db_repositories_pkg = ''
@@ -71,16 +74,16 @@ class ProjectConfig:
         if errors: raise ConfigValidationError(errors)
 
     def get_domain_models_path(self) -> Path:
-        return pkg_to_path(self.domain_models_pkg, self.domain_src)
+        return self._domain_pkg_path(self.domain_models_pkg)
 
     def get_domain_commands_path(self) -> Path:
-        return pkg_to_path(self.domain_commands_pkg, self.domain_src)
+        return self._domain_pkg_path(self.domain_commands_pkg)
 
     def get_domain_in_ports_path(self) -> Path:
-        return pkg_to_path(self.domain_in_ports_pkg, self.domain_src)
+        return self._domain_pkg_path(self.domain_in_ports_pkg)
 
     def get_domain_out_ports_path(self) -> Path:
-        return pkg_to_path(self.domain_out_ports_pkg, self.domain_src)
+        return self._domain_pkg_path(self.domain_out_ports_pkg)
 
     def get_domain_use_cases_path(self) -> Path:
         return self._domain_pkg_path(self.domain_use_cases_pkg)
@@ -89,31 +92,31 @@ class ProjectConfig:
         return self._domain_pkg_path(self.domain_exceptions_pkg)
 
     def get_db_models_path(self) -> Path:
-        return pkg_to_path(self.db_models_pkg, self.db_adapter_src)
+        return self._db_pkg_path(self.db_models_pkg)
 
     def get_db_repositories_path(self) -> Path:
-        return pkg_to_path(self.db_repositories_pkg, self.db_adapter_src)
+        return self._db_pkg_path(self.db_repositories_pkg)
 
     def get_db_adapters_path(self) -> Path:
-        return pkg_to_path(self.db_adapters_pkg, self.db_adapter_src)
+        return self._db_pkg_path(self.db_adapters_pkg)
 
     def get_db_mapper_path(self) -> Path:
         if self.db_mapper_class: mapper_pkg = get_package(self.db_mapper_class)
         else: mapper_pkg = self.db_mapper_pkg
 
-        return pkg_to_path(mapper_pkg, self.db_adapter_src)
+        return self._domain_pkg_path(mapper_pkg)
 
     def get_rest_models_path(self) -> Path:
-        return pkg_to_path(self.rest_models_pkg, self.rest_adapter_src)
+        return self._rest_pkg_path(self.rest_models_pkg)
 
     def get_rest_controllers_path(self) -> Path:
-        return pkg_to_path(self.rest_controllers_pkg, self.rest_adapter_src)
+        return self._rest_pkg_path(self.rest_controllers_pkg)
 
     def get_rest_mapper_path(self) -> Path:
         if self.rest_mapper_class: mapper_pkg = get_package(self.rest_mapper_class)
         else: mapper_pkg = self.rest_mapper_pkg
 
-        return pkg_to_path(mapper_pkg, self.rest_adapter_src)
+        return self._rest_pkg_path(mapper_pkg)
 
     @property
     def domain_src(self) -> Optional[str]:
