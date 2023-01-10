@@ -83,7 +83,10 @@ class ProjectConfig:
         return pkg_to_path(self.domain_out_ports_pkg, self.domain_src)
 
     def get_domain_use_cases_path(self) -> Path:
-        return pkg_to_path(self.domain_use_cases_pkg, self.domain_src)
+        return self._domain_pkg_path(self.domain_use_cases_pkg)
+
+    def get_domain_exceptions_path(self) -> Path:
+        return self._domain_pkg_path(self.domain_exceptions_pkg)
 
     def get_db_models_path(self) -> Path:
         return pkg_to_path(self.db_models_pkg, self.db_adapter_src)
@@ -152,6 +155,15 @@ class ProjectConfig:
             p_config[key.replace('-', '_')] = val
 
         return p_config
+
+    def _domain_pkg_path(self, pkg: str) -> Path:
+        return pkg_to_path(pkg, self.domain_src)
+
+    def _db_pkg_path(self, pkg: str) -> Path:
+        return pkg_to_path(pkg, self.db_adapter_src)
+
+    def _rest_pkg_path(self, pkg: str) -> Path:
+        return pkg_to_path(pkg, self.rest_adapter_src)
 
 
 class ConfigValidationError(RuntimeError):
