@@ -25,6 +25,7 @@ class ProjectConfig:
 
     rest_models_pkg: str
     rest_controllers_pkg: str
+    rest_exception_handler_pkg: str
     rest_mapper_pkg: str
     rest_mapper_class: Optional[str]
 
@@ -49,6 +50,7 @@ class ProjectConfig:
 
         self.rest_models_pkg = ''
         self.rest_controllers_pkg = ''
+        self.rest_exception_handler_pkg = ''
         self.rest_mapper_pkg = ''
         self.rest_mapper_class = None
 
@@ -111,6 +113,9 @@ class ProjectConfig:
 
     def get_rest_controllers_path(self) -> Path:
         return self._rest_pkg_path(self.rest_controllers_pkg)
+
+    def get_rest_exception_handler_path(self) -> Path:
+        return self._rest_pkg_path(self.rest_exception_handler_pkg)
 
     def get_rest_mapper_path(self) -> Path:
         if self.rest_mapper_class: mapper_pkg = get_package(self.rest_mapper_class)
