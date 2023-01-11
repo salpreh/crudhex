@@ -16,14 +16,14 @@ import java.util.Optional;
 @ControllerAdvice
 public class {{ class_type }} extends ResponseEntityExceptionHandler {
 
-  @ExceptionHandler({{ not_found_exception_type }}.class})
+  @ExceptionHandler({{ not_found_exception_type }}.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<ApiErrorResponse> handleResponseStatusException({{ not_found_exception_type }} ex) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
       .body(buildErrorResponse(HttpStatus.NOT_FOUND, ex));
   }
 
-  @ExceptionHandler({RuntimeException.class})
+  @ExceptionHandler(RuntimeException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseEntity<ApiErrorResponse> handleException(RuntimeException ex) {
     HttpStatus status = getStatusFromAnnotation(ex)
