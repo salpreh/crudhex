@@ -20,6 +20,7 @@ _MAPPER_HELP = f'Mapper generation option. By default no mapper will be generate
                '\n[WARN]: modelmapper generation not supported yet.'
 _API_MODELS_HELP = 'Generate API models'
 _API_PAGE_HELP = 'Use Spring data Page as return type for get all endpoints. By default List with items is returned'
+_EXCEPTION_HANDLER_HELP = 'Generate a default exception handler for Spring REST controllers (ControllerAdvice)'
 
 app = typer.Typer()
 out_console: Optional[Console] = None
@@ -38,7 +39,8 @@ def generate(
         force_override: bool = typer.Option(False, '--force', '-f', help=_FORCE_HELP),
         mapper_type: MapperType = typer.Option(MapperType.NONE.value, '--mapper', '-m', help=_MAPPER_HELP),
         gen_api_models: bool = typer.Option(True, '--generate-api-models/--no-generate-api-models', help=_API_MODELS_HELP),
-        with_api_page: bool = typer.Option(False, '--with-api-page', '-ap', help=_API_PAGE_HELP)
+        with_api_page: bool = typer.Option(False, '--with-api-page', '-ap', help=_API_PAGE_HELP),
+        add_exception_handler: bool = typer.Option(True, '--add-exception-handler/--no-add-exception-handler', help=_EXCEPTION_HANDLER_HELP)
 ):
 
     load_config(project_config)
@@ -63,6 +65,9 @@ def generate(
 
         # Shared classes
         progress.console.rule('Shared classes', style='bright_yellow')
+        out_path = domain_generator.create_not_found_exception_class(force_override)
+        _log_domain_generation('Not found exception', out_path, progress)
+
         if mapper_type != MapperType.NONE:
             out_path = db_adapter_generator.create_mapper_class(entities_map, mapper_type, force_override)
             _log_db_adapter_generation('DB mapper', out_path, progress)
@@ -70,6 +75,10 @@ def generate(
             if gen_api_models:
                 out_path = rest_generator.create_mapper_class(entities_map, mapper_type, force_override)
                 _log_rest_adapter_generation('API mapper', out_path, progress)
+
+        if add_exception_handler:
+            out_path = rest_generator.create_exception_handler_class(force_override)
+            _log_rest_adapter_generation('Exception handler', out_path, progress)
 
         progress.console.print('')
 

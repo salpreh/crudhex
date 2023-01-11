@@ -14,8 +14,7 @@ _REST_MODEL_SUFFIX = 'Dto'
 def create_class(entity: Entity, folder: Path) -> Path:
     if not folder.is_dir(): raise RuntimeError('Output path must be a folder ({})'.format(folder.resolve()))
 
-    class_type = get_type_name(entity)
-    model_file = folder / get_java_filename(class_type)
+    model_file = folder / get_filename(entity)
 
     rest_code_writer.create_model(model_file, get_type_name(entity), get_package(),
                                   _get_imports(entity), _get_model_fields_data(entity))

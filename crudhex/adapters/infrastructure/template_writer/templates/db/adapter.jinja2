@@ -54,7 +54,7 @@ public class {{ class_type }} implements {{ class_type_interface }} {
     @Override
     public {{ model_type }} update({{ id_type }} id, {{ update_command_type }} updateCommand) {
         {{ entity_type }} entity = {{ main_repository_var }}.findById(id)
-            .orElseThrow(() -> new RuntimeException("Unable to find {{ entity_type }} with ID " + id));
+            .orElseThrow(() -> new NotFoundException("Unable to find {{ entity_type }} with ID " + id));
 
         processCommand(updateCommand, entity);
 

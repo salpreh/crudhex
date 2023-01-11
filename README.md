@@ -26,7 +26,8 @@ domain-models-pkg: com.salpreh.baseapi.domain.models # domain models package
 domain-commands-pkg: com.salpreh.baseapi.domain.models.commands # domain commands package
 domain-in-ports-pkg: com.salpreh.baseapi.domain.ports.application # domain ports (in/driving/application)
 domain-out-ports-pkg: com.salpreh.baseapi.domain.ports.infrastructure # domain ports (out/driven/infrastructure)
-domain-use-cases-pkg: com.salpreh.baseapi.domain.services
+domain-use-cases-pkg: com.salpreh.baseapi.domain.services # domain use cases implementation
+domain-exceptions-pkg: com.salpreh.baseapi.domain.exceptions # domain exceptions
 
 db-adapters-pkg: com.salpreh.baseapi.adapters.infrastructure.db.adapters # db adapters (port implementations)
 db-models-pkg: com.salpreh.baseapi.adapters.infrastructure.db.models # db entities package
@@ -37,6 +38,7 @@ db-mapper-pkg: com.salpreh.baseapi.adapters.infrastructure.db.mappers # db mappe
 
 rest-models-pkg: com.salpreh.baseapi.application.api.models # rest models package
 rest-controllers-pkg: com.salpreh.baseapi.application.api.controllers # rest controllers package
+rest-exception-handler-pkg: com.salpreh.baseapi.application.api.config # rest exception handler package
 
 rest-mapper-class: com.salpreh.baseapi.application.api.controllers.mappers.ApiMapper # mapper class to map domain models to api models. Needed if no mapper option specified when running command (optional)
 rest-mapper-pkg: com.salpreh.baseapi.application.api.controllers.mappers # api mapper package. Needed when mapper option specified when running command (optional)

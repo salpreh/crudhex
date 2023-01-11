@@ -14,6 +14,8 @@ class ProjectConfig:
     domain_commands_pkg: str
     domain_in_ports_pkg: str
     domain_out_ports_pkg: str
+    domain_use_cases_pkg: str
+    domain_exceptions_pkg: str
 
     db_models_pkg: str
     db_repositories_pkg: str
@@ -23,6 +25,7 @@ class ProjectConfig:
 
     rest_models_pkg: str
     rest_controllers_pkg: str
+    rest_exception_handler_pkg: str
     rest_mapper_pkg: str
     rest_mapper_class: Optional[str]
 
@@ -37,6 +40,7 @@ class ProjectConfig:
         self.domain_in_ports_pkg = ''
         self.domain_out_ports_pkg = ''
         self.domain_use_cases_pkg = ''
+        self.domain_exceptions_pkg = ''
 
         self.db_models_pkg = ''
         self.db_repositories_pkg = ''
@@ -46,6 +50,7 @@ class ProjectConfig:
 
         self.rest_models_pkg = ''
         self.rest_controllers_pkg = ''
+        self.rest_exception_handler_pkg = ''
         self.rest_mapper_pkg = ''
         self.rest_mapper_class = None
 
@@ -71,46 +76,52 @@ class ProjectConfig:
         if errors: raise ConfigValidationError(errors)
 
     def get_domain_models_path(self) -> Path:
-        return pkg_to_path(self.domain_models_pkg, self.domain_src)
+        return self._domain_pkg_path(self.domain_models_pkg)
 
     def get_domain_commands_path(self) -> Path:
-        return pkg_to_path(self.domain_commands_pkg, self.domain_src)
+        return self._domain_pkg_path(self.domain_commands_pkg)
 
     def get_domain_in_ports_path(self) -> Path:
-        return pkg_to_path(self.domain_in_ports_pkg, self.domain_src)
+        return self._domain_pkg_path(self.domain_in_ports_pkg)
 
     def get_domain_out_ports_path(self) -> Path:
-        return pkg_to_path(self.domain_out_ports_pkg, self.domain_src)
+        return self._domain_pkg_path(self.domain_out_ports_pkg)
 
     def get_domain_use_cases_path(self) -> Path:
-        return pkg_to_path(self.domain_use_cases_pkg, self.domain_src)
+        return self._domain_pkg_path(self.domain_use_cases_pkg)
+
+    def get_domain_exceptions_path(self) -> Path:
+        return self._domain_pkg_path(self.domain_exceptions_pkg)
 
     def get_db_models_path(self) -> Path:
-        return pkg_to_path(self.db_models_pkg, self.db_adapter_src)
+        return self._db_pkg_path(self.db_models_pkg)
 
     def get_db_repositories_path(self) -> Path:
-        return pkg_to_path(self.db_repositories_pkg, self.db_adapter_src)
+        return self._db_pkg_path(self.db_repositories_pkg)
 
     def get_db_adapters_path(self) -> Path:
-        return pkg_to_path(self.db_adapters_pkg, self.db_adapter_src)
+        return self._db_pkg_path(self.db_adapters_pkg)
 
     def get_db_mapper_path(self) -> Path:
         if self.db_mapper_class: mapper_pkg = get_package(self.db_mapper_class)
         else: mapper_pkg = self.db_mapper_pkg
 
-        return pkg_to_path(mapper_pkg, self.db_adapter_src)
+        return self._domain_pkg_path(mapper_pkg)
 
     def get_rest_models_path(self) -> Path:
-        return pkg_to_path(self.rest_models_pkg, self.rest_adapter_src)
+        return self._rest_pkg_path(self.rest_models_pkg)
 
     def get_rest_controllers_path(self) -> Path:
-        return pkg_to_path(self.rest_controllers_pkg, self.rest_adapter_src)
+        return self._rest_pkg_path(self.rest_controllers_pkg)
+
+    def get_rest_exception_handler_path(self) -> Path:
+        return self._rest_pkg_path(self.rest_exception_handler_pkg)
 
     def get_rest_mapper_path(self) -> Path:
         if self.rest_mapper_class: mapper_pkg = get_package(self.rest_mapper_class)
         else: mapper_pkg = self.rest_mapper_pkg
 
-        return pkg_to_path(mapper_pkg, self.rest_adapter_src)
+        return self._rest_pkg_path(mapper_pkg)
 
     @property
     def domain_src(self) -> Optional[str]:
@@ -152,6 +163,15 @@ class ProjectConfig:
             p_config[key.replace('-', '_')] = val
 
         return p_config
+
+    def _domain_pkg_path(self, pkg: str) -> Path:
+        return pkg_to_path(pkg, self.domain_src)
+
+    def _db_pkg_path(self, pkg: str) -> Path:
+        return pkg_to_path(pkg, self.db_adapter_src)
+
+    def _rest_pkg_path(self, pkg: str) -> Path:
+        return pkg_to_path(pkg, self.rest_adapter_src)
 
 
 class ConfigValidationError(RuntimeError):

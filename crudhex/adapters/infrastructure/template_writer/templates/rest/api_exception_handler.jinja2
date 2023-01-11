@@ -1,0 +1,61 @@
+package {{ package }};
+
+{# Fixed imports in the temlate #}
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.Optional;
+
+{{ imports }}
+
+@ControllerAdvice
+public class {{ class_type }} extends ResponseEntityExceptionHandler {
+
+  @ExceptionHandler({{ not_found_exception_type }}.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<ApiErrorResponse> handleResponseStatusException({{ not_found_exception_type }} ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+      .body(buildErrorResponse(HttpStatus.NOT_FOUND, ex));
+  }
+
+  @ExceptionHandler(RuntimeException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ResponseEntity<ApiErrorResponse> handleException(RuntimeException ex) {
+    HttpStatus status = getStatusFromAnnotation(ex)
+      .orElse(HttpStatus.INTERNAL_SERVER_ERROR);
+
+    return ResponseEntity.status(status)
+      .body(buildErrorResponse(status, ex));
+  }
+
+  private Optional<HttpStatus> getStatusFromAnnotation(Exception ex) {
+    ResponseStatus responseStatus = ex.getClass().getAnnotation(ResponseStatus.class);
+    if (responseStatus == null) return Optional.empty();
+
+    return Optional.of(responseStatus.value());
+  }
+
+  private ApiErrorResponse buildErrorResponse(HttpStatus status, RuntimeException ex) {
+    return ApiErrorResponse.build(status.name(), ex.getMessage());
+  }
+
+  @Getter
+  public static class ApiErrorResponse {
+    private final String code;
+    private final String message;
+
+    public ApiErrorResponse(String code, String message) {
+      this.code = code;
+      this.message = message;
+    }
+
+    public static ApiErrorResponse build(String code, String message) {
+      return new ApiErrorResponse(code, message);
+    }
+  }
+}
