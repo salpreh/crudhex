@@ -33,6 +33,22 @@ def create_controller(dest: Path, class_type: str, package: str,
         f.write(controller_code)
 
 
+def create_exception_handler(dest: Path, class_type: str, package: str, imports: List[str], not_found_exception_type: str):
+
+    template_env = get_template_environment()
+
+    exception_handler_template = template_env.get_template(get_rest_file_path(template_config.EXCEPTION_HANDLER_TEMPLATE))
+    api_exception_handler_code = exception_handler_template.render({
+        'package': package,
+        'imports': '\n'.join(imports),
+        'class_type': class_type,
+        'not_found_exception_type': not_found_exception_type
+    })
+
+    with open(dest.resolve(), 'w+', encoding='utf-8') as f:
+        f.write(api_exception_handler_code)
+
+
 def create_model(dest: Path, class_type: str, package: str,
                  imports: List[str], fields: List[Dict[str, str]]):
 
