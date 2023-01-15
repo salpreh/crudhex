@@ -1,6 +1,7 @@
 from typing import Dict, Optional, List
 
 from crudhex.domain.models import Field
+from crudhex.domain.services.data.class_type_data import get_type_data
 from crudhex.domain.utils import package_utils
 
 _TYPE_RESOLVER: Optional['TypeResolver'] = None
@@ -21,32 +22,7 @@ class TypeResolver:
     DEFAULT_COLLECTION_IMPL = 'HashSet'
     GENERIC_TEMPLATE = '{}<{}>'
 
-    _TYPE_DATA = {
-        # Java
-        'Collection': 'java.util.Collection',
-        'List': 'java.util.List',
-        'ArrayList': 'java.util.ArrayList',
-        'Set': 'java.util.Set',
-        'HashSet': 'java.util.HashSet',
-        'Map': 'java.util.Map',
-        'HashMap': 'java.util.HashMap',
-        'UUID': 'java.util.UUID',
-        'Optional': 'java.util.Optional',
-        'Stream': 'java.util.stream.Stream',
-        'String': 'java.lang.String',
-        'Double': 'java.lang.Double',
-        'Float': 'java.lang.Float',
-        'Integer': 'java.lang.Integer',
-        'Short': 'java.lang.Short',
-        'Long': 'java.lang.Long',
-        'Boolean': 'java.lang.Boolean',
-        'BigDecimal': 'java.math.BigDecimal',
-        'BigInteger': 'java.math.BigInteger',
-        # Spring data
-        'Page': 'org.springframework.data.domain.Page',
-        'Pageable': 'org.springframework.data.domain.Pageable',
-
-    }
+    _TYPE_DATA = get_type_data()
 
     _COLLECTION_INTERFACES = [
         'Collection',
