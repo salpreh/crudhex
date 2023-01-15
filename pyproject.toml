@@ -34,6 +34,8 @@ inflect = "^6.0.0"
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
+beautifulsoup4 = "^4.11.1"
+urllib3 = "^1.26.14"
 
 [tool.poetry.scripts]
 crudhex = "crudhex.adapters.application.cli.main:main"
