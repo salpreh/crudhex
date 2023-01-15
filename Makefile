@@ -5,3 +5,8 @@ tests:
 
 generate/types_file:
 	@poetry run python scripts/jdk_classes_export.py
+
+# Update version, commit and tag
+# RULE: Rule to generate the version (patch, minor, major)
+version-update:
+	@bin/version-update.sh $(RULE)
