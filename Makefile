@@ -7,9 +7,10 @@ generate/types_file:
 	@poetry run python scripts/jdk_classes_export.py
 
 # Update version, commit and tag
-# RULE: Rule to generate the version (patch, minor, major)
+# ARGS:
+# rule: Rule to generate the version (patch, minor, major)
 version-update:
-	@bin/version-update.sh $(RULE)
+	@bin/version-update.sh $(rule)
 
 clean:
 	@rm -rf dist
