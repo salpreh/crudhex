@@ -231,7 +231,7 @@ Person:
       join-column: birth_planet_id
   race: com.salpreh.baseapi.domain.models.RaceType # Custom class
 ```
-For custom classes full package name is required (`race` field in example). For java types, currently not all types are supported, in case you need a not supported type you can use full package name to refer to it. There is a list of supported types in the annexes section [here](#annexes).
+For custom classes full package name is required (`race` field in example). For java types all jdk 11 classes are supported, in case you need a not supported type you can use full package name to refer to it. There is a list of supported types in [crudhex/domain/services/data/class_type_data.py](https://github.com/salpreh/crudhex/tree/master/crudhex/domain/services/data/class_type_data.py).
 
 For regular fields most common option is to use type directly as value (first example), or a map with type and column name alias (second example). We will dig into `id` and `relation` options in the next sections.
 
