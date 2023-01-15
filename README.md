@@ -295,33 +295,6 @@ Options available are:
 All of these options are mapped to JPA annotations and configurations. Explaining when to use each option and what it does is out of the scope of this document.
 
 ## Annexes
-### Supported types
-```yaml
-# Java
-'Collection': 'java.util.Collection'
-'List': 'java.util.List'
-'ArrayList': 'java.util.ArrayList'
-'Set': 'java.util.Set'
-'HashSet': 'java.util.HashSet'
-'Map': 'java.util.Map'
-'HashMap': 'java.util.HashMap'
-'UUID': 'java.util.UUID'
-'Optional': 'java.util.Optional'
-'Stream': 'java.util.stream.Stream'
-'String': 'java.lang.String'
-'Double': 'java.lang.Double'
-'Float': 'java.lang.Float'
-'Integer': 'java.lang.Integer'
-'Short': 'java.lang.Short'
-'Long': 'java.lang.Long'
-'Boolean': 'java.lang.Boolean'
-'BigDecimal': 'java.math.BigDecimal'
-'BigInteger': 'java.math.BigInteger'
-# Spring data
-'Page': 'org.springframework.data.domain.Page'
-'Pageable': 'org.springframework.data.domain.Pageable'
-```
-
 ### References
 - [JPA Bidirectional relations](https://vladmihalcea.com/jpa-hibernate-synchronize-bidirectional-entity-associations/)
 - [JPA many-to-many relations](https://www.jpa-buddy.com/blog/synchronization-methods-for-many-to-many-associations/)
