@@ -1,4 +1,4 @@
-.PHONY: tests
+.PHONY: tests clean
 
 tests:
 	@poetry run pytest --doctest-modules --junitxml=test-results.xml --cov=crudhex --cov-report=html
@@ -10,3 +10,10 @@ generate/types_file:
 # RULE: Rule to generate the version (patch, minor, major)
 version-update:
 	@bin/version-update.sh $(RULE)
+
+clean:
+	@rm -rf dist
+	@rm -rf .pytest_cache
+	@rm -rf htmlcov
+	@rm test-results.xml
+	@rm .coverage
