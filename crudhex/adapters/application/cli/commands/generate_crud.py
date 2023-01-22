@@ -12,18 +12,30 @@ from crudhex.domain.models.mapper import MapperType
 from crudhex.domain.models.project_config import ConfigValidationError
 from crudhex.domain.services import dsl_parser, config_context, db_adapter_generator, domain_generator, rest_generator
 
+app = typer.Typer()
 out_console: Optional[Console] = None
 err_console: Optional[Console] = None
 
 
+_SPEC_HELP = 'Spec file path to process'
+_CONF_HELP = f'Project config file to know packages and code paths. Defaults to {config_context.DEFAULT_CONFIG}'
+_FORCE_HELP = f'Override file outputs if exists'
+_MAPPER_HELP = f'Mapper generation option. By default no mapper will be generated.' \
+               '\n[WARN]: modelmapper generation not supported yet.'
+_API_MODELS_HELP = 'Generate API models'
+_API_PAGE_HELP = 'Use Spring data Page as return type for get all endpoints. By default List with items is returned'
+_EXCEPTION_HANDLER_HELP = 'Generate a default exception handler for Spring REST controllers (ControllerAdvice)'
+
+
+@app.command()
 def generate(
-        spec_file: str,
-        project_config: str,
-        force_override: bool,
-        mapper_type: MapperType,
-        gen_api_models: bool,
-        with_api_page: bool,
-        add_exception_handler: bool
+        spec_file: str = typer.Argument(..., help=_SPEC_HELP),
+        project_config: str = typer.Option(None, '--config', '-c', help=_CONF_HELP),
+        force_override: bool = typer.Option(False, '--force', '-f', help=_FORCE_HELP),
+        mapper_type: MapperType = typer.Option(MapperType.NONE.value, '--mapper', '-m', help=_MAPPER_HELP),
+        gen_api_models: bool = typer.Option(True, '--generate-api-models/--no-generate-api-models', help=_API_MODELS_HELP),
+        with_api_page: bool = typer.Option(False, '--with-api-page', '-ap', help=_API_PAGE_HELP),
+        add_exception_handler: bool = typer.Option(True, '--add-exception-handler/--no-add-exception-handler', help=_EXCEPTION_HANDLER_HELP)
 ):
 
     _set_up()
