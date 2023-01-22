@@ -6,6 +6,7 @@ from rich.theme import Theme
 
 from . import console_out_context as console_context
 from .commands.generate_crud import generate as generate_crud
+from .commands import create_scaffolding
 from crudhex.domain.models.mapper import MapperType
 from crudhex.domain.services import config_context
 
@@ -25,6 +26,7 @@ err_console: Optional[Console] = None
 
 def main():
     _setup()
+    _load_subcommands()
     app()
 
 
@@ -42,6 +44,15 @@ def generate(
     generate_crud(spec_file, project_config, force_override,
                   mapper_type, gen_api_models, with_api_page,
                   add_exception_handler)
+
+
+def _load_subcommands():
+    try:
+        import cookiecutter
+
+        app.add_typer(create_scaffolding.app, name='scaffolding', help='Create a new project scaffolding')
+    except ImportError:
+        pass
 
 
 def _setup():
