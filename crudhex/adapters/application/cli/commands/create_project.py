@@ -36,9 +36,8 @@ def create(
     _set_up()
 
     if template_name:
-        out_console.print(f'Using template {template_name}', style='info')
         template_ref = _get_template_ref(template_name)
-        cleanup = False
+        cleanup = repository.is_repo_url(template_ref)
     elif template_folder:
         template_ref = template_folder
         cleanup = False
@@ -76,8 +75,15 @@ def list_available(
 
 
 def _get_template_ref(template_name: str) -> str:
-    out_console.print(f'Template {template_name} not found!', style='error')
-    raise typer.Exit(code=1)
+    config = get_project_config()
+    template_ref = config.templates.get(template_name)
+    if not template_ref:
+        out_console.print(f'Template {template_name} not found!', style='error')
+        raise typer.Exit(code=1)
+
+    out_console.print(f'Using template ref {template_ref}', style='info')
+
+    return template_ref
 
 
 def _cleanup_template(template_ref: str):
