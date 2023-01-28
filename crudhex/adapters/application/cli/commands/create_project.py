@@ -9,6 +9,7 @@ from rich.console import Console
 
 from .. import console_out_context as console_context
 from ..cli_helper import mutually_exclusive_group
+from crudhex.domain.services.config_context import get_project_config
 
 _CREATE_HELP = 'Create a new project scaffolding'
 _LIST_HELP = 'List available templates'
@@ -16,6 +17,7 @@ _LIST_HELP = 'List available templates'
 _TEMPLATE_NAME_HELP = 'Name of the template to use. Exclusive options: -t, -f, -g'
 _TEMPLATE_FOLDER_HELP = 'Folder where the template is located. Exclusive options: -t, -f, -g'
 _TEMPLATE_GIT_HELP = 'Git repository where the template is located. Exclusive options: -t, -f, -g'
+_LIST_ALL_HELP = 'List templates with source information'
 
 app = typer.Typer()
 out_console: Optional[Console] = None
@@ -56,8 +58,21 @@ def create(
 
 
 @app.command(name='list', help=_LIST_HELP)
-def list_available():
-    out_console.print(f'Template list!', style='finished')
+def list_available(
+        full_output: bool = typer.Option(False, '--all', '-a', help=_LIST_ALL_HELP)
+):
+    _set_up()
+    out_console.print(f'Listing configured templates:', style='notify')
+    config = get_project_config()
+    if not config.templates:
+        out_console.print(f'No templates configured', style='warning')
+        typer.Exit(code=0)
+
+    for template, ref in config.templates.items():
+        if full_output:
+            out_console.print(f' - [bold]{template}[/bold]: [light]{ref}[/light]')
+        else:
+            out_console.print(f' - {template}')
 
 
 def _get_template_ref(template_name: str) -> str:

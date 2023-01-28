@@ -57,6 +57,7 @@ def _load_subcommands():
 
 def _setup():
     theme = Theme({
+        "light": "gray74",
         "notify": "cyan",
         "info": "dim cyan",
         "success": "green",
