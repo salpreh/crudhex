@@ -4,7 +4,7 @@ from typing import List
 from crudhex.domain.models import Entity
 from crudhex.domain.utils.class_type_utils import get_import
 from crudhex.domain.utils.file_utils import get_java_filename
-from ..config_context import get_config
+from ..project_config_context import get_project_config
 from . import command_generator
 from . import model_generator
 from . import use_case_port_generator
@@ -35,7 +35,7 @@ def create_class(entity: Entity, folder: Path) -> Path:
 
 
 def get_package() -> str:
-    return get_config().domain_use_cases_pkg
+    return get_project_config().domain_use_cases_pkg
 
 
 def get_type_name(entity: Entity) -> str:

@@ -4,7 +4,7 @@ Implements `ICommonGenerator` protocol interface
 from pathlib import Path
 from typing import List
 
-from ..config_context import get_config
+from ..project_config_context import get_project_config
 from ...utils.class_type_utils import get_import
 from ...utils.file_utils import get_java_filename
 from ..domain import not_found_exception_generator
@@ -26,7 +26,7 @@ def create_class(folder: Path) -> Path:
 
 
 def get_package() -> str:
-    return get_config().rest_exception_handler_pkg
+    return get_project_config().rest_exception_handler_pkg
 
 
 def get_type_name() -> str:

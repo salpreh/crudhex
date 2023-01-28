@@ -4,7 +4,7 @@ from typing import List, Optional
 from crudhex.domain.models import Entity
 from crudhex.domain.utils import package_utils
 from crudhex.domain.utils.file_utils import get_java_filename
-from ..config_context import get_config
+from ..project_config_context import get_project_config
 from ..type_resolver import get_type_resolver
 from . import entity_generator as entity_generator
 
@@ -32,7 +32,7 @@ def get_type_name(entity: Entity) -> str:
 
 
 def get_package() -> str:
-    return get_config().db_repositories_pkg
+    return get_project_config().db_repositories_pkg
 
 
 def get_filename(entity: Entity) -> str:

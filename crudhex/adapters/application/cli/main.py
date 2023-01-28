@@ -8,10 +8,10 @@ from . import console_out_context as console_context
 from .commands.generate_crud import generate as generate_crud
 from .commands import create_scaffolding
 from crudhex.domain.models.mapper import MapperType
-from crudhex.domain.services import config_context
+from crudhex.domain.services import project_config_context
 
 _SPEC_HELP = 'Spec file path to process'
-_CONF_HELP = f'Project config file to know packages and code paths. Defaults to {config_context.DEFAULT_CONFIG}'
+_CONF_HELP = f'Project config file to know packages and code paths. Defaults to {project_config_context.DEFAULT_CONFIG}'
 _FORCE_HELP = f'Override file outputs if exists'
 _MAPPER_HELP = f'Mapper generation option. By default no mapper will be generated.' \
                '\n[WARN]: modelmapper generation not supported yet.'

@@ -8,21 +8,21 @@ DEFAULT_CONFIG = './.crudhex-conf.yaml'
 _CONFIG: Optional[ProjectConfig] = None
 
 
-def load_config(path: Optional[Path] = None):
+def load_project_config(path: Optional[Path] = None):
     if not path: path = Path(DEFAULT_CONFIG)
 
     config = spec_loader.load_project_config(path)
-    set_config(config)
+    set_project_config(config)
 
     return config
 
 
-def set_config(config: ProjectConfig):
+def set_project_config(config: ProjectConfig):
     global _CONFIG
     _CONFIG = config
 
 
-def get_config(default_config: Optional[ProjectConfig] = None) -> ProjectConfig:
+def get_project_config(default_config: Optional[ProjectConfig] = None) -> ProjectConfig:
     """
     Returns config in context. If not available it will try to use provided `default_config`, otherwise will raise an exeption
     :param default_config:

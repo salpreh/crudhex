@@ -10,7 +10,7 @@ from crudhex.adapters.application.cli import console_out_context as console_cont
 from crudhex.domain.models import Entity
 from crudhex.domain.models.mapper import MapperType
 from crudhex.domain.models.project_config import ConfigValidationError
-from crudhex.domain.services import dsl_parser, config_context, db_adapter_generator, domain_generator, rest_generator
+from crudhex.domain.services import dsl_parser, project_config_context, db_adapter_generator, domain_generator, rest_generator
 
 out_console: Optional[Console] = None
 err_console: Optional[Console] = None
@@ -91,8 +91,8 @@ def _load_config(project_config: Optional[str]):
         out_console.print('Loading from default config path...', style='info')
 
     try:
-        config_context.load_config(Path(project_config) if project_config else None)
-        config_context.get_config().validate()
+        project_config_context.load_project_config(Path(project_config) if project_config else None)
+        project_config_context.get_project_config().validate()
     except ConfigValidationError as err:
         err_console.print('Errors in config file: {}'.format('\n- '.join(err.errors)))
         raise typer.Exit(code=1)
