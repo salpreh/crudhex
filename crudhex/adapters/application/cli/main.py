@@ -6,7 +6,7 @@ from rich.theme import Theme
 
 from . import console_out_context as console_context
 from .commands.generate_crud import generate as generate_crud
-from .commands import create_scaffolding
+from .commands import create_project
 from crudhex.domain.models.mapper import MapperType
 from crudhex.domain.services import project_config_context
 
@@ -30,8 +30,8 @@ def main():
     app()
 
 
-@app.command(help='Generate CRUD classes from a spec file')
-def generate(
+@app.command(help='Generate CRUD classes from a spec file', name='crud')
+def generate_crud(
         spec_file: str = typer.Argument(..., help=_SPEC_HELP),
         project_config: str = typer.Option(None, '--config', '-c', help=_CONF_HELP),
         force_override: bool = typer.Option(False, '--force', '-f', help=_FORCE_HELP),
@@ -48,9 +48,9 @@ def generate(
 
 def _load_subcommands():
     try:
-        import cookiecutter
+        import state
 
-        app.add_typer(create_scaffolding.app, name='scaffolding', help='Create a new project scaffolding')
+        app.add_typer(create_project.app, name='project', help='Create a new project from template')
     except ImportError:
         pass
 
