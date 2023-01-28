@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "crudhex"
-version = "0.17.1"
+version = "0.17.2"
 description = "Java/Spring CRUD code generator"
 authors = ["salpreh <salpreh.7@gmail.com>"]
 readme = "README.md"
