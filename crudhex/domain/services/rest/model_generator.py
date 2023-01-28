@@ -4,7 +4,7 @@ from typing import List, Dict
 from crudhex.domain.models import Entity, Field
 from crudhex.domain.utils.class_type_utils import get_field_imports, get_field_types
 from crudhex.domain.utils.file_utils import get_java_filename
-from ..config_context import get_config
+from ..project_config_context import get_project_config
 
 from crudhex.domain.ports import rest_code_writer
 
@@ -23,7 +23,7 @@ def create_class(entity: Entity, folder: Path) -> Path:
 
 
 def get_package() -> str:
-    return get_config().rest_models_pkg
+    return get_project_config().rest_models_pkg
 
 
 def get_type_name(entity: Entity) -> str:

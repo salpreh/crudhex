@@ -5,7 +5,7 @@ from crudhex.domain.models import Entity
 from crudhex.domain.utils.class_type_utils import get_import
 from crudhex.domain.utils import package_utils
 from crudhex.domain.utils.file_utils import get_java_filename
-from ..config_context import get_config
+from ..project_config_context import get_project_config
 from crudhex.domain.ports import db_code_writer
 from ..generation_commons import IGenerator
 from ...models.mapper import MapperType
@@ -29,14 +29,14 @@ def create_class(entities_map: Dict[str, Entity], mapper_type: MapperType, folde
 
 
 def get_package(mapper_class_key: str, mapper_pkg_key: str) -> str:
-    config = get_config()
+    config = get_project_config()
     if getattr(config, mapper_class_key): return package_utils.get_package(getattr(config, mapper_class_key))
 
     return getattr(config, mapper_pkg_key)
 
 
 def get_type_name(mapper_class_key: str, default_name: str) -> str:
-    config = get_config()
+    config = get_project_config()
     if getattr(config, mapper_class_key): return package_utils.get_class_name(getattr(config, mapper_class_key))
 
     return default_name

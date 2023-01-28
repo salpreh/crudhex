@@ -6,7 +6,7 @@ from crudhex.domain.utils.class_type_utils import get_import, get_type_import, g
 from crudhex.domain.utils.package_utils import full_class_name
 from crudhex.domain.utils.file_utils import get_java_filename
 from . import entity_generator, repository_generator, mapper_generator
-from ..config_context import get_config
+from ..project_config_context import get_project_config
 from ..domain import command_generator, model_generator, db_port_generator, not_found_exception_generator
 from ...models.relation_data import RelationData
 from ...models.field import ClassType
@@ -38,7 +38,7 @@ def create_class(entity: Entity, entities_map: Dict[str, Entity], folder: Path) 
 
 
 def get_package() -> str:
-    return get_config().db_adapters_pkg
+    return get_project_config().db_adapters_pkg
 
 
 def get_type_name(entity: Entity) -> str:
