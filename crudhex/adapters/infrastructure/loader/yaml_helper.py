@@ -8,7 +8,7 @@ def load_yaml_data(path: Path) -> dict:
     with open(path.resolve(), 'r', encoding='utf-8') as f:
         config_data = yaml.safe_load(f)
 
-    return config_data
+    return config_data if config_data else {}
 
 
 def save_yaml_data(path: Path, data: dict):
