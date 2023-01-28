@@ -48,7 +48,7 @@ def generate_crud(
 
 def _load_subcommands():
     try:
-        import state
+        import cookiecutter
 
         app.add_typer(create_project.app, name='project', help='Create a new project from template')
     except ImportError:
