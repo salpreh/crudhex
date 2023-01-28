@@ -1,7 +1,10 @@
 from typing import Optional
+from shutil import rmtree
 
 import typer
 from cookiecutter.main import cookiecutter
+from cookiecutter import repository
+from cookiecutter.config import get_user_config as get_cookiecutter_config
 from rich.console import Console
 
 from .. import console_out_context as console_context
@@ -33,14 +36,23 @@ def create(
     if template_name:
         out_console.print(f'Using template {template_name}', style='info')
         template_ref = _get_template_ref(template_name)
+        cleanup = False
+    elif template_folder:
+        template_ref = template_folder
+        cleanup = False
     else:
-        template_ref = template_folder or template_git
+        template_ref = template_git
+        cleanup = True
 
     out_console.print(f'Creating project template\n', style='notify')
 
     cookiecutter(template_ref, output_dir=output_dir)
 
-    out_console.print(f'\nTemplate generated!', style='finished')
+    if cleanup:
+        out_console.print(f'\nCleaning up temp files', style='info')
+        _cleanup_template(template_ref)
+
+    out_console.print(f'\n-- Template generated! --\n', style='finished')
 
 
 @app.command(name='list', help=_LIST_HELP)
@@ -51,6 +63,15 @@ def list_available():
 def _get_template_ref(template_name: str) -> str:
     out_console.print(f'Template {template_name} not found!', style='error')
     raise typer.Exit(code=1)
+
+
+def _cleanup_template(template_ref: str):
+    config = get_cookiecutter_config()
+    template_dir, _ = repository.determine_repo_dir(template_ref, config['abbreviations'],
+                                                    config['cookiecutters_dir'], None, True)
+    if template_dir:
+        out_console.print(f'Removing template dir {template_dir}', style='info')
+        rmtree(template_dir)
 
 
 def _set_up():
