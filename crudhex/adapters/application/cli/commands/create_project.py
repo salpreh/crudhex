@@ -2,14 +2,21 @@ from typing import Optional
 from shutil import rmtree
 
 import typer
-from cookiecutter.main import cookiecutter
-from cookiecutter import repository
-from cookiecutter.config import get_user_config as get_cookiecutter_config
 from rich.console import Console
 
 from .. import console_out_context as console_context
 from ..cli_helper import mutually_exclusive_group
 from crudhex.domain.services.config_context import get_project_config
+
+# Optional imports. cookiecutter should be checked before using this module
+try:
+    from cookiecutter.main import cookiecutter
+    from cookiecutter import repository
+    from cookiecutter.config import get_user_config as get_cookiecutter_config
+except ImportError:
+    cookiecutter = None
+    repository = None
+    get_cookiecutter_config = None
 
 _CREATE_HELP = 'Create a new project scaffolding'
 _LIST_HELP = 'List available templates'
