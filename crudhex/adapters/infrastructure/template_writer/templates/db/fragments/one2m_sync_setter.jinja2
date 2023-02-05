@@ -1,8 +1,10 @@
 {% set remove_method = 'remove' + (field_sing|firstupper) %}
 {% set add_method = 'add' + (field_sing|firstupper) -%}
+{% set param_short_name = (class_type[0:1]|lower) %}
 
 public void set{{ field|firstupper }}({{ collection_type }}<{{ class_type }}> {{ field }}) {
-    this.{{ field }}.forEach(this::{{ remove_method }});
+    this.{{ field }}.forEach({{ param_short_name }} -> {{ param_short_name }}.set{{ mapped_by|firstupper }}(null));
+    this.{{ field }}.clear();
     if ({{ field }} != null) {{ field }}.forEach(this::{{ add_method }});
 }
 

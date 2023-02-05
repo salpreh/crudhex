@@ -4,8 +4,8 @@ from shutil import rmtree
 import typer
 from rich.console import Console
 
-from .. import console_out_context as console_context
-from ..cli_helper import mutually_exclusive_group
+from ..services import console_out_context as console_context
+from crudhex.adapters.application.cli.utils.cli_helper import mutually_exclusive_group
 from crudhex.domain.services.config_context import get_project_config
 
 # Optional imports. cookiecutter should be checked before using this module

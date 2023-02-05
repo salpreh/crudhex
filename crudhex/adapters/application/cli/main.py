@@ -4,8 +4,8 @@ import typer
 from rich.console import Console
 from rich.theme import Theme
 
-from . import console_out_context as console_context
-from .commands.generate_crud import generate as generate_crud
+from .services import console_out_context as console_context
+from .commands.generate_crud import generate as generate_crud_command
 from .commands import create_project
 from crudhex.domain.models.mapper import MapperType
 from crudhex.domain.services import project_config_context
@@ -41,9 +41,9 @@ def generate_crud(
         add_exception_handler: bool = typer.Option(True, '--add-exception-handler/--no-add-exception-handler', help=_EXCEPTION_HANDLER_HELP)
 ):
 
-    generate_crud(spec_file, project_config, force_override,
-                  mapper_type, gen_api_models, with_api_page,
-                  add_exception_handler)
+    generate_crud_command(spec_file, project_config, force_override,
+                          mapper_type, gen_api_models, with_api_page,
+                          add_exception_handler)
 
 
 def _load_subcommands():
