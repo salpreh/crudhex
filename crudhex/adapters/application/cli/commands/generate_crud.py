@@ -6,7 +6,7 @@ import typer
 from rich.console import Console
 from rich.progress import Progress
 
-from crudhex.adapters.application.cli import console_out_context as console_context
+from crudhex.adapters.application.cli.services import console_out_context as console_context
 from crudhex.domain.models import Entity
 from crudhex.domain.models.mapper import MapperType
 from crudhex.domain.models.project_config import ConfigValidationError

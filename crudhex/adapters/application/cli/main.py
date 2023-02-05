@@ -4,7 +4,7 @@ import typer
 from rich.console import Console
 from rich.theme import Theme
 
-from . import console_out_context as console_context
+from .services import console_out_context as console_context
 from .commands.generate_crud import generate as generate_crud
 from .commands import create_project
 from crudhex.domain.models.mapper import MapperType
