@@ -1,5 +1,6 @@
 from typing import Optional
 from shutil import rmtree
+from os import path
 
 import typer
 from rich.console import Console
@@ -83,7 +84,7 @@ def list_available(
 
 def _get_template_ref(template_name: str) -> str:
     config = get_project_config()
-    template_ref = config.templates.get(template_name)
+    template_ref = path.expanduser(config.templates.get(template_name))
     if not template_ref:
         out_console.print(f'Template {template_name} not found!', style='error')
         raise typer.Exit(code=1)
